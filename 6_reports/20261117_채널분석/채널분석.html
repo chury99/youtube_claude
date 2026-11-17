@@ -1,0 +1,275 @@
+<!doctype html><html lang='ko'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>
+<meta name='color-scheme' content='light dark'>
+<title>bebePop 채널 리포트</title><style>
+:root{--bg:#f4f6fa;--card:#fff;--text:#1d2330;--muted:#6b7385;--line:#e3e7ef;--accent:#3b6cf6;
+--accent-soft:#eaf0ff;--good:#10a37f;--good-soft:#e6f7f1;--warn:#d97706;--warn-soft:#fff4e0;--chip:#f0f2f7}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#181c24;--text:#e8ebf2;--muted:#9aa3b5;--line:#2a303c;
+--accent:#7c9cff;--accent-soft:#1d2741;--good:#3ccf9e;--good-soft:#14302a;--warn:#f0a43a;--warn-soft:#33270f;--chip:#222836}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+font:16px/1.65 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:560px;margin:0 auto;padding:16px 14px 48px}
+header{padding:8px 4px 14px}
+header .kicker{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.02em}
+header h1{font-size:24px;line-height:1.3;margin:4px 0 6px}
+header .meta{font-size:13px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.kpi .v{font-size:22px;font-weight:800;line-height:1.2}
+.kpi .l{font-size:12px;color:var(--muted);margin-top:2px}
+.videos{margin:0 0 14px}
+.video{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px}
+.video .t{font-weight:700;font-size:15px;line-height:1.4}
+.video .tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;background:var(--chip);border-radius:999px;padding:2px 9px;color:var(--muted)}
+.tag.on{background:var(--accent-soft);color:var(--accent)}
+details.sec{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:0 0 12px;overflow:hidden}
+details.sec>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:800;font-size:17px;display:flex;gap:10px;align-items:center}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .n{flex:none;min-width:28px;height:28px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
+display:flex;align-items:center;justify-content:center;font-size:14px}
+details.sec>summary .chev{margin-left:auto;color:var(--muted);transition:transform .2s;font-size:14px}
+details.sec[open]>summary .chev{transform:rotate(90deg)}
+.body{padding:0 16px 14px}
+.hl-summary{border-color:var(--accent)}
+.hl-summary>summary{background:var(--accent-soft)}
+.hl-strategy{border-color:var(--good)}
+.hl-strategy>summary{background:var(--good-soft)}
+.hl-strategy>summary .n{background:var(--good);color:#fff}
+h3{font-size:15px;margin:16px 0 6px;color:var(--accent)}
+p{margin:6px 0}
+ul,ol{margin:6px 0;padding-left:20px}
+li{margin:5px 0}
+li.sub{list-style:none;margin-left:-4px;color:var(--muted);font-size:15px}
+b.lb{color:var(--text)}
+.ref{font-size:12px;color:var(--muted);background:var(--chip);border-radius:6px;padding:0 5px;white-space:nowrap}
+.rows{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.row{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.row .h{font-weight:700;margin-bottom:4px;font-size:15px}
+.row dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px}
+.row dt{color:var(--muted);white-space:nowrap}
+.row dd{margin:0}
+.src{font-size:13px;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+</style></head><body><div class='wrap'>
+<header><div class='kicker'>📊 채널 분석 리포트</div><h1>bebePop</h1><div class='meta'>작성일: 2026-11-17 16:29 / 분석 기간: 2026-10-20 ~ 2026-11-17 (28일 설정, 양끝 포함 시 29일)</div></header>
+<div class="kpis">
+<div class="kpi"><div class="v">0</div><div class="l">구독자</div></div>
+<div class="kpi"><div class="v">0</div><div class="l">총 조회수</div></div>
+<div class="kpi"><div class="v">3</div><div class="l">영상 수</div></div>
+<div class="kpi"><div class="v">0</div><div class="l">기간 조회수 (28일)</div></div>
+<div class="kpi"><div class="v">0%</div><div class="l">평균 시청률</div></div>
+<div class="kpi"><div class="v">0</div><div class="l">기간 새 구독</div></div>
+</div>
+<div class="videos">
+<div class="video"><div class="t">똑똑똑! 동글 선생님 왔어요 🩺 병원 무섭지 않아요 | 유아 동요 #shorts</div><div class="tags"><span class="tag on">조회 2</span><span class="tag">public</span><span class="tag">아동용</span><span class="tag">41초</span><span class="tag">2026-11-17</span></div></div>
+<div class="video"><div class="t">뽀득뽀득 손 씻자! 🫧 거품 친구들과 손 씻기 노래 | 유아 동요 #shorts</div><div class="tags"><span class="tag on">조회 3</span><span class="tag">public</span><span class="tag">아동용</span><span class="tag">31초</span><span class="tag">2026-11-17</span></div></div>
+<div class="video"><div class="t">우산고양이 몽실이 #1 비 오는 버스정류장편 🐱☔ #shorts</div><div class="tags"><span class="tag on">조회 2</span><span class="tag">public</span><span class="tag">일반</span><span class="tag">33초</span><span class="tag">2026-11-17</span></div></div>
+</div>
+<details class='sec hl-summary' open><summary><span class='n'>1</span><span>한눈에 보기 (3줄 요약)</span><span class='chev'>›</span></summary><div class='body'>
+<ol>
+<li>채널은 오늘(2026-11-17 04:29 UTC) 만들어졌고 영상 3개를 같은 날 2시간 안에 올렸다. 조회수 2~3회, Analytics는 아직 0이라 성과는 "판단하기 이르다".</li>
+<li>같은 분야(AI 유아 동요 쇼츠)의 큰 성과는 구독자 1천~3만 명대의 작은 채널에서, 타밀어·힌디어·벵골어·인도네시아어·아랍어 동요에서 나왔다. 상위 30개 중 25개는 댓글이 0개(아동용 설정으로 추정)라서 아동용 설정이 조회수의 걸림돌은 아니다. 반면 이번 표본의 한국어 AI 유아 동요는 조회수가 매우 낮다(6개, 중앙값 38회).</li>
+<li><b class="lb">앞으로 4주:</b> bebePop은 "생활습관 동요" 아동용 채널로 정리하고(우산고양이는 분리), 주 3회 하루 1개씩 올리며, 노래 목소리 없음과 360p 원본이라는 두 가지 제작 약점부터 고친다.</li>
+</ol>
+</div></details>
+<details class='sec'><summary><span class='n'>2</span><span>채널 현황 ([채널], 2026-11-17 기준)</span><span class='chev'>›</span></summary><div class='body'>
+<ul>
+<li><b class="lb">채널 이름:</b> bebePop / 채널 ID: UCDZ5QvgaVO5CRV9qCNRib4A / 개설: 2026-11-17 / 국가 설정: 없음(null)</li>
+<li>구독자 0 (숨김 아님) / 총 조회수 0 (채널 통계 반영 전. 영상별 조회수 합계는 7회) / 영상 3개</li>
+<li><b class="lb">공개 상태:</b> 3개 모두 public, 업로드 처리 processed. 비공개 잠금(감사 전)은 없다.</li>
+<li class="sub">(참고: upload_result.json에는 업로드 당시 상태인 private이 남아 있다. 이후 공개로 바뀌었다.)</li>
+<li><b class="lb">아동용 설정:</b> 채널 단위 값은 null(채널 기본값 설정 안 함). 영상 단위로는 아동용 2개(동글선생님, 뽀득손씻기), 일반 1개(우산고양이)로 섞여 있다.</li>
+<li><b class="lb">카테고리가 영상마다 다르다:</b> 1(영화/애니메이션), 27(교육), 24(엔터테인먼트).</li>
+<li>AI 합성 공개(containsSyntheticMedia): 업로드할 때 3개 모두 true로 보냈지만(upload.json), API로 다시 읽은 값은 null이다. Studio에서 실제로 표시가 켜졌는지 확인이 필요하다.</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>3</span><span>영상별 성과 표 ([채널], 조회수는 Data API 실시간 값, 나머지는 Analytics 기간 합계)</span><span class='chev'>›</span></summary><div class='body'>
+<div class="rows">
+<div class="row">
+<div class="h">똑똑똑! 동글 선생님 왔어요 🩺 병원 무섭지 않아요</div><dl>
+<dt>기본이름</dt><dd>20261117_동글선생님</dd>
+<dt>업로드일(KST)</dt><dd>11-17 16:04</dd>
+<dt>길이</dt><dd>41초(실제 40.00초)</dd>
+<dt>공개</dt><dd>공개·아동용</dd>
+<dt>조회수</dt><dd>2</dd>
+<dt>평균 시청률</dt><dd>데이터 없음</dd>
+<dt>넘기지 않고 본 비율</dt><dd>데이터 없음</dd>
+<dt>좋아요</dt><dd>0</dd>
+<dt>구독 전환</dt><dd>데이터 없음</dd>
+</dl></div>
+<div class="row">
+<div class="h">뽀득뽀득 손 씻자! 🫧 거품 친구들과 손 씻기 노래</div><dl>
+<dt>기본이름</dt><dd>20261117_뽀득손씻기</dd>
+<dt>업로드일(KST)</dt><dd>11-17 15:00</dd>
+<dt>길이</dt><dd>31초(실제 30.00초)</dd>
+<dt>공개</dt><dd>공개·아동용</dd>
+<dt>조회수</dt><dd>3</dd>
+<dt>평균 시청률</dt><dd>데이터 없음</dd>
+<dt>넘기지 않고 본 비율</dt><dd>데이터 없음</dd>
+<dt>좋아요</dt><dd>0</dd>
+<dt>구독 전환</dt><dd>데이터 없음</dd>
+</dl></div>
+<div class="row">
+<div class="h">우산고양이 몽실이 #1 비 오는 버스정류장편 🐱☔</div><dl>
+<dt>기본이름</dt><dd>20261117_우산고양이</dd>
+<dt>업로드일(KST)</dt><dd>11-17 14:12</dd>
+<dt>길이</dt><dd>33초(실제 32.00초)</dd>
+<dt>공개</dt><dd>공개·일반</dd>
+<dt>조회수</dt><dd>2</dd>
+<dt>평균 시청률</dt><dd>데이터 없음</dd>
+<dt>넘기지 않고 본 비율</dt><dd>데이터 없음</dd>
+<dt>좋아요</dt><dd>0</dd>
+<dt>구독 전환</dt><dd>데이터 없음</dd>
+</dl></div>
+</div>
+<ul>
+<li>Analytics의 영상별 리포트(by_video, engaged_views_by_video)는 행이 0개다. 일별 데이터는 11-14까지만 있다(보고 지연 2~3일). 위 조회수 2~3회는 본인이나 테스트 시청일 수 있어서 성과로 보지 않는다.</li>
+</ul>
+<h3>기획 의도와 현재 상태 비교 (성과 비교는 다음 리포트로 미룸)</h3>
+<ul>
+<li><b class="lb">동글선생님:</b> 참고 N3blQpwzKTs(타밀어 의사 동요, 850만 회, outlier 3137x, 2분 19초). 40초 루프(이불 속 노크 → 다시 이불 속), 한·영 이중 자막, 직접 합성한 반주, 노래 목소리 없음, 360x640 원본을 1080x1920으로 확대. 남은 문제: 루프 이음매 얼굴 크기 약 10% 차이, 클립 간 외형 차이(엄마 머리색 등).</li>
+<li><b class="lb">뽀득손씻기:</b> 참고 86Jjhc84890(힌디어 배변 노래, 6천만 회, outlier 2112x, 31초). 30초, 끝을 첫 장면 구도로 맞춘 루프, 한·영 가사 자막, 손 씻기 5단계 표시, 노래 목소리 없음, 360p 확대. 남은 문제: 가사 자막이 거품 캐릭터 아랫부분과 일부 겹침.</li>
+<li><b class="lb">우산고양이:</b> 참고 Dr9iLxBZKA4(초코 AI 영상 #1, 2,044만 회, outlier 1675x, 11초). 타깃은 10~40대 일반 시청자, 32초 스토리형(참고 영상의 약 3배 길이), 댓글로 다음 장소를 추천받는 시리즈 구조. 360p 확대라 화질 한계가 가장 큰 문제로 기록됨.</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>4</span><span>유입 경로와 시청자</span><span class='chev'>›</span></summary><div class='body'>
+<ul>
+<li>유입 경로, 쇼츠/일반 콘텐츠 유형, 국가, 연령·성별, 기기: 모두 행 0개 → 데이터 없음 (<span class="ref">채널</span> analytics.*).</li>
+<li>구독 여부별(subscribed_status): HTTP 500 오류로 읽지 못함 → 미지원/데이터 없음.</li>
+<li><b class="lb">참고:</b> 아동용 영상은 연령·성별 같은 시청자 정보가 제한되므로, 데이터가 쌓인 뒤에도 그 항목은 비어 있을 수 있다.</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>5</span><span>잘 된 점 / 안 된 점</span><span class='chev'>›</span></summary><div class='body'>
+<h3>잘 된 점 (준비 단계 기준. 성과 숫자로 확인된 것은 아님)</h3>
+<ul>
+<li><b class="lb">막힌 것이 없다:</b> 3개 모두 public·processed로, 감사 전 비공개 잠금이 없다 (<span class="ref">채널</span>).</li>
+<li>참고 영상 선정이 데이터에 근거했다: 세 기획 모두 <span class="ref">CSV</span> outlier ratio 상위(1675x~3137x)에서 골랐고, 공포 요소(주사기 겁주기, 귀신)는 일부러 뺐다.</li>
+<li>쇼츠 루프 설계와 한·영 이중 자막이 들어갔다. <span class="ref">CSV-유아노래</span>의 큰 성과는 비한국어권에서 나왔으므로 영어 자막은 맞는 방향이다.</li>
+<li><b class="lb">메타데이터가 갖춰졌다:</b> 태그 13~15개, 한·영 설명, 아동용 여부 근거가 기획안에 적혀 있다.</li>
+</ul>
+<h3>안 된 점 / 위험 (근거 있는 것만)</h3>
+<ul>
+<li>한 채널에 두 가지 시청층이 섞였다: 아동용 동요 2개 + 일반 시청자용 고양이 1개. 채널 이름 bebePop은 유아용으로 읽힌다. 우산고양이는 "댓글로 장소 추천"에 기대는데, 같은 채널의 동요는 아동용이라 댓글이 막혀 있다. 채널의 정체성과 추천 신호가 흩어진다.</li>
+<li>3개를 같은 날 52분 간격으로 올렸다(KST 14:12, 15:00, 16:04). 영상별 초기 반응을 따로 보기 어렵고, 꾸준한 업로드 주기 신호도 만들지 못한다.</li>
+<li>노래 목소리가 없는 "동요"다: 두 편 모두 편집 기록에 "노래 목소리 없음, 반주 + 가사 자막"으로 적혀 있다. 제목·설명은 "동요/따라 불러요"라고 쓰는데 실제로는 연주곡이다. 참고 영상 2개는 모두 노래(Song/Rhyme)다. 이 차이가 성과에 미칠 영향은 아직 숫자로 확인되지 않았지만, 가장 큰 제작 위험으로 본다.</li>
+<li><b class="lb">화질:</b> 세 편 모두 원본 클립이 360x640이고, 이를 1080x1920으로 3배 키웠다(편집 기록 [2]·[8]).</li>
+<li>카테고리가 3개로 흩어져 있고, AI 공개 값이 API에서 null로 읽힌다([2] 참고).</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>6</span><span>같은 분야 경쟁 영상과 비교</span><span class='chev'>›</span></summary><div class='body'>
+<p>(1) AI 유아 동요 쇼츠 <span class="ref">CSV-유아노래</span> 154개 (모두 쇼츠, 최근 30일 업로드)</p>
+<ul>
+<li>조회수 중앙값 91,030 / 평균 1,736,036 / outlier ratio 중앙값 14.77x</li>
+<li><b class="lb">조회수 상위:</b> Potty Aa Rahi Hai(Tuki Tales, 구독 2.85만) 60,067,129회·31초·2107x / Where Did Mili Go?(벵골어, 구독 10.2만) 40,736,906회·33초 / Bubble Gum Song(Kids Funny Songs, 구독 782만) 15,564,366회·1분 39초 / BALONKU ADA LIMA(인도네시아어, 구독 4.83만) 13,071,956회·27초 / Varaar Varaar Doctor(타밀어, 구독 2,710) 8,502,368회·2분 19초·3137x</li>
+<li><b class="lb">outlier 상위 5개:</b> 3137x(타밀어 의사), 2761x(힌디어), 2460x(마라티어 디왈리, 구독 278명), 2107x(힌디어 배변), 1922x(타밀어 귀신). 모두 인도권 언어 동요다.</li>
+<li>outlier 100x 이상 46개: 채널 구독자 중앙값 1,500명, 길이 중앙값 97초 → 구독자가 적은 신생 채널도 쇼츠 피드에서 크게 터질 수 있는 분야다.</li>
+<li>언어별(제목 문자 기준): 벵골어 4개 중앙값 1,869,142 / 타밀어 8개 1,305,593 / 힌디어 16개 397,884 / 아랍·우르두어 2개 3,816,388 / 라틴 문자(영어·인니어 등) 118개 11,306 / 한국어 6개 38.</li>
+<li class="sub">한국어 AI 유아 동요는 표본 6개, 최고 162회(밤톨이네 동요). <span class="ref">CSV-유아애니</span>의 한국어 유아 영상도 최고 1,630회(구독 65명 채널, outlier 25x)다.</li>
+<li class="sub"><b class="lb">주의:</b> 한국어 키워드가 "유아 동요 AI" 1개뿐이라 한국 시장이 과소 표집됐을 수 있다. "한국 시장이 작다"고 단정하지 않고 "이번 표본에서는 약하다"로만 본다.</li>
+<li><b class="lb">길이별 조회수 중앙값:</b> 15초 이하 86(20개), 16~30초 226(12개), 31~45초 1,235(13개), 46~60초 300,222(12개), 61~180초 236,303(97개).</li>
+<li class="sub">조회수 10만 이상 77개의 길이 중앙값은 101초이고, 이 중 45초 이하는 14개다. 그래도 조회수 1·2·4위는 27~33초다.</li>
+<li class="sub">길이와 채널 규모·언어가 섞여 있는 상관이라, "길게 만들면 잘 된다"는 인과로 보지 않는다. 45초 이하도 상위권이 있으므로 짧은 루프형을 유지하면서 60~90초를 한 번 시험해 볼 근거는 된다.</li>
+<li><b class="lb">아동용 설정 추정:</b> 조회수 상위 30개 중 25개가 댓글 0개, 10만 회 이상 77개 중 56개가 댓글 0개 → 대부분 아동용으로 설정된 것으로 추정. 아동용 설정 영상도 수백만~수천만 회가 나온다.</li>
+<li><b class="lb">좋아요율:</b> 상위 30개 중앙값 0.105%. 아동용 영상은 좋아요가 낮게 나오는 게 정상이므로 우리 영상도 좋아요는 핵심 지표로 쓰지 않는다.</li>
+</ul>
+<p>- 제목 패턴(상관일 뿐 인과 아님): "|" 구분자가 있는 제목 106개는 중앙값 338,174, 없는 48개는 322 / 이모지가 있는 91개는 236,303, 없는 63개는 27,439 / 제목에 "#shorts"가 있는 17개는 3,758, 없는 137개는 107,543. 큰 채널은 "곡 이름 이모지 | 설명 | 채널명" 형식을 많이 쓴다. 우리 제목은 이모지와 "|"는 이미 맞췄고, "#shorts"는 제목에 넣었다.</p>
+<ul>
+<li>업로드 요일(상위 30개): 월 7, 금 5, 일 5, 수 4, 목 4, 화 3, 토 2. 표본이 작아 요일 효과로 보기 어렵다. CSV에는 업로드 시각이 없어서(날짜만) 시간대는 비교할 수 없다.</li>
+</ul>
+<p>(2) AI 일반 영상 <span class="ref">CSV-AI일반</span> 269개 — 우산고양이 트랙 참고</p>
+<ul>
+<li>한국어 제목 44개의 조회수 중앙값 355,243(전체 라틴 문자 211개는 4,829). 1위가 우산고양이의 참고 영상인 "초코 AI 영상 #1 지하철편"(20,438,724회, 11초, 1675x).</li>
+<li>다만 한국어 상위권에는 기업 광고(SKT, KT)와 뉴스도 섞여 있어, 순수 AI 캐릭터 영상만의 시장 크기는 아니다.</li>
+<li><b class="lb">해석:</b> 우산고양이(한국어·일반 시청자·AI 거대 동물)는 유아 동요와 시청층이 완전히 다르고, 이번 표본에서는 한국어권 반응이 유아 동요보다 크다. 같은 채널에 두기보다 별도 채널에서 시험하는 편이 맞다.</li>
+</ul>
+</div></details>
+<details class='sec hl-strategy' open><summary><span class='n'>7</span><span>앞으로 4주 전략 (2026-11-18 ~ 2026-12-15)</span><span class='chev'>›</span></summary><div class='body'>
+<h3>콘텐츠</h3>
+<ul>
+<li><b class="lb">계속할 것:</b> "생활습관 동요" 시리즈(손 씻기, 병원 가기에 이어 양치, 목욕, 잠자기, 밥 먹기, 정리하기). 근거: 참고 1위(6천만 회)가 생활습관(배변) 노래이고, outlier 상위가 모두 짧은 후렴을 반복하는 동요다. 기대 효과: 같은 화풍과 같은 캐릭터가 반복되면 아동용 추천(비슷한 영상 이어 보기)에 유리하다. 확인 지표: 시리즈 영상 간 조회수 편차, 쇼츠 피드 유입 비율.</li>
+<li>그만둘 것(이 채널에서): 일반 시청자용 콘텐츠(우산고양이류). 근거: bebePop 이름과 아동용 동요 2개와 시청층이 다르고, 댓글 참여 설계가 아동용 채널과 충돌한다. 우산고양이 #2 이후는 별도 일반 채널에서 하거나 보류한다. 이미 올린 #1은 그대로 둔다(분석가는 수정하지 않음).</li>
+<li><b class="lb">참고 영상 기준 조정:</b> outlier 상위 + "안전한 생활습관/감정 주제" + "노래(목소리 있음)"를 기본으로 한다. 한국어 키워드를 3개 이상 넣어 국내 비교군을 따로 확보한다(아래 [8] 기획자).</li>
+</ul>
+<h3>제작</h3>
+<ul>
+<li><b class="lb">1순위:</b> 노래 목소리 넣기. 지금은 반주 + 가사 자막뿐이다. 노래 목소리(사용 권한이 확인된 도구로 만든 보컬)가 들어간 버전을 4주 안에 최소 2편 만들어, 목소리 없는 편과 평균 시청률과 넘기지 않고 본 비율을 비교한다.</li>
+<li><b class="lb">2순위:</b> 해상도. Omni에서 720p 이상으로 받는다. 360p 확대본은 쓰지 않는 것을 기본으로 한다.</li>
+<li><b class="lb">길이:</b> 기본은 30~40초 루프를 유지하고, 4주 중 1편은 같은 주제로 60~90초(1절+후렴 2회) 버전을 시험한다. 근거: [6] 길이 분포.</li>
+<li><b class="lb">훅:</b> 첫 1초 안에 캐릭터 + 후렴 첫 소절이 바로 나오게 한다(참고 1위의 공식).</li>
+<li><b class="lb">자막:</b> 한·영 이중 자막 유지. 비한국어권 유입이 확인되면 영어 노래 버전도 검토한다.</li>
+</ul>
+<h3>업로드</h3>
+<ul>
+<li><b class="lb">주기:</b> 주 3회(예: 월·수·금), 하루 1개. 같은 날 여러 개 올리지 않는다.</li>
+<li><b class="lb">시간대:</b> 우리 시청자 국가 데이터가 아직 없다. 4주 동안 KST 18:00 전후로 고정해 비교 기준을 만들고, 국가 리포트가 쌓이면 조정한다(근거 없는 최적 시간은 정하지 않음).</li>
+</ul>
+<p>- 제목: "곡 이름 이모지 | 핵심 상황 | bebePop 동요" 형식으로 통일하는 것을 시험한다. "#shorts"는 제목 대신 설명란에 넣어 본다(근거는 [6]의 약한 상관이므로 시험으로 취급).</p>
+<ul>
+<li><b class="lb">재생목록:</b> "bebePop 생활습관 동요" 재생목록을 만들어 아동용 영상을 묶는다.</li>
+<li><b class="lb">카테고리:</b> 동요는 하나로 통일한다(예: 27 교육 또는 1 영화/애니메이션 중 하나로 고정).</li>
+</ul>
+<h3>채널</h3>
+<ul>
+<li><b class="lb">아동용 판단:</b> bebePop은 아동용 채널로 운영한다. 근거: 이름과 주력 콘텐츠가 유아용이고, <span class="ref">CSV-유아노래</span> 상위 30개 중 25개가 아동용으로 추정되는데도 수백만 회가 나왔다. 아동용이 아닌데 아동용 콘텐츠를 일반으로 설정하는 쪽이 정책 위험이 더 크다.</li>
+<li class="sub"><b class="lb">잃는 것:</b> 댓글, 맞춤 광고(수익 단가 하락), 알림, 미니 플레이어 등. 얻는 것: YouTube Kids 노출 가능성, 정책 위험 감소, 유아 추천 묶음에 들어감.</li>
+<li class="sub">채널 단위 기본값을 "아동용"으로 둘지는 일반 영상을 이 채널에서 빼는 결정 뒤에 사용자가 Studio에서 정한다(채널 단위로 설정하면 모든 영상이 아동용이 된다).</li>
+<li><b class="lb">채널 소개·배너:</b> "AI로 만든 유아 생활습관 동요 (한국어/English)"로 일관되게 쓰고, AI 제작이라는 점을 소개란에 밝힌다.</li>
+<li><b class="lb">AI 공개 확인:</b> 3개 영상의 "변경되었거나 합성된 콘텐츠" 표시가 Studio에서 켜져 있는지 사용자가 직접 확인한다(API 값 null).</li>
+<li>감사(audit): 현재는 막힌 것이 없다. 필요 없다.</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>8</span><span>에이전트별 조정 제안 (문서는 고치지 않음. 제안만)</span><span class='chev'>›</span></summary><div class='body'>
+<ul>
+<li>기획자</li>
+<li class="sub">아동용 기획은 "생활습관 동요 시리즈"에서 고르고, 캐릭터(콩이, 거품 친구 등)를 재사용할 수 있게 시리즈 설정을 기획안에 적는다.</li>
+<li class="sub">조회 키워드에 한국어를 3개 이상 추가한다(예: "유아 동요", "생활습관 동요", "아기 노래"). 한국어 비교군을 따로 요약한다.</li>
+<li class="sub">후보 표에 "노래 목소리 유무"와 "길이 구간"을 칸으로 추가한다.</li>
+<li class="sub">일반 시청자용(우산고양이류)은 bebePop 대상에서 제외한다고 적는다.</li>
+<li>디렉터</li>
+<li class="sub">Omni 클립을 720p 이상으로 받는 것을 전제로 프롬프트를 쓰고, 해상도 옵션을 프롬프트 파일 머리에 명시한다.</li>
+<li class="sub">캐릭터 외형 고정 문구(머리 모양·옷 색)를 모든 클립에 반복한다(동글선생님에서 엄마 머리색·바지색이 바뀐 문제).</li>
+<li class="sub">루프 끝 장면은 첫 장면과 같은 카메라 거리로 지시한다(동글선생님 얼굴 크기 차이 약 10%).</li>
+<li>편집자</li>
+<li class="sub">360x640 클립이 들어오면 편집 전에 "저해상도"를 먼저 알리고 다시 받기를 요청한다.</li>
+<li class="sub">노래 목소리가 없으면 편집 기록 맨 위에 "보컬 없음"을 표시해 업로더가 제목·설명에서 "따라 불러요" 표현을 조정할 수 있게 한다.</li>
+<li class="sub">가사 자막이 캐릭터와 겹치는 구간(뽀득손씻기 12~16초, 26~30초)이 생기지 않도록 샷별 자막 위치를 기본으로 한다.</li>
+<li>업로더</li>
+<li class="sub">하루 1개만 올리고, 예약 공개로 주 3회 같은 시각(KST 18:00 전후)에 맞춘다.</li>
+<li class="sub">카테고리를 하나로 통일하고, 업로드 뒤 videos.list로 containsSyntheticMedia와 madeForKids가 실제로 반영됐는지 다시 읽어 upload_result.json에 함께 기록한다.</li>
+<li class="sub">공개 전환 뒤에는 upload_result.json의 privacyStatus가 옛 값(private)으로 남지 않게 갱신하거나 "업로드 당시 값"이라고 표기한다.</li>
+<li class="sub">아동용 영상은 "bebePop 생활습관 동요" 재생목록에 넣는다.</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>9</span><span>다음 리포트에서 볼 지표와 목표치 (다음 리포트: 업로드 후 7일 뒤인 2026-11-24 무렵, --days 28)</span><span class='chev'>›</span></summary><div class='body'>
+<ol>
+<li>평균 시청률(averageViewPercentage, 영상별): 목표 80% 이상, 루프가 작동하면 100% 이상. 동글선생님(40초)과 뽀득손씻기(30초)를 비교해 길이 효과를 본다.</li>
+<li>넘기지 않고 본 비율(engagedViews / views, 영상별): 목표 60% 이상. 첫 1초 훅이 먹혔는지 보는 지표.</li>
+<li>영상당 7일 조회수와 쇼츠 피드 유입 비율: 목표 영상당 7일 1,000회 이상, 쇼츠 피드 유입 70% 이상. 1,000회 미만이면 훅과 제목을 다시 본다.</li>
+</ol>
+<p>(목표치는 첫 기준을 세우기 위한 임시 값이다. 실제 데이터가 쌓이면 조정한다.)</p>
+</div></details>
+<details class='sec'><summary><span class='n'>10</span><span>데이터 한계</span><span class='chev'>›</span></summary><div class='body'>
+<ul>
+<li>채널 개설과 업로드가 모두 오늘이다. Analytics는 11-14까지만 집계되어 모든 분석 지표가 0 또는 빈 행이다. 영상 3개, 조회수 2~3회로 표본이 너무 작아 모든 성과 판단은 "판단하기 이르다".</li>
+<li><b class="lb">읽지 못한 항목:</b> subscribed_status(HTTP 500). 유입·국가·연령성별·기기·콘텐츠 유형·engagedViews는 오류는 아니지만 행이 0개다.</li>
+<li>채널 총 조회수(0)와 영상별 조회수 합계(7)가 다르다. 채널 통계가 늦게 반영되는 것으로 보이며, 어느 쪽도 의미 있는 크기가 아니다.</li>
+<li>containsSyntheticMedia가 API에서 null로 읽힌다. 업로드 요청에는 true였으므로 실제 상태는 Studio에서 확인해야 한다.</li>
+<li><b class="lb">경쟁 CSV의 한계:</b> 업로드 시각 없음(날짜만), 노래 목소리 유무 같은 제작 정보 없음, 키워드 검색 기반 표본이라 한국어(키워드 1개)가 과소 표집됐을 수 있음, 언어는 제목 문자로 추정했음, 아동용 여부는 댓글 0개로 추정했음. 길이·제목 패턴과 조회수의 관계는 상관일 뿐 인과가 아니다.</li>
+<li>새 경쟁 조회는 하지 않았다(기존 CSV 3개로 충분하다고 판단, API 할당량 사용 0).</li>
+</ul>
+</div></details>
+<details class='sec'><summary><span class='n'>i</span><span>출처와 데이터</span><span class='chev'>›</span></summary><div class='body src'>
+<h3>출처 표기</h3>
+<ul>
+<li><span class="ref">채널</span> = 6_reports/20261117_채널분석/channel_data.json (scripts/youtube_analytics.py --days 28, 2026-11-17 실행)</li>
+<li><span class="ref">CSV-유아노래</span> = 1_results/ai_videos_20261117_1521.csv (키워드: AI kids song / AI nursery rhyme / 유아 동요 AI / AI cartoon for kids / baby learning song AI, 최근 30일, 쇼츠만, 154개, 업로드일 2026-10-18~11-16)</li>
+<li><span class="ref">CSV-유아애니</span> = 1_results/ai_videos_20261117_1432.csv (아기 애니메이션 AI / AI animation for toddlers 등, 161개)</li>
+<li><span class="ref">CSV-AI일반</span> = 1_results/ai_videos_20261117_1132.csv (AI 영상 / sora / veo / kling 등, 269개)</li>
+<li>기획안 2_plans/&lt;기본이름&gt;.txt, 편집 기록 5_videos/&lt;기본이름&gt;/&lt;기본이름&gt;.txt, 업로드 정보 5_videos/&lt;기본이름&gt;/upload.json</li>
+</ul>
+</div></details>
+<div class='foot'>채널분석.txt · 분석가 자동 생성</div></div></body></html>

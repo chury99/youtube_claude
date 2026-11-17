@@ -12,6 +12,7 @@ Python 3만 있으면 되고, 따로 설치할 패키지는 없습니다.
 | `3_prompts/` | Omni 클립 프롬프트 `<기본이름>/<기본이름>_1.txt` … | 디렉터 |
 | `4_clips/` | Omni에서 생성한 클립 (파일 이름 자유) | 사용자 |
 | `5_videos/` | 완성 영상, 편집 기록, 업로드 기록 | 편집자, 업로더 |
+| `6_reports/` | 채널 분석·운영 전략 리포트 | 분석가 (`scripts/youtube_analytics.py`) |
 | `scripts/` | 파이썬 도구 모음 | |
 | `config/` | API 키, 텔레그램, 유튜브 OAuth (깃 제외) | |
 | `docs/` | 설정 안내서 | |

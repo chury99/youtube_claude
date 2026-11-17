@@ -55,3 +55,15 @@ python3 scripts/youtube_upload.py 5_videos/<기본이름>/<기본이름>.mp4 --m
 ```
 - 공개 상태는 `private`(기본), `unlisted`만 됩니다. 전체 공개는 Studio에서 직접 바꿉니다.
 - 같은 영상을 두 번 올리지 않도록 `upload_result.json`이 있으면 멈춥니다. 다시 올리려면 `--force`.
+
+## 채널 분석 권한 (분석가용)
+로그인할 때 업로드 권한과 함께 **읽기 전용** 권한 두 개를 받습니다.
+- `youtube.readonly`: 채널·영상 목록과 통계
+- `yt-analytics.readonly`: 조회수, 시청 시간, 시청률, 유입 경로, 시청자 정보
+
+예전에 업로드 권한만으로 로그인했다면 `python3 scripts/youtube_upload.py --auth`를 한 번 더 실행하세요.
+`--check`에 "채널 분석 권한 있음"이 나오면 됩니다. 분석은 아래처럼 실행합니다.
+```bash
+python3 scripts/youtube_analytics.py --days 28
+```
+Google Cloud에서 **YouTube Analytics API**도 "사용"으로 켜 두어야 합니다 (API 및 서비스 → 라이브러리 → `YouTube Analytics API`).

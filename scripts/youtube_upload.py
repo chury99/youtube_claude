@@ -47,7 +47,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent  # 저장소 루트
 CLIENT_FILE = ROOT / "config" / "youtube_oauth_client.json"
 TOKEN_FILE = ROOT / "config" / "youtube_token.json"
-SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+SCOPE_UPLOAD = "https://www.googleapis.com/auth/youtube.upload"
+SCOPE_READ = "https://www.googleapis.com/auth/youtube.readonly"
+SCOPE_ANALYTICS = "https://www.googleapis.com/auth/yt-analytics.readonly"
+# 업로드 + 채널 읽기 + 분석 읽기 (읽기 권한으로는 채널·영상을 바꿀 수 없다)
+SCOPE = " ".join([SCOPE_UPLOAD, SCOPE_READ, SCOPE_ANALYTICS])
 AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = ("https://www.googleapis.com/upload/youtube/v3/videos"
@@ -160,6 +164,13 @@ def run_auth():
     save_token({"refresh_token": tok["refresh_token"], "scope": tok.get("scope", SCOPE),
                 "created": time.strftime("%Y-%m-%d %H:%M:%S")})
     print(f"✅ 인증 완료. 토큰을 {TOKEN_FILE.relative_to(ROOT)}에 저장했습니다 (값은 출력하지 않음).")
+
+
+def granted_scopes():
+    """저장된 토큰에 허용된 권한 목록 (값은 출력하지 않음)."""
+    if not TOKEN_FILE.exists():
+        return set()
+    return set(json.loads(TOKEN_FILE.read_text(encoding="utf-8")).get("scope", "").split())
 
 
 def access_token():
@@ -303,6 +314,36 @@ def upload(video, body, token):
     fail("업로드가 완료 응답 없이 끝났습니다.")
 
 
+def verify_settings(vid, body, token):
+    """업로드 후 영상 설정을 다시 읽어 보낸 값과 비교한다 (youtube.readonly 권한 필요)."""
+    if SCOPE_READ not in granted_scopes():
+        return {"checked": False, "reason": "읽기 권한 없음 (--auth 다시 실행하면 확인 가능)"}
+    url = ("https://www.googleapis.com/youtube/v3/videos?part=status,snippet&id="
+           + urllib.parse.quote(vid))
+    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            items = json.load(r).get("items", [])
+    except urllib.error.HTTPError as e:
+        return {"checked": False, "reason": api_error(e)}
+    if not items:
+        return {"checked": False, "reason": "영상 정보를 아직 읽을 수 없음 (처리 중일 수 있음)"}
+    st, sn = items[0].get("status", {}), items[0].get("snippet", {})
+    got = {"madeForKids": st.get("madeForKids"),
+           "containsSyntheticMedia": st.get("containsSyntheticMedia"),
+           "categoryId": sn.get("categoryId"),
+           "privacyStatus": st.get("privacyStatus")}
+    warnings = []
+    if got["madeForKids"] != body["status"]["selfDeclaredMadeForKids"]:
+        warnings.append(f"아동용 값이 다릅니다 (보냄 {body['status']['selfDeclaredMadeForKids']}, 읽음 {got['madeForKids']}). Studio에서 확인하세요.")
+    if got["containsSyntheticMedia"] != body["status"]["containsSyntheticMedia"]:
+        warnings.append(f"AI 합성 공개 값이 확인되지 않습니다 (보냄 {body['status']['containsSyntheticMedia']}, 읽음 {got['containsSyntheticMedia']}). "
+                        "Studio > 세부정보 > '변경되었거나 합성된 콘텐츠'를 직접 확인하세요.")
+    if got["categoryId"] != body["snippet"]["categoryId"]:
+        warnings.append(f"카테고리가 다릅니다 (보냄 {body['snippet']['categoryId']}, 읽음 {got['categoryId']}).")
+    return {"checked": True, "read_back": got, "warnings": warnings}
+
+
 def main():
     ap = argparse.ArgumentParser(description="완성 영상을 유튜브에 비공개(또는 일부 공개)로 업로드")
     ap.add_argument("video", nargs="?", help="업로드할 영상 파일")
@@ -318,7 +359,13 @@ def main():
     if a.check:
         load_client()
         access_token()
-        return print("✅ 업로드 설정 정상 (클라이언트 JSON, 토큰 갱신 확인)")
+        print("✅ 업로드 설정 정상 (클라이언트 JSON, 토큰 갱신 확인)")
+        g = granted_scopes()
+        if {SCOPE_READ, SCOPE_ANALYTICS} <= g:
+            print("✅ 채널 분석 권한 있음 (youtube.readonly, yt-analytics.readonly)")
+        else:
+            print("ℹ️ 채널 분석 권한 없음: 분석을 쓰려면 `python3 scripts/youtube_upload.py --auth`를 다시 실행해 주세요.")
+        return
 
     if not a.video or not a.meta:
         ap.error("영상 파일과 --meta를 함께 지정하세요.")
@@ -341,22 +388,36 @@ def main():
     if a.dry_run:
         return print("✅ dry-run: 형식 검사 통과 (업로드하지 않음)")
 
-    res = upload(video, body, access_token())
+    token = access_token()
+    res = upload(video, body, token)
     vid = res.get("id")
     status = res.get("status", {})
     out = {
         "video_id": vid,
         "url": f"https://youtu.be/{vid}",
         "studio_url": f"https://studio.youtube.com/video/{vid}/edit",
-        "privacyStatus": status.get("privacyStatus"),
-        "uploadStatus": status.get("uploadStatus"),
+        "note": "아래 *_at_upload 값은 업로드 직후 상태다. 지금 상태는 Studio나 scripts/youtube_analytics.py로 확인한다.",
+        "privacy_at_upload": status.get("privacyStatus"),
+        "upload_status_at_upload": status.get("uploadStatus"),
         "uploaded_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "file": str(video),
+        "sent": {"madeForKids": body["status"]["selfDeclaredMadeForKids"],
+                 "containsSyntheticMedia": body["status"]["containsSyntheticMedia"],
+                 "categoryId": body["snippet"]["categoryId"]},
     }
+    out["verified"] = verify_settings(vid, body, token)
     result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"✅ 업로드 완료 ({out['privacyStatus']})")
+    print(f"✅ 업로드 완료 ({out['privacy_at_upload']})")
     print(f"   영상: {out['url']}")
     print(f"   스튜디오: {out['studio_url']}")
+    v = out["verified"]
+    if v.get("checked"):
+        for w in v["warnings"]:
+            print(f"   ⚠️ {w}")
+        if not v["warnings"]:
+            print("   설정 확인: 아동용·AI 합성 공개·카테고리가 보낸 값과 같습니다.")
+    else:
+        print(f"   ℹ️ 설정 다시 읽기를 건너뜀: {v.get('reason')}")
     print(f"   기록: {result_path}")
 
 
