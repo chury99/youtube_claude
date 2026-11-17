@@ -1,0 +1,178 @@
+==================================================
+유튜브기획자 제작 프롬프트
+작성일: 2026-11-16 14:37
+==================================================
+
+[1] 조회 조건
+- 테마: 유아(만 1~5세)에게 인기 있는 영상
+- 키워드: "nursery rhymes", "kids songs animation", "유아 동요", "AI nursery rhymes", "아기 동요 애니메이션"
+- 기간: 최근 30일 / 국가: 지정 안 함(전체) / 쇼츠만(--shorts-only)
+- 사용한 CSV: results/ai_videos_20261116_1437.csv (영상 200개)
+- 실행 명령: python3 youtube_ai_trends.py -k "nursery rhymes" "kids songs animation" "유아 동요" "AI nursery rhymes" "아기 동요 애니메이션" --days 30 --shorts-only
+
+[2] 1위 영상
+- 제목: Miko Goes Over the Mountain 🏔️ | Play Together Song for Kids #shorts
+- 채널: TuneTots Kids - Nursery Rhymes and Stories
+- URL: https://www.youtube.com/shorts/gWB1uGe7RMg
+- 업로드일: 2026-10-22 / 길이: 0:40 (40초, 세로 쇼츠)
+- 조회수: 70,618,827회 / 구독자: 464,000명
+- 아웃라이어 비율: 152.2배 (구독자 수 대비 조회수)
+- 일평균 조회수: 약 2,847,893회
+- 좋아요: 585,016 / 좋아요율: 0.83% / 댓글: 0 (아동용 콘텐츠라 댓글이 꺼진 것으로 추정)
+- 건너뛴 상위 영상: 없음. 1위가 테마(유아 동요)에 그대로 맞는다.
+  참고로 2위(배변 유머), 4위(방귀 가족동요)는 화장실 유머 계열이라 이번 기획 방향과 다르다.
+
+[3] 인기 요인 분석
+- 포맷: 40초 세로 쇼츠 동요. 영어 노래와 가사가 있는 뮤직비디오형. 내레이션은 없고 노래가 이야기를 이끄는 구조(추정).
+- 멜로디: 태그 "bear went over the mountain"으로 보아 저작권이 끝난 전래 동요
+  "The Bear Went Over the Mountain"(= For He's a Jolly Good Fellow) 멜로디에 새 가사를 붙인 개사곡(추정).
+  아이와 부모가 이미 아는 멜로디라 첫 소절부터 익숙하다.
+- 화풍(썸네일 직접 확인): 픽사풍 3D, 큰 눈에 둥근 얼굴의 유아 캐릭터 2명(파랑 해 그림 티셔츠 + 주황 티셔츠).
+  파랑·노랑·주황 원색 위주로 채도가 높고 밝다. 눈 덮인 산 모양의 파란 에어 미끄럼틀, 맑은 하늘, 정면 대칭 구도.
+  썸네일은 세로 화면 가운데에 두 캐릭터가 나란히 웃는 모습이고, 좌우는 흐린 확대 이미지로 채웠다.
+- 훅: 첫 장면부터 거대한 미끄럼틀 산과 신난 아이 둘. 유아가 좋아하는 놀이터 장면이라 바로 시선을 잡는다(추정).
+- 감정 구조(설명란 기준): 서로 먼저 가려고 밀치면 다 같이 미끄러져 내려온다(실패, 웃음)
+  -> 손잡고 나란히 오르면 꼭대기에 함께 도착한다(성공, 뿌듯함). "실패 반복 -> 협동 -> 성공" 3단 구조.
+- 반복 시청 요소: 같은 멜로디와 같은 가사 구조가 되풀이되고, 미끄러지는 동작도 반복된다.
+  40초 안에 끝나 자동 재생으로 계속 돈다(추정).
+- 교육 포인트: "같이 놀기, 협동"이라는 부모가 좋아하는 메시지. 부모가 안심하고 틀어 준다.
+- 제목·해시태그 패턴: "캐릭터 이름 + 동작 + 이모지 | 주제 Song for Kids #shorts".
+  해시태그는 주제(#PlayTogetherSong), 장르(#NurseryRhymes), 채널명 3개뿐으로 단순하다.
+- 지표 해석: 구독자 46만인데 조회수 7천만으로 152배. 알고리즘이 아동용 쇼츠 피드에 강하게 밀어 준 아웃라이어다.
+  유아 콘텐츠 특성상 반복 재생이 많아 일평균 285만 회가 나온다. 좋아요율 0.83%는 유아 시청자(직접 누르지 않음) 특성상 정상 범위다.
+
+[4] 새 영상 기획
+- 한 줄 콘셉트: 네모 블록 "네모"와 동그라미 "동글이"가 혼자서는 탑이 자꾸 무너지지만, 둘이 함께 쌓아 하늘의 별까지 닿는 38초 협동 동요.
+- 원본과 다른 점:
+  * 사람 아이 3D 캐릭터 대신 단순 도형 캐릭터(노란 네모, 분홍 동그라미)를 쓴 2D 벡터 화풍.
+  * 미끄럼틀 오르기 대신 블록 탑 쌓기. 소재, 캐릭터 이름, 가사, 멜로디를 모두 새로 만들었다.
+  * 원본은 공공 멜로디 개사곡이지만, 이번 기획은 멜로디를 새로 작곡했다(공공 멜로디도 쓰지 않음).
+  * 함께 가져온 것은 성공 공식뿐이다: 짧은 동요, 혼자 하다 실패하는 장면 반복 후 협동해 성공, 같은 멜로디 반복, 밝은 원색.
+- 길이/비율: 38초, 9:16 세로 (1080x1920), 30fps
+- 대사: 사람 음성 없음. 노래는 합성 멜로디(악기음)로 연주하고 가사는 화면 자막(한국어 크게 + 영어 작게)으로 보여 준다.
+- 아동 안전: 탑이 무너질 때는 블록이 부드러운 풀밭에 "퐁퐁" 튀어 떨어지기만 하고, 캐릭터에게는 아무것도 닿지 않는다.
+  캐릭터는 놀라지 않고 웃는다(울음, 다침, 화남, 밀치기 없음). 깜빡이는 섬광이나 빠른 점멸 효과 없음(광과민성 배려).
+  화면 전환은 부드럽게 하고 큰 소리 효과도 쓰지 않는다.
+
+- 구조와 타이밍 (템포 120 BPM, 4/4박자, 1마디 = 2초)
+  0~2초   인트로 (1마디): 하늘에서 블록 하나가 "보잉" 튀며 내려오고, 네모와 동글이가 양옆에서 통통 튀어 등장한다 [훅]
+  2~10초  1절 (4마디): 네모 혼자 블록을 쌓는다 -> 흔들흔들 -> 블록이 풀밭에 퐁퐁 떨어진다 -> 네모가 웃는다
+  10~18초 2절 (4마디): 동글이 혼자 쌓으려 하지만 동그란 몸이 데굴데굴 굴러가 블록을 못 얹는다 -> 웃는다
+  18~26초 3절 (4마디): 네모가 바닥을 받치고 동글이가 위에 얹는다. "영차 영차"에 맞춰 탑이 한 칸씩 쑥쑥 자란다
+  26~34초 4절 (4마디): 탑 꼭대기에 노란 별이 반짝 켜지고, 둘이 하이파이브하며 함께 웃는다
+  34~38초 아웃트로 (2마디): "짝! 짝!" 박수 두 번, 무지개 아치와 "함께하면 최고!" 문구
+
+- 가사 (한 줄 = 7음절 = 2마디, 자막으로 표시)
+  1절  네모가 혼자 쌓아 / 흔들 흔들 우르르
+       (Nemo stacks alone / wobble wobble, tumble down)
+  2절  동글이 혼자 쌓아 / 데굴 데굴 굴러가
+       (Dongle stacks alone / roly-poly, rolling away)
+  3절  둘이 함께 쌓아요 / 영차 영차 쑥쑥쑥
+       (Let's stack together / heave-ho, up up up)
+  4절  꼭대기에 반짝별 / 함께 하니 최고야
+       (A twinkle star on top / together we're the best)
+  아웃트로  짝! 짝! 최고야!
+       (Clap! Clap! The best!)
+
+- 멜로디 계이름 (새로 작곡함. 다장조 C major, 120 BPM, 4분음표 = 0.5초)
+  표기: 음이름+옥타브(C4 = 가운데 도), q = 4분음표(1박), h = 2분음표(2박), r = 쉼표
+  * 인트로 (1마디, 노래 없음, 실로폰):
+    C5 q, G4 q, E4 q, G4 q
+  * A줄 (각 절의 첫 줄, 2마디, 음 7개):
+    C4 q, E4 q, G4 q, G4 q | A4 q, G4 q, E4 h
+    도    미    솔    솔    | 라    솔    미--
+    (예: 네 / 모 / 가 / 혼 | 자 / 쌓 / 아--)
+  * B줄 (각 절의 둘째 줄, 2마디, 음 7개):
+    D4 q, E4 q, F4 q, A4 q | G4 q, E4 q, C4 h
+    레    미    파    라    | 솔    미    도--
+    (예: 흔 / 들 / 흔 / 들 | 우 / 르 / 르--)
+  * 1~4절 모두 [A줄 + B줄]을 똑같이 반복한다 (반복 구조 = 유아가 금방 따라 흥얼거림).
+    3절과 4절의 A줄은 한 옥타브 위가 아니라 같은 음으로 두되, 4절 B줄 마지막 음만 C4 대신 C5 h로 올려 "성공" 느낌을 준다.
+  * 아웃트로 (2마디):
+    C5 q("짝"), r q, C5 q("짝"), r q | G4 q("최"), E4 q("고"), C4 h("야")
+  * 반주 (선택): 마디마다 베이스 C3 h, G2 h를 번갈아 치고, 1절 B줄 마디에서만 F2-G2 진행.
+    간단히 하려면 마디 첫 박에 C 장3화음(C3-E3-G3)을 h 두 번 치면 충분하다.
+  * 음색 추천: 멜로디 = 실로폰/마림바 느낌(사인파 + 빠른 감쇠), 반주 = 부드러운 사인파 패드.
+
+- 코드 구현 메모 (2D 벡터 애니메이션용)
+  * 배경: 하늘색 위쪽(#9EDCFF) -> 아래쪽(#D8F3FF) 세로 그라데이션, 아래 1/5은 연두색 풀밭(#8EDB6A) 둥근 언덕, 흰 구름 2개(원 3개 겹치기)가 천천히 좌우 이동.
+  * 네모: 노란 둥근 모서리 정사각형(#FFD23F, 240x240px, 모서리 반지름 40), 흰 눈 2개(원) + 검은 눈동자, 웃는 입(반원 호), 분홍 볼(#FF9EB5 원).
+  * 동글이: 분홍 원(#FF7EB6, 지름 240px), 눈·입·볼은 네모와 같은 양식, 볼은 주황(#FFB36B).
+  * 블록: 빨강(#FF5A5A), 파랑(#4DA3FF), 초록(#5CD65C), 보라(#B07CFF) 둥근 사각형 160x100px. 탑은 최대 6칸.
+  * 별: 노란 5각 별(#FFE44D), 크기 0 -> 1.2 -> 1.0 스케일로 부드럽게 등장. 반짝임은 느린 회전(1초에 15도)만 쓰고 점멸은 안 쓴다.
+  * 모든 동작은 박자(0.5초)에 맞춰 통통 튀는 바운스(scale 1.0 -> 1.08 -> 1.0)를 넣는다.
+  * 자막: 화면 위쪽 1/4에 한국어 가사(큰 글씨, 흰 글자 + 진한 남색 테두리), 바로 아래 영어 가사(작은 글씨).
+    지금 부르는 음절을 노란색으로 칠하는 노래방식 하이라이트를 넣으면 따라 부르기 좋다.
+
+[5] 고정 블록 (모든 컷에 붙여넣기)
+- CHARACTER: Two simple geometric toddler-friendly characters. "Nemo": a bright yellow (#FFD23F) rounded square with soft rounded corners, two large white oval eyes with black pupils and tiny white highlights, a small happy curved smile, round pink cheeks, no arms or legs, moves by hopping. "Dongle": a bright pink (#FF7EB6) perfect circle, same size as Nemo, two large white oval eyes with black pupils and highlights, a small happy curved smile, round orange cheeks, no arms or legs, moves by rolling and bouncing. Both always look cheerful and friendly.
+- STYLE: Flat 2D vector animation for toddlers, clean thick rounded shapes, no outlines or very soft dark-navy outlines, bright saturated primary and pastel colors, simple light-blue sky gradient with two puffy white clouds, rounded green grass hill at the bottom, soft toy building blocks in red, blue, green and purple, gentle bouncy motion synced to a 120 BPM beat, vertical 9:16 frame, centered symmetrical composition, calm smooth camera with no shaking, cozy and safe preschool mood.
+- NEGATIVE: no humans, no realistic textures, no 3D rendering, no text or letters or logos or watermarks, no existing cartoon characters or brands, no scary faces, no crying, no anger, no pushing or hitting, no injury, no sharp objects, no dark scenes, no flashing or strobing lights, no fast cuts, no shaky camera, no distorted faces, no extra limbs.
+
+[6] 컷별 프롬프트
+(각 컷의 [첫 프레임 이미지] 프롬프트로 이미지 생성 -> 그 이미지를 넣고 [영상] 프롬프트로 이미지→영상. 모든 프롬프트 앞에 [5] 고정 블록 CHARACTER/STYLE을, 뒤에 NEGATIVE를 붙인다.)
+
+컷 1 (0~2초) — 인트로 훅: 블록이 튀며 내려오고 두 캐릭터 등장
+  [첫 프레임 이미지]
+  Empty sunny playground scene: light-blue sky, two puffy clouds, rounded green grass hill. A single red toy block is in mid-air at the top center of the frame, slightly squashed as if bouncing. Nemo peeks in from the left edge and Dongle peeks in from the right edge, both smiling with wide curious eyes.
+  [영상]
+  The red toy block drops from the top and bounces softly on the grass twice with a squash-and-stretch "boing". Nemo hops in from the left and Dongle rolls in from the right, both stopping beside the block and bouncing happily on the beat. Smooth static camera, cheerful energy.
+
+컷 2 (2~10초) — 1절: 네모 혼자 쌓다가 블록이 퐁퐁 떨어짐
+  [첫 프레임 이미지]
+  Nemo stands on the grass at center-left next to a short stack of three colorful toy blocks (red, blue, green) that leans slightly. Dongle watches from the right side, smiling. Bright sunny day.
+  [영상]
+  Nemo hops and places a fourth purple block on top of the stack. The stack wobbles gently left and right in rhythm, then the blocks softly tumble and bounce one by one onto the soft grass beside Nemo, landing far from both characters. Nemo blinks, then giggles and bounces happily. Gentle, funny, harmless moment. Static camera.
+
+컷 3 (10~18초) — 2절: 동글이 혼자 쌓다가 데굴데굴 굴러감
+  [첫 프레임 이미지]
+  Dongle balances a blue toy block on top of its round pink body at center, eyes looking up at the block with a determined happy smile. Nemo watches from the left, smiling. Scattered colorful blocks lie neatly on the grass.
+  [영상]
+  Dongle tries to hop toward the block stack, but its round body slowly rolls sideways, roly-poly, across the grass in a gentle arc while the blue block slides off and lands softly on the grass. Dongle rolls back to the center and giggles, bouncing on the beat. Nemo bounces along, laughing. Calm static camera.
+
+컷 4 (18~26초) — 3절: 둘이 함께 쌓아 탑이 쑥쑥 자람
+  [첫 프레임 이미지]
+  Nemo sits at the bottom center as a steady base, with one red block on top of Nemo. Dongle is hopping beside it holding a green block on its head. Both look at each other with big happy smiles.
+  [영상]
+  Working together, Dongle hops up and places blocks on the stack while Nemo holds the base steady. On each beat a new block (red, blue, green, purple, red) pops onto the tower with a tiny bounce, and the tower grows taller step by step. The camera slowly tilts upward following the growing tower. Both characters bounce in rhythm, smiling.
+
+컷 5 (26~34초) — 4절: 꼭대기에 별이 켜지고 하이파이브
+  [첫 프레임 이미지]
+  A tall, steady tower of six colorful toy blocks in the center reaching up into the light-blue sky. Nemo and Dongle sit side by side at the bottom of the tower, looking up. A small closed yellow star shape rests on top of the tower.
+  [영상]
+  The yellow star on top of the tower grows softly from small to big and rotates slowly with a warm gentle glow, no flashing. Nemo and Dongle hop toward each other and bump sides in a cheerful high-five, then bounce together on the beat, smiling proudly. Camera slowly tilts down from the star to the two friends.
+
+컷 6 (34~38초) — 아웃트로: 박수 두 번과 무지개
+  [첫 프레임 이미지]
+  Nemo and Dongle side by side in the center foreground, smiling at the viewer, the tall block tower with the yellow star behind them. A soft pastel rainbow arch begins to appear across the sky.
+  [영상]
+  Nemo and Dongle bounce twice in place on two clear beats, as if clapping, then lean toward each other happily. A soft pastel rainbow arch fades in gently across the sky behind the tower. Final calm frame of the two friends smiling at the viewer. Static camera.
+
+[7] 텍스트 한 번에 생성용 통합 프롬프트
+A 38-second vertical 9:16 flat 2D vector animation for toddlers, bright saturated colors, clean rounded shapes, calm static camera. Two cute geometric characters: Nemo, a bright yellow rounded square with big white eyes, a happy smile and pink cheeks, who hops; and Dongle, a bright pink circle of the same size with big white eyes, a happy smile and orange cheeks, who rolls and bounces. Setting: sunny light-blue sky with puffy clouds and a rounded green grass hill. Opening: a red toy block drops from the sky and bounces softly, and the two friends bounce in. Then Nemo stacks colorful blocks alone; the stack wobbles and the blocks tumble gently onto the soft grass away from the characters, and Nemo giggles. Next Dongle tries alone but rolls away roly-poly, and giggles. Then they work together: Nemo holds the base steady while Dongle adds blocks, and the tower grows taller block by block on the beat. A yellow star softly appears on top of the tall tower, the two friends bump sides in a happy high-five, bounce twice like clapping, and a pastel rainbow fades in behind them. Gentle, cheerful, safe preschool mood, everything bouncing to a 120 BPM beat. No humans, no text, no logos, no existing characters, no scary or sad moments, no injury, no flashing lights, no fast cuts.
+
+[8] 사운드
+- 배경음악: [4]의 새로 작곡한 멜로디를 코드로 합성 (실로폰 멜로디 + 사인파 패드 반주, 120 BPM, 38초)
+- 효과음 (모두 작고 부드럽게, 음악보다 약 -6dB 낮게):
+  * 블록 착지/등장: 짧은 "보잉"(사인파 피치가 600Hz -> 300Hz로 0.15초간 떨어짐)
+  * 블록이 풀밭에 떨어짐: 부드러운 "퐁"(400Hz 짧은 사인파 x 블록 수)
+  * 동글이 굴러감: 상승-하강 휘파람 소리(슬라이드 휘슬)
+  * 탑이 자랄 때: 블록마다 한 음씩 올라가는 실로폰 (C5, D5, E5, F5, G5, A5)
+  * 별 등장: 부드러운 차임(C6-E6-G6 아르페지오)
+  * 웃음: 사람 음성 대신 "삐뽀롱" 같은 짧은 상승 음
+- 무료 음원 출처(직접 합성이 어려울 때): YouTube 오디오 보관함(YouTube Studio > 오디오 보관함), Pixabay Sound Effects / Pixabay Music (상업 이용 가능, 출처 표기 불필요 라이선스 확인)
+
+[9] 업로드 정보
+- 제목 (한국어): 네모랑 동글이 블록 쌓기 🧱⭐ | 함께하면 최고! 협동 동요 #shorts
+- 제목 (영어): Nemo & Dongle Stack the Blocks 🧱⭐ | Better Together Song for Kids #shorts
+- 설명:
+  네모 혼자 쌓으면 흔들흔들 우르르! 동글이 혼자 쌓으면 데굴데굴~
+  둘이 함께 쌓으니 탑이 쑥쑥 자라서 반짝 별까지 닿았어요!
+  같이 하면 더 즐거운 협동 동요를 아이와 함께 불러 보세요.
+  When Nemo stacks alone, the blocks tumble. When Dongle tries alone, it rolls away! But together, the tower grows all the way up to a twinkling star.
+  #협동동요 #유아동요 #KidsSongs
+- 해시태그: #협동동요 #유아동요 #아기동요 #KidsSongs #NurseryRhymes #shorts (3~6개만 사용)
+- 썸네일 문구: "같이 쌓자!" (또는 "Together!") — 높은 블록 탑 꼭대기에 별, 아래에 웃는 네모와 동글이를 가운데 대칭으로 배치
+- 업로드 설정: 시청자층은 "예, 아동용입니다" 선택 (COPPA 준수, 아동용 영상은 댓글·맞춤 광고 자동 제한)
+- AI 공개 표시 안내: 실사처럼 보이는 영상은 "변경되었거나 합성된 콘텐츠" 표시가 필수다.
+  이 기획은 실사가 아닌 2D 도형 애니메이션이고 코드로 직접 만들므로 의무 대상은 아니지만, AI 영상 도구로 생성한 경우에는 표시를 권장한다.
