@@ -1,0 +1,70 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 1 / 4
+작성일: 2026-11-17 14:35
+기획안: 2_plans/20261117_뽀득손씻기.txt
+==================================================
+[0] 개요
+- 한 줄 콘셉트: 노란 비누에서 톡 튀어나온 동글동글 거품 친구 5마리가 아기 손 위에서 춤추며 손 씻기 순서(손바닥 → 손등 → 손가락 사이 → 헹구기 → 닦기)를 보여 주는 30초 유아용 3D 동요 쇼츠
+- 목표 길이: 30초 / 클립 수: 4개 (클립당 10초 생성, 약 8초씩 사용. 30 ÷ 8 = 3.75 → 4)
+- 전체 흐름: _1 훅(비누에서 거품 친구 등장) + 흙먼지 콩알 친구가 앉은 아기 손 + 물 틀기 → _2 거품 친구 점프, 1 손바닥, 2 손등 → _3 3 손가락 사이(까꿍), 4 헹구기(흙먼지 친구들 미끄럼 작별) → _4 5 수건으로 닦기, 박수와 환호, 첫 장면 구도로 루프
+- 노래: Omni는 효과음과 주변음만 만든다(노래·보컬·배경음악 없음). 노래와 가사 자막은 편집자가 한 곡으로 깐다. 자세한 내용은 각 파일의 [4] 참고.
+- 유아 안전: 섬광·빠른 깜박임·빠른 컷·급격한 줌·흔들림 없음. 세균을 악당으로 그리지 않고, 배수구는 미끄럼 놀이처럼만. 카메라 움직임은 모두 느린 dolly/truck/crane 또는 고정.
+- 참고한 Omni 프롬프트 가이드:
+  · Google DeepMind 공식 Gemini Omni 프롬프트 가이드 (https://deepmind.google/models/gemini-omni/prompt-guide/): 다섯 요소(샷 구도와 움직임, 스타일, 조명, 장소, 동작)를 적고, 모든 걸 다 쓸 필요 없이 전체 의도를 알려 주라고 한다. "static", "locked off", "push in", "one continuous shot" 같은 카메라 용어를 권장하며, 캐릭터·사물 참고 이미지로 일관성 유지, 첫/마지막 프레임 지정, 10초 단위 장면 확장을 지원한다. 오디오·노래에 대한 별도 지침은 없다.
+  · 보조 참고: Runware Omni Flash 프롬프트 문서 (https://runware.ai/docs/models/google-gemini-omni-flash/guides/cinematic-prompting.md): 텍스트 프롬프트만으로 소리가 포함된 완성 샷을 만든다.
+  · 반영: 다섯 요소 순서(형식/스타일 → 고정 외형(장소·캐릭터·조명) → 샷별 구도·카메라·동작 → 조명 → 소리)로 정리했다. 일관성을 위해 고정 블록을 모든 클립에 똑같이 넣었고, 가능하면 클립 1의 결과 프레임을 참고 이미지로 함께 넣도록 했다.
+
+[1] 생성 설정
+- 모델: Gemini Omni / 비율 9:16 / 길이 10초
+- 이어 붙이기: 첫 클립이므로 이어받을 앞 클립 없음. 시작 이미지 없이 텍스트만으로 생성한다. (생성 결과가 마음에 들면 이 클립의 대표 프레임을 다음 클립들의 캐릭터 참고 이미지로 함께 넣으면 외형 유지에 도움이 된다)
+- 저장 위치: 4_clips/20261117_뽀득손씻기/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 최종 영상 0~8초에 해당. 기획안 비트 0~2초(훅: 비누에서 거품 친구 5마리가 톡톡 튀어나와 일렬로 섬), 2~6초(아기 손 등장, 손바닥 위 흙먼지 콩알 친구들), 6~8초(수돗물이 졸졸 나오기 시작).
+- 전달할 것: "사물이 살아났다!"는 놀라움과 반가움으로 첫 1초를 잡고, "씻을 시간이야" 하는 웃긴 기대감으로 넘어간다.
+- 클립 수 계산: 목표 30초 ÷ 클립당 쓸 구간 8초 = 3.75 → 4개. (기획안은 3개였지만, 앞뒤를 자를 여유를 두기 위해 4개로 나눴다)
+
+[3] PROMPT (아래를 통째로 Omni에 붙여넣기)
+Vertical 9:16, 10 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, gentle and calm pacing for toddlers, one continuous scene with soft transitions only.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded, squishy 3D animation for toddlers, like a high-end family animated feature. Every shape has rounded edges and soft, smooth materials. No photorealism, no dark areas, no harsh contrast, no pure black or saturated primary colors.
+LOCATION: A small, bright toddler bathroom sink seen at child height. A low, round, glossy white ceramic basin. A rounded silver faucet with a round handle shaped like a five-petal flower. The wall behind the sink is covered in square mint-green tiles with a few soft sky-blue cloud stickers and small pale-yellow star stickers. On a small white shelf beside the sink sit exactly one yellow rubber duck with an orange beak and a neatly folded pastel-pink towel. The edge of a small light-green step stool is barely visible at the bottom of the frame. No logos or labels anywhere.
+SOAP: A palm-sized pale-yellow bar of soap with rounded corners, resting on a white seashell-shaped soap dish at the right side of the basin rim. The soap has no face.
+BUBBLE FRIENDS (exactly five, the main characters): Five ping-pong-ball-sized round soap-bubble characters made of semi-translucent milky-white foam with a soft, subtle rainbow sheen on the surface. Each has two round glossy black dot eyes, light-pink blush cheeks, and a small smiling mouth. No arms, no legs; they move only by bouncing and hopping softly. Each wears one tiny bubble bead on top of its head in a different pastel color: sky-blue, pink, yellow, light-green, and lavender. The sky-blue-bead bubble is the leader, slightly bigger than the others, and usually in front. Their size, color, and faces never change.
+DUST BEAN FRIENDS (three or four): Tiny bean-sized, round, light sandy-beige dots with small dot eyes, gentle smiling mouths, and sleepy, sweet, calm expressions. They look clean, cute, and harmless, never dirty, slimy, or monster-like.
+BABY HANDS: The only human element is a pair of small, chubby hands of a three-year-old child with light peach skin, short clean nails, and five fingers on each hand with natural proportions. Both arms wear a yellow long-sleeved shirt with the sleeves rolled up to the elbows; each sleeve cuff has one thin white stripe. The child's face and body are never shown; only the hands and forearms enter the frame from the bottom.
+COLOR PALETTE: Pastel sky blue, mint green, pale yellow, light pink, soft white. Medium saturation.
+LIGHTING: Bright, warm, diffused morning sunlight from the upper left through an unseen window, soft wraparound fill light, soft gentle shadows, a cozy and clean atmosphere. Sparkles, if any, are few, small, and slow, with no flashing or flickering.
+
+[Shots]
+0.0–2.5s: Medium close-up, eye level at sink height, 50mm lens, static locked-off with a very slow, gentle push in. Front view of the sink with the pale-yellow soap on its seashell dish in the center of the frame. The soap gives one small, soft wobble, then the five bubble friends pop out of the top of the soap one after another (sky-blue leader first, then pink, yellow, light-green, lavender), each with a tiny soft bounce, and line up in a neat row on top of the soap, facing the camera and smiling widely.
+2.5–6.0s: Medium shot, eye level, 35mm lens, slow, smooth dolly out to reveal the basin and faucet. Two small chubby baby hands in rolled-up yellow sleeves rise gently into frame from the bottom and open their palms toward the camera. Sitting on the palms are three sleepy, sweet dust bean friends who slowly wave hello. On the soap, the five bubble friends turn to look at each other with surprised, happy faces, as if saying "bath time!"
+6.0–10.0s: Medium shot, slightly high angle, 35mm lens, slow truck right toward the faucet, shallow depth of field. The flower-shaped faucet handle turns slowly by itself and a thin, gentle, clear stream of water flows into the basin. The baby hands move under the stream and get softly wet; the dust bean friends giggle. The bubble friends lean forward at the edge of the soap, ready to jump. (ends on: medium shot, slightly high angle, both baby hands palms-up under the gentle water stream in the center, the five bubble friends lined up at the edge of the soap on the right, leaning forward ready to jump)
+
+[Lighting & color]
+Bright, warm, diffused morning light from the upper left, soft fill, low contrast, gentle soft shadows. Pastel sky blue, mint, pale yellow, and light pink palette at medium saturation. Clean digital 3D render, no film grain. Constant, steady exposure throughout: no flashes, no flicker, no strobing, no sudden brightness or color changes.
+
+[Audio]
+Ambient: quiet, cozy bathroom room tone. / SFX: five soft, cute "pop, pop, pop" sounds as each bubble friend appears; tiny soft boing bounces; a gentle squeak of the faucet handle; soft trickling water from 6 seconds. / Dialogue: none. No singing, no vocals, no background music. All sounds soft and at a steady volume, nothing loud or sharp.
+
+[Avoid]
+No on-screen text, no captions, no subtitles, no logos, no watermarks, no brand labels on the soap, towel, or duck. No singing, no vocals, no lyrics, no narration, no background music. No flashing lights, no strobe, no rapid blinking, no fast cuts, no whip pans, no sudden zooms, no camera shake. Nothing scary: no monsters, no germs drawn as villains, no dark shadows, no loud or sudden sounds, no being sucked into the drain. No child face or body, no realistic human face, no resemblance to real people, no existing cartoon characters. No deformed or extra fingers, no merged hands, no changes in sleeve color or bubble friend colors, no extra or missing bubble friends. No hot water steam, no eating or tasting soap, no soap near eyes, no climbing or unsafe actions.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 (첫 클립이라 앞은 자르지 않음. 첫 프레임부터 비누가 들썩이는 훅이 보여야 한다. 첫 0.5초가 정지 화면이면 0.3~8.3초로 당겨 쓴다)
+- 앞 클립과의 연결: 없음 (영상 시작). 끝부분 8.0초 지점은 "물에 젖는 손 + 비누 가장자리의 거품 친구들"로 클립 2 첫 장면과 같은 구도라 바로 이어지는 동작으로 붙인다.
+- 넣을 자막 (최종 영상 기준 = 이 클립 기준):
+  · 0.0~6.0초: "뽀득뽀득 손 씻자, 거품 친구 나와라!"
+  · 6.0~8.0초: "물을 묻혀 졸졸졸, 비누 거품 몽글몽글" (클립 2의 0~2초까지 이어서 표시)
+- 노래 처리 방식(확정): Omni가 노래를 부르지 않는다. 프롬프트에 "노래·보컬·배경음악 없음"을 넣어 효과음과 주변음만 만들게 했다.
+  편집자가 기획안 [8]의 가사로 만든 노래 한 곡(bgm.mp3)을 30초 전체에 한 번에 깔고, 가사 자막과 단계 자막을 직접 넣는다.
+  이유: (1) 한국어 가사 발음이 불안정할 수 있고, (2) 클립 4개가 따로 생성되면 멜로디·목소리·박자가 클립마다 달라져 이어 붙이면 어색하며, (3) 편집 중 클립 앞뒤를 자르면 가사가 끊긴다.
+  클립의 효과음(뽕, 졸졸, 뽀득뽀득, 슈르륵, 박수)은 살려서 노래 아래에 작게 섞는다. 노래가 없으면 bgm.mp3를 받아야 하므로 사용자에게 요청한다.
+- 자막 스타일: 화면 아래쪽 1/3, 둥근 굵은 글씨, 흰 글자 + 하늘색 테두리. 단계 표시는 화면 상단 작게. 깜박이거나 번쩍이는 자막 애니메이션 금지(부드러운 페이드만).
+- 생성 결과에서 확인할 점:
+  · 거품 친구가 정확히 5마리인지, 머리 위 방울 색(하늘·분홍·노랑·연두·연보라)이 모두 다른지, 하늘색 리더가 조금 더 큰지
+  · 아기 손가락이 한 손에 5개인지, 손이 녹아 붙지 않았는지, 소매가 노란색 + 흰 줄 하나인지
+  · 비누에 얼굴이 생기지 않았는지, 노래·음악이 섞이지 않았는지(섞였으면 재생성)
+  · 거품 등장 시 번쩍이는 효과가 없는지
+  · 이 클립 결과가 가장 기준이 되므로, 마음에 드는 결과를 고른 뒤 그 프레임을 클립 2~4 생성 때 참고 이미지로 함께 넣기를 권장

@@ -60,6 +60,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   python3 scripts/assemble_video.py 5_videos/<기본이름>
   ```
   (9:16이 아닌 클립은 자동으로 블러 배경을 채워 세로로 맞춘다.)
+- **루프 마감**: 기획안이 루프 구조(반복 시청)면 `fade_out`을 0으로 두고 끝을 암전·페이드아웃하지 않는다. 마지막 프레임이 첫 프레임과 이어지도록 끝 지점을 고르고, 음악도 끝 소절이 첫 소절로 자연스럽게 이어지게(같은 박자에서 끊기게) 맞춘다. 검수 때 끝 2초 + 처음 2초를 이어 붙인 확인용 영상을 만들어 이음매를 직접 본다.
 - 자막, 크로스페이드, 음량 맞춤처럼 scripts/assemble_video.py에 없는 작업은 `5_videos/<기본이름>/edit_video.py`에 코드로 작성해 `<기본이름>_raw.mp4`를 후처리한다. 다시 실행하면 같은 결과가 나와야 한다.
   - 자막: 이 ffmpeg에는 drawtext가 없다. skia-python(`.venv/bin/python`)으로 투명 PNG 자막을 그려 overlay 필터로 얹는다.
     폰트는 `skia.Typeface('Apple SD Gothic Neo', skia.FontStyle.Bold())`, 위치는 세로 12%~65% 구간의 가로 중앙. 아래쪽 25%와 오른쪽 15%는 쇼츠 UI가 덮는다.
