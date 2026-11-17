@@ -1,0 +1,59 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 1 / 4
+작성일: 2026-11-17 11:35
+기획안: 2_plans/20261117_우산고양이.txt
+==================================================
+
+[0] 개요 (첫 번째 파일에만)
+- 한 줄 콘셉트: 비 오는 퇴근길 버스 정류장에 2층 버스만 한 크림색 장모 고양이 "몽실이"가 나타나, 물이 싫은데도 몸과 꼬리로 지붕이 되어 사람들의 비를 막아 주는 실사풍 힐링 쇼츠.
+- 목표 길이: 32초 / 클립 수: 4개 (32 ÷ 8 = 4, 클립당 10초 생성 · 약 8초 사용)
+- 전체 흐름:
+  · 클립 1 (완성본 0~8초): 빗속 정류장 → 지붕 너머로 거대 고양이 얼굴 등장 → 사람들이 올려다봄 → 귀를 파르르 털고 눈을 가늘게 뜸
+  · 클립 2 (8~16초): 고양이가 몸을 낮춰 정류장 뒤에 웅크림 → 앞발·가슴털로 지붕을 덮고 꼬리를 펼침 → 꼬리 아래 비가 그침
+  · 클립 3 (16~24초): 노란 우비 아이가 꼬리털을 만지며 웃음, 아빠·트렌치코트 여성도 웃음 → 물이 싫어 찡그리지만 꾹 참는 고양이 얼굴
+  · 클립 4 (24~32초): (컷 전환) 초록 버스 도착 → 사람들이 인사하며 탑승, 여성이 앞발을 쓰다듬음 → 빈 정류장에서 몸을 털고 웅크려 눈 감음 (루프 엔딩)
+- 클립 연결: 1→2, 2→3은 같은 구도·같은 동작으로 이어 붙이고, 3→4는 컷 전환(버스 도착 새 샷)으로 시작한다.
+- 참고한 Omni 프롬프트 가이드:
+  · Google DeepMind 공식 가이드 (https://deepmind.google/models/gemini-omni/prompt-guide/)
+    — 프롬프트를 5요소(샷 구도와 카메라 움직임 / 스타일 / 조명 / 장소 / 동작)로 채우라고 권장. 카메라는 wide·medium·close-up 같은 구도와 "push in", "static / locked off", "one continuous shot" 같은 움직임 용어를 쓰라고 안내. 대사는 말하는 사람을 묘사한 뒤 큰따옴표로 적는 예시를 보여 줌. 이전 모델만큼 모든 걸 지정할 필요는 없다고 함.
+  · 보조 참고: Runware Omni Flash cinematic prompting 가이드 (https://runware.ai/docs/models/google-gemini-omni-flash/guides/cinematic-prompting.md) — 같은 5요소 구조, 길이는 3~10초.
+  · 공식 가이드에 타임스탬프 문법·화면 글자 금지 규칙은 없어서, 샷별 초 단위 표기와 Avoid 블록은 에이전트 기본 원칙대로 넣었다. 프롬프트도 위 5요소(Shots=구도·카메라·동작, Fixed look=스타일·장소, Lighting)가 모두 들어가게 구성했다.
+
+[1] 생성 설정
+- 모델: Gemini Omni / 비율 9:16 / 길이 10초
+- 이어 붙이기: 첫 클립이므로 시작 이미지 없음. 이 클립의 마지막 프레임(9~10초)을 클립 _2의 시작 이미지로 쓴다.
+- 저장 위치: 4_clips/20261117_우산고양이/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 기획안 비트 0~3초(훅: 빗속 정류장 위로 거대 고양이 얼굴 등장), 3~7초(사람들이 올려다봄, 귀 털기), 7~10초 앞부분(싫은 듯 눈을 가늘게 뜸)에 해당. 완성본 0~8초.
+- 전달할 것: 지친 퇴근길의 지루함 → 첫 1초 안에 터지는 압도적인 크기 대비와 놀라움 → 귀를 터는 귀여움과 "뭘 하려는 거지?" 하는 궁금함. 첫 3초는 컷 템포를 빠르게.
+
+[3] PROMPT (아래를 통째로 Omni에 붙여넣기)
+Vertical 9:16, 10 seconds, cinematic 24fps, photorealistic live-action, 4K detail, natural motion blur. A rainy evening bus stop where a giant, gentle cream-colored cat appears behind the shelter, towering over the tired commuters.
+
+[Fixed look — identical in every clip]
+Photorealistic live-action look, as if filmed on a high-end cinema camera with grounded, natural realism, subtle cinematic color grade, light film grain, 24fps. Setting: a rainy early evening at blue hour on a wide sidewalk beside a four-lane road in a Korean city. A standard Korean bus shelter with a transparent glass roof, brushed silver metal posts and one metal bench; behind it, softly blurred warm storefront lights. All signs, route maps and storefront lettering are blurred and unreadable. Heavy steady rain, wet asphalt reflecting orange streetlights, car headlights and storefront glow. Color palette: deep navy and slate-gray background, warm orange shelter and streetlight glow, and the cat's warm cream and apricot fur as the warmest element in frame. The giant cat "Mongsil": a gentle long-haired cream-colored cat as tall as a double-decker bus (about 4 to 5 meters), round chubby body, short round face, pale apricot shading on the back, ear tips and tail tip, nearly white chest and belly, very long fluffy fur with tiny raindrops sparkling on it, round pale aqua-blue eyes, small pink nose, long white whiskers, an extremely long and fluffy tail, and a small plain dark-green fabric ribbon tied around the neck (no bell, no text, no logo). Calm, sleepy, sweet expression. The cat always stays on the wide sidewalk behind the bus shelter, never on the road, and never touches cars or people roughly. People (ordinary fictional commuters, not resembling any real person): five to seven tired evening commuters in dark coats and padded jackets. The main woman is a Korean office worker in her late 20s with a black shoulder-length bob, a beige trench coat and a brown shoulder bag, with no umbrella. A Korean boy about 8 years old wears a bright yellow hooded raincoat and stands beside his father, who wears a gray padded jacket. The city bus is a plain green bus with no numbers or text.
+
+[Shots]
+0.0–2.5s: Wide shot, low angle from the curb looking up, 24mm wide lens, slow crane up, real-time. Commuters huddle under the narrow glass shelter roof with hunched shoulders, rain bouncing off the glass and the wet pavement. As the camera rises above the shelter roof, the enormous round face of the cream cat slowly leans in from above and behind the shelter, filling the upper half of the frame and looking down curiously. The scale contrast is immediate: the shelter looks like a small toy beneath it.
+2.5–5.0s: Medium close-up, low angle, 50mm lens, shallow depth of field, slow push in. The woman in the beige trench coat lowers her phone and slowly tilts her head up, mouth slightly open, rain dotting her hair. Behind her, out of focus, the other commuters one by one lift their eyes from their phones and look up.
+5.0–7.5s: Close-up on the cat's head, low angle, 85mm lens, static locked-off, slight slow motion. A fat raindrop lands on the cat's left ear and the ear flicks quickly twice, spraying a fine mist of droplets that catch the orange streetlight. The cat blinks once.
+7.5–10.0s: Medium-wide shot, low angle from beside the shelter, 35mm lens, very slow dolly in. The cat narrows its eyes in mild annoyance at the rain and begins to lower its head and shoulders slowly and carefully toward the sidewalk behind the shelter, front paws planted on the pavement. (ends on: medium-wide low-angle view from beside the shelter, the cat's head and chest halfway lowered behind the glass roof, eyes half-closed, commuters below looking up)
+
+[Lighting & color]
+Blue hour just after sunset. Cool soft ambient skylight from above, warm orange key light from the streetlight on frame right, cool white fluorescent fill from the shelter ceiling, occasional soft headlight sweeps across the wet road. Medium contrast with deep navy shadows, glowing reflections on wet asphalt, rim light on the cat's wet fur making the raindrops sparkle. Warm cream fur stands out against the cold gray-blue background. Subtle film grain, no harsh highlights.
+
+[Audio]
+Ambient: heavy steady rain, rain drumming on the glass shelter roof, tires hissing over the wet road in the distance. / SFX: a soft wet ear-flick flutter at 5.5s, a faint low breath from the cat. / Dialogue: none; only a quiet, breathy "Wow..." from the woman around 3.5s. / No background music.
+
+[Avoid]
+No on-screen text, no captions, no logos, no watermarks, no readable signs or route numbers. No faces resembling real people or celebrities, no existing cartoon or franchise characters, no brand logos on clothing or bags. No distorted hands or fingers, no warped faces, no extra limbs on the cat, no change of outfits or fur color. No bright flashes, lightning or strobing lights. No cat on the road, no contact with cars, no scary or aggressive cat expression, no bared teeth, no screaming or panic, no injuries.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 1.0~9.0초 (완성본 0~8초). 훅이 약하면 0.5초부터 써서 고양이 얼굴이 첫 프레임 가까이에 보이게 한다.
+- 앞 클립과의 연결: 첫 클립. 끝(9.0초)에서 클립 2의 시작과 같은 동작(고양이가 몸을 낮추는 중)으로 이어 붙인다.
+- 넣을 자막과 시점 (클립 기준 초):
+  · 1.0~4.0초: "퇴근길, 갑자기 소나기가 쏟아졌다"
+  · 7.5~9.0초: "…근데 저건 뭐야?" (클립 2의 1.0~2.5초까지 이어서 유지)
+- 배경음악: 이 구간(완성본 0~8초)은 기획대로 음악 없이 빗소리만. 음악은 완성본 10초 부근부터 페이드 인.
+- 생성 결과에서 확인할 점: 고양이 눈색(연한 하늘색)과 녹색 리본이 보이는지, 고양이가 도로가 아니라 정류장 뒤 인도에 있는지, 여성 의상(베이지 트렌치코트·검은 단발), 노란 우비 아이가 배경에 보이는지, 정류장 간판 글자가 읽히지 않는지.

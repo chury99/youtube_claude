@@ -1,0 +1,364 @@
+#!/usr/bin/env python3
+"""
+완성 영상을 유튜브에 업로드한다 (YouTube Data API v3, OAuth). 표준 라이브러리만 사용한다.
+안전을 위해 공개 상태는 private(비공개) 또는 unlisted(일부 공개)만 허용한다.
+전체 공개는 사용자가 YouTube Studio에서 확인한 뒤 직접 바꾼다.
+
+필요한 파일 (config/, 깃에 올리지 않음):
+    config/youtube_oauth_client.json  Google Cloud에서 받은 OAuth 클라이언트(데스크톱 앱) JSON
+    config/youtube_token.json         --auth 한 번 실행하면 자동 생성 (갱신 토큰 저장)
+키와 토큰 값은 화면에 출력하지 않는다.
+
+사용 예:
+    python3 scripts/youtube_upload.py --auth                         # 처음 한 번: 브라우저 로그인 후 토큰 저장
+    python3 scripts/youtube_upload.py --check                        # 설정·토큰 상태만 확인 (업로드 안 함)
+    python3 scripts/youtube_upload.py 5_videos/X/X.mp4 --meta 5_videos/X/upload.json
+    python3 scripts/youtube_upload.py 5_videos/X/X.mp4 --meta 5_videos/X/upload.json --dry-run
+
+upload.json 형식:
+{
+  "title": "제목 (100자 이하)",
+  "description": "설명 (5000자 이하, 해시태그 포함 가능)",
+  "tags": ["태그1", "태그2"],
+  "categoryId": "24",
+  "defaultLanguage": "ko",
+  "madeForKids": false,
+  "containsSyntheticMedia": true,
+  "privacyStatus": "private"
+}
+결과는 upload.json 옆에 upload_result.json으로 저장한다. 이미 있으면 중복 업로드를 막는다 (--force로 무시).
+"""
+
+import argparse
+import base64
+import hashlib
+import http.server
+import json
+import secrets
+import sys
+import threading
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+import webbrowser
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent  # 저장소 루트
+CLIENT_FILE = ROOT / "config" / "youtube_oauth_client.json"
+TOKEN_FILE = ROOT / "config" / "youtube_token.json"
+SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+TOKEN_URL = "https://oauth2.googleapis.com/token"
+UPLOAD_URL = ("https://www.googleapis.com/upload/youtube/v3/videos"
+              "?uploadType=resumable&part=snippet,status")
+CHUNK = 8 * 1024 * 1024
+ALLOWED_PRIVACY = ("private", "unlisted")
+
+
+def fail(msg):
+    sys.exit(f"❌ {msg}")
+
+
+# ---------- OAuth ----------
+
+def load_client():
+    if not CLIENT_FILE.exists():
+        fail(f"{CLIENT_FILE.relative_to(ROOT)} 파일이 없습니다. docs/youtube_upload_setup.md를 따라 OAuth 클라이언트 JSON을 넣어 주세요.")
+    try:
+        data = json.loads(CLIENT_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        fail(f"{CLIENT_FILE.name} 형식이 잘못되었습니다 (줄 {e.lineno}).")
+    info = data.get("installed") or data.get("web")
+    if not info or not info.get("client_id") or not info.get("client_secret"):
+        fail(f"{CLIENT_FILE.name}에 client_id/client_secret이 없습니다. '데스크톱 앱' 유형으로 만든 JSON인지 확인하세요.")
+    if info["client_id"].startswith("여기에") or info["client_secret"].startswith("여기에"):
+        fail(f"{CLIENT_FILE.name}이 예시 값 그대로입니다. Google Cloud에서 받은 JSON으로 바꿔 주세요.")
+    if "installed" not in data:
+        fail("OAuth 클라이언트 유형이 '데스크톱 앱'이 아닙니다. Google Cloud에서 '데스크톱 앱'으로 다시 만들어 주세요.")
+    return info["client_id"], info["client_secret"]
+
+
+def post_form(url, fields):
+    req = urllib.request.Request(url, data=urllib.parse.urlencode(fields).encode(),
+                                 headers={"Content-Type": "application/x-www-form-urlencoded"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        try:
+            err = json.load(e)
+        except Exception:
+            err = {}
+        return {"_error": e.code, "error": err.get("error"), "error_description": err.get("error_description")}
+
+
+def save_token(tok):
+    TOKEN_FILE.write_text(json.dumps(tok, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        TOKEN_FILE.chmod(0o600)
+    except OSError:
+        pass
+
+
+def run_auth():
+    client_id, client_secret = load_client()
+    verifier = secrets.token_urlsafe(64)
+    challenge = base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).rstrip(b"=").decode()
+    state = secrets.token_urlsafe(16)
+    result = {}
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            if "code" in q or "error" in q:
+                result.update({k: v[0] for k, v in q.items()})
+                ok = "code" in q and q.get("state", [""])[0] == state
+                body = ("인증 완료. 이 창을 닫고 터미널로 돌아가세요." if ok
+                        else "인증 실패. 터미널 메시지를 확인하세요.")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(f"<meta charset='utf-8'><h2>{body}</h2>".encode())
+            else:
+                self.send_response(404)
+                self.end_headers()
+
+        def log_message(self, *a):
+            pass
+
+    server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+    redirect = f"http://127.0.0.1:{server.server_port}"
+    url = AUTH_URL + "?" + urllib.parse.urlencode({
+        "client_id": client_id, "redirect_uri": redirect, "response_type": "code",
+        "scope": SCOPE, "access_type": "offline", "prompt": "consent",
+        "code_challenge": challenge, "code_challenge_method": "S256", "state": state,
+    })
+    print("브라우저에서 영상을 올릴 채널의 Google 계정으로 로그인하고 권한을 허용해 주세요.")
+    print("브라우저가 안 열리면 아래 주소를 직접 여세요:\n" + url)
+    webbrowser.open(url)
+
+    t = threading.Thread(target=lambda: [server.handle_request() for _ in range(20) if not result])
+    t.daemon = True
+    t.start()
+    t.join(timeout=300)
+    server.server_close()
+
+    if not result:
+        fail("5분 안에 인증이 끝나지 않았습니다. 다시 실행해 주세요.")
+    if "error" in result:
+        fail(f"인증이 거부되었습니다: {result['error']}")
+    if result.get("state") != state:
+        fail("state 값이 맞지 않습니다. 다시 실행해 주세요.")
+
+    tok = post_form(TOKEN_URL, {
+        "code": result["code"], "client_id": client_id, "client_secret": client_secret,
+        "redirect_uri": redirect, "grant_type": "authorization_code", "code_verifier": verifier,
+    })
+    if "_error" in tok or "refresh_token" not in tok:
+        fail(f"토큰 발급 실패: {tok.get('error')} {tok.get('error_description') or ''}")
+    save_token({"refresh_token": tok["refresh_token"], "scope": tok.get("scope", SCOPE),
+                "created": time.strftime("%Y-%m-%d %H:%M:%S")})
+    print(f"✅ 인증 완료. 토큰을 {TOKEN_FILE.relative_to(ROOT)}에 저장했습니다 (값은 출력하지 않음).")
+
+
+def access_token():
+    client_id, client_secret = load_client()
+    if not TOKEN_FILE.exists():
+        fail("업로드 토큰이 없습니다. 먼저 `python3 scripts/youtube_upload.py --auth`를 실행해 주세요.")
+    refresh = json.loads(TOKEN_FILE.read_text(encoding="utf-8")).get("refresh_token")
+    if not refresh:
+        fail(f"{TOKEN_FILE.name}에 refresh_token이 없습니다. --auth를 다시 실행해 주세요.")
+    tok = post_form(TOKEN_URL, {"client_id": client_id, "client_secret": client_secret,
+                                "refresh_token": refresh, "grant_type": "refresh_token"})
+    if "_error" in tok:
+        if tok.get("error") == "invalid_grant":
+            fail("토큰이 만료되었거나 취소되었습니다. `python3 scripts/youtube_upload.py --auth`를 다시 실행해 주세요.\n"
+                 "   (OAuth 동의 화면이 '테스트' 상태면 토큰이 7일 뒤 만료됩니다. '프로덕션'으로 바꾸면 해결됩니다.)")
+        fail(f"토큰 갱신 실패: {tok.get('error')} {tok.get('error_description') or ''}")
+    return tok["access_token"]
+
+
+# ---------- 메타데이터 ----------
+
+def build_body(meta):
+    title = str(meta.get("title", "")).strip()
+    desc = str(meta.get("description", ""))
+    tags = [str(t).strip().lstrip("#") for t in meta.get("tags", []) if str(t).strip()]
+    privacy = meta.get("privacyStatus", "private")
+
+    problems = []
+    if not title:
+        problems.append("title이 비어 있습니다.")
+    if len(title) > 100:
+        problems.append(f"title이 {len(title)}자입니다 (100자 이하).")
+    if "<" in title or ">" in title or "<" in desc or ">" in desc:
+        problems.append("title/description에 < > 문자는 쓸 수 없습니다.")
+    if len(desc.encode("utf-8")) > 5000:
+        problems.append("description이 5000바이트를 넘습니다.")
+    tag_len = sum(len(t) + (2 if " " in t else 0) for t in tags) + max(len(tags) - 1, 0)
+    if tag_len > 500:
+        problems.append(f"tags 전체 길이가 {tag_len}자입니다 (500자 이하).")
+    if privacy not in ALLOWED_PRIVACY:
+        problems.append(f"privacyStatus는 {ALLOWED_PRIVACY} 중 하나여야 합니다. 전체 공개는 YouTube Studio에서 직접 바꿔 주세요.")
+    for key in ("madeForKids", "containsSyntheticMedia"):
+        if not isinstance(meta.get(key), bool):
+            problems.append(f"{key}를 true/false로 꼭 정해 주세요.")
+    if problems:
+        fail("upload.json 확인 필요:\n   - " + "\n   - ".join(problems))
+
+    snippet = {"title": title, "description": desc, "tags": tags,
+               "categoryId": str(meta.get("categoryId", "24"))}
+    if meta.get("defaultLanguage"):
+        snippet["defaultLanguage"] = meta["defaultLanguage"]
+        snippet["defaultAudioLanguage"] = meta["defaultLanguage"]
+    status = {"privacyStatus": privacy,
+              "selfDeclaredMadeForKids": meta["madeForKids"],
+              "containsSyntheticMedia": meta["containsSyntheticMedia"],
+              "embeddable": True}
+    return {"snippet": snippet, "status": status}
+
+
+# ---------- 업로드 ----------
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """재개 업로드의 308(일부 받음) 응답을 리다이렉트로 따라가지 않게 한다."""
+    def redirect_request(self, *a, **k):
+        return None
+
+
+OPENER = urllib.request.build_opener(_NoRedirect)
+
+
+def api_error(e):
+    try:
+        err = json.load(e).get("error", {})
+        reason = (err.get("errors") or [{}])[0].get("reason", "")
+        return f"HTTP {e.code} {reason}: {err.get('message', '')}"
+    except Exception:
+        return f"HTTP {e.code}"
+
+
+def upload(video, body, token):
+    size = video.stat().st_size
+    req = urllib.request.Request(UPLOAD_URL, data=json.dumps(body).encode(), method="POST", headers={
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json; charset=UTF-8",
+        "X-Upload-Content-Length": str(size),
+        "X-Upload-Content-Type": "video/*",
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            session = r.headers["Location"]
+    except urllib.error.HTTPError as e:
+        msg = api_error(e)
+        if "quotaExceeded" in msg or "uploadLimitExceeded" in msg:
+            fail(f"오늘 업로드 한도를 넘었습니다. 내일 다시 시도해 주세요. ({msg})")
+        fail(f"업로드 시작 실패: {msg}")
+
+    sent, retries = 0, 0
+    with video.open("rb") as f:
+        while sent < size:
+            f.seek(sent)
+            chunk = f.read(CHUNK)
+            end = sent + len(chunk) - 1
+            put = urllib.request.Request(session, data=chunk, method="PUT", headers={
+                "Authorization": f"Bearer {token}",
+                "Content-Length": str(len(chunk)),
+                "Content-Range": f"bytes {sent}-{end}/{size}",
+            })
+            try:
+                with OPENER.open(put, timeout=300) as r:
+                    return json.load(r)  # 200/201 = 업로드 완료
+            except urllib.error.HTTPError as e:
+                if e.code == 308:  # 일부 받음 → 이어서 보냄
+                    rng = e.headers.get("Range")
+                    sent = int(rng.split("-")[1]) + 1 if rng else 0
+                    retries = 0
+                    print(f"   업로드 중… {sent * 100 // size}%")
+                    continue
+                if e.code in (500, 502, 503, 504) and retries < 5:
+                    retries += 1
+                    time.sleep(2 ** retries)
+                    continue
+                fail(f"업로드 실패: {api_error(e)}")
+            except (urllib.error.URLError, TimeoutError) as e:
+                if retries < 5:
+                    retries += 1
+                    time.sleep(2 ** retries)
+                    # 서버가 받은 위치 확인
+                    probe = urllib.request.Request(session, data=b"", method="PUT", headers={
+                        "Authorization": f"Bearer {token}", "Content-Range": f"bytes */{size}"})
+                    try:
+                        with OPENER.open(probe, timeout=60) as r:
+                            return json.load(r)
+                    except urllib.error.HTTPError as pe:
+                        if pe.code == 308:
+                            rng = pe.headers.get("Range")
+                            sent = int(rng.split("-")[1]) + 1 if rng else 0
+                    except Exception:
+                        pass
+                    continue
+                fail(f"네트워크 오류로 업로드 실패: {e}")
+    fail("업로드가 완료 응답 없이 끝났습니다.")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="완성 영상을 유튜브에 비공개(또는 일부 공개)로 업로드")
+    ap.add_argument("video", nargs="?", help="업로드할 영상 파일")
+    ap.add_argument("--meta", help="업로드 정보 JSON (upload.json)")
+    ap.add_argument("--auth", action="store_true", help="처음 한 번: 브라우저 로그인으로 토큰 저장")
+    ap.add_argument("--check", action="store_true", help="설정과 토큰만 확인")
+    ap.add_argument("--dry-run", action="store_true", help="업로드하지 않고 보낼 내용만 검사")
+    ap.add_argument("--force", action="store_true", help="이미 올린 기록이 있어도 다시 업로드")
+    a = ap.parse_args()
+
+    if a.auth:
+        return run_auth()
+    if a.check:
+        load_client()
+        access_token()
+        return print("✅ 업로드 설정 정상 (클라이언트 JSON, 토큰 갱신 확인)")
+
+    if not a.video or not a.meta:
+        ap.error("영상 파일과 --meta를 함께 지정하세요.")
+    video, meta_path = Path(a.video), Path(a.meta)
+    if not video.is_file():
+        fail(f"영상 파일이 없습니다: {video}")
+    if not meta_path.is_file():
+        fail(f"업로드 정보 파일이 없습니다: {meta_path}")
+    result_path = meta_path.with_name("upload_result.json")
+    if result_path.exists() and not a.force:
+        prev = json.loads(result_path.read_text(encoding="utf-8"))
+        fail(f"이미 업로드한 기록이 있습니다: {prev.get('url')}\n   다시 올리려면 --force를 붙이세요 (중복 영상이 생깁니다).")
+
+    body = build_body(json.loads(meta_path.read_text(encoding="utf-8")))
+    size_mb = video.stat().st_size / 1024**2
+    print(f"영상: {video} ({size_mb:.1f}MB)")
+    print(f"제목: {body['snippet']['title']}")
+    print(f"공개 상태: {body['status']['privacyStatus']} · 아동용: {body['status']['selfDeclaredMadeForKids']}"
+          f" · AI 합성 공개: {body['status']['containsSyntheticMedia']} · 태그 {len(body['snippet']['tags'])}개")
+    if a.dry_run:
+        return print("✅ dry-run: 형식 검사 통과 (업로드하지 않음)")
+
+    res = upload(video, body, access_token())
+    vid = res.get("id")
+    status = res.get("status", {})
+    out = {
+        "video_id": vid,
+        "url": f"https://youtu.be/{vid}",
+        "studio_url": f"https://studio.youtube.com/video/{vid}/edit",
+        "privacyStatus": status.get("privacyStatus"),
+        "uploadStatus": status.get("uploadStatus"),
+        "uploaded_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "file": str(video),
+    }
+    result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"✅ 업로드 완료 ({out['privacyStatus']})")
+    print(f"   영상: {out['url']}")
+    print(f"   스튜디오: {out['studio_url']}")
+    print(f"   기록: {result_path}")
+
+
+if __name__ == "__main__":
+    main()

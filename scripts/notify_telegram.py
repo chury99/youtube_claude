@@ -5,9 +5,9 @@
 설정 파일이 없으면 알림을 건너뛰고 정상 종료한다 (작업 흐름이 멈추지 않도록).
 
 사용 예:
-    python3 notify_telegram.py "🎬 영상 제작 완료"
-    python3 notify_telegram.py "완성 영상입니다" --file videos/xxx/xxx.mp4
-    python3 notify_telegram.py --get-chat-id      # 봇에게 메시지를 보낸 뒤 채팅 ID 확인
+    python3 scripts/notify_telegram.py "🎬 영상 제작 완료"
+    python3 scripts/notify_telegram.py "완성 영상입니다" --file 5_videos/xxx/xxx.mp4
+    python3 scripts/notify_telegram.py --get-chat-id      # 봇에게 메시지를 보낸 뒤 채팅 ID 확인
 """
 
 import argparse
@@ -20,7 +20,7 @@ import urllib.request
 import uuid
 from pathlib import Path
 
-CONFIG = Path(__file__).resolve().parent / "config" / "telegram_keys.json"
+CONFIG = Path(__file__).resolve().parent.parent / "config" / "telegram_keys.json"
 MAX_TEXT = 4000            # 텔레그램 메시지 최대 4096자
 MAX_UPLOAD = 50 * 1024**2  # 봇이 보낼 수 있는 파일 최대 50MB
 

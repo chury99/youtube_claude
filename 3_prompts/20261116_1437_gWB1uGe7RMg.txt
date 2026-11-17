@@ -7,8 +7,8 @@
 - 테마: 유아(만 1~5세)에게 인기 있는 영상
 - 키워드: "nursery rhymes", "kids songs animation", "유아 동요", "AI nursery rhymes", "아기 동요 애니메이션"
 - 기간: 최근 30일 / 국가: 지정 안 함(전체) / 쇼츠만(--shorts-only)
-- 사용한 CSV: results/ai_videos_20261116_1437.csv (영상 200개)
-- 실행 명령: python3 youtube_ai_trends.py -k "nursery rhymes" "kids songs animation" "유아 동요" "AI nursery rhymes" "아기 동요 애니메이션" --days 30 --shorts-only
+- 사용한 CSV: 1_results/ai_videos_20261116_1437.csv (영상 200개)
+- 실행 명령: python3 scripts/youtube_ai_trends.py -k "nursery rhymes" "kids songs animation" "유아 동요" "AI nursery rhymes" "아기 동요 애니메이션" --days 30 --shorts-only
 
 [2] 1위 영상
 - 제목: Miko Goes Over the Mountain 🏔️ | Play Together Song for Kids #shorts

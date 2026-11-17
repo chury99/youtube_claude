@@ -1,0 +1,34 @@
+{
+  "output": "20261117_우산고양이_raw.mp4",
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "clips": [
+    {
+      "file": "../../4_clips/20261117_우산고양이/Giant_cat_at_bus_stop_ab225d3a.mp4",
+      "start": 0.5,
+      "end": 8.6
+    },
+    {
+      "file": "../../4_clips/20261117_우산고양이/Giant_cat_shelters_commuters_db25429f.mp4",
+      "start": 0.6,
+      "end": 9.62
+    },
+    {
+      "file": "../../4_clips/20261117_우산고양이/Boy_touching_giant_cat_tail_82bf6f2d.mp4",
+      "start": 0.2,
+      "end": 4.96
+    },
+    {
+      "file": "../../4_clips/20261117_우산고양이/Boy_touching_giant_cat_tail_82bf6f2d.mp4",
+      "start": 6.7,
+      "end": 9.44
+    },
+    {
+      "file": "../../4_clips/20261117_우산고양이/Giant_cat_at_bus_stop_914e8923.mp4",
+      "start": 2.62,
+      "end": 10.0
+    }
+  ],
+  "fade_out": 0.6
+}

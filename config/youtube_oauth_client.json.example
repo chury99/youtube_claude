@@ -1,0 +1,9 @@
+{
+  "installed": {
+    "client_id": "여기에_클라이언트_ID.apps.googleusercontent.com",
+    "client_secret": "여기에_클라이언트_보안_비밀번호",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "redirect_uris": ["http://localhost"]
+  }
+}

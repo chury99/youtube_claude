@@ -7,9 +7,9 @@ YouTube Data API v3로 키워드별 영상을 조회수 순으로 검색하고,
 표준 라이브러리만 사용하므로 별도 설치가 필요 없다.
 
 사용 예:
-    python3 youtube_ai_trends.py
-    python3 youtube_ai_trends.py --days 30 --region KR --lang ko
-    python3 youtube_ai_trends.py -k "AI 애니메이션" "Veo 3" --max 50 --shorts-only
+    python3 scripts/youtube_ai_trends.py
+    python3 scripts/youtube_ai_trends.py --days 30 --region KR --lang ko
+    python3 scripts/youtube_ai_trends.py -k "AI 애니메이션" "Veo 3" --max 50 --shorts-only
 """
 
 import argparse
@@ -24,7 +24,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 API_BASE = "https://www.googleapis.com/youtube/v3"
-SCRIPT_DIR = Path(__file__).resolve().parent
+SCRIPT_DIR = Path(__file__).resolve().parent.parent  # 저장소 루트
 KEY_FILE = SCRIPT_DIR / "config" / "google_api_keys.json"
 
 DEFAULT_KEYWORDS = [
@@ -211,7 +211,7 @@ def main():
     p.add_argument("--sort", default="views",
                    choices=["views", "outlier_ratio", "views_per_day"],
                    help="CSV 정렬 기준 (기본 views)")
-    p.add_argument("-o", "--output", default=None, help="저장할 CSV 경로 (기본: results/ 폴더)")
+    p.add_argument("-o", "--output", default=None, help="저장할 CSV 경로 (기본: 1_results/ 폴더)")
     args = p.parse_args()
 
     api_key = load_api_key()
@@ -247,7 +247,7 @@ def main():
     if args.output:
         out = Path(args.output)
     else:
-        out = SCRIPT_DIR / "results" / f"ai_videos_{datetime.now():%Y%m%d_%H%M}.csv"
+        out = SCRIPT_DIR / "1_results" / f"ai_videos_{datetime.now():%Y%m%d_%H%M}.csv"
     out.parent.mkdir(parents=True, exist_ok=True)
     # utf-8-sig: 엑셀에서 한글이 깨지지 않도록 BOM 포함
     with out.open("w", newline="", encoding="utf-8-sig") as f:

@@ -20,11 +20,11 @@ tools: Bash, Read, Write, Glob, Grep
 - 결과가 너무 적으면 기간을 `--days 90`으로 늘려 다시 조회한다.
 
 ```bash
-python3 youtube_ai_trends.py --days 30 --shorts-only -k "키워드1" "키워드2"
+python3 scripts/youtube_ai_trends.py --days 30 --shorts-only -k "키워드1" "키워드2"
 ```
 
 - 주요 옵션: `-k`, `--days N`, `--region KR`, `--lang ko`, `--shorts-only`, `--max N`, `--sort views|outlier_ratio|views_per_day`
-- 기본 실행은 약 810 유닛을 쓴다 (하루 무료 10,000). 할당량 초과 오류가 나면 `results/`의 가장 최근 CSV를 대신 쓰고, 그 사실을 기획안에 적는다.
+- 기본 실행은 약 810 유닛을 쓴다 (하루 무료 10,000). 할당량 초과 오류가 나면 `1_results/`의 가장 최근 CSV를 대신 쓰고, 그 사실을 기획안에 적는다.
 
 ### 2. 참고 영상 고르기 (조회수 + outlier ratio)
 - 별도 지시가 없으면: **조회수 상위 30개**를 후보로 잡고, 그중 테마에 맞는 영상 가운데 **outlier ratio가 가장 높은 영상**을 참고 영상으로 고른다.
@@ -37,8 +37,8 @@ python3 youtube_ai_trends.py --days 30 --shorts-only -k "키워드1" "키워드2
 ### 3. 참고 영상 상세 정보
 
 ```bash
-mkdir -p results/thumbs
-python3 video_info.py <영상 URL> --thumbnail results/thumbs/<영상ID>.jpg
+mkdir -p 1_results/thumbs
+python3 scripts/video_info.py <영상 URL> --thumbnail 1_results/thumbs/<영상ID>.jpg
 ```
 
 - 저장한 썸네일은 **Read 도구로 열어서 직접 본다** (화풍, 색감, 구도, 인물·캐릭터 파악).
@@ -61,7 +61,7 @@ python3 video_info.py <영상 URL> --thumbnail results/thumbs/<영상ID>.jpg
 - 등장인물·캐릭터·장소가 클립마다 같아 보여야 하므로 외형 특징을 구체적으로 정해 둔다 (색, 옷, 소품, 체형, 재질).
 
 ### 6. 기획안 txt 저장
-`plans/<기본이름>.txt`에 UTF-8로 저장한다 (폴더가 없으면 만든다).
+`2_plans/<기본이름>.txt`에 UTF-8로 저장한다 (폴더가 없으면 만든다).
 - `<기본이름>` = `YYYYMMDD_<영상이름>` (날짜는 `date +%Y%m%d`로 확인). 예: `20261117_꿀벌티스푼`, `20261117_고양이빵집`
 - `<영상이름>`은 새 영상 내용을 알아보기 쉬운 **짧은 한글 이름**으로 짓는다: 2~10글자, 띄어쓰기 없이, `/ : * ? " < > |` 같은 특수문자 없이.
 - 같은 이름의 파일이 이미 있으면 끝에 `_2`, `_3`을 붙인다.

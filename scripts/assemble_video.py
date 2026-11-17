@@ -11,7 +11,7 @@ AI로 생성한 컷들을 하나의 쇼츠 영상으로 합치는 편집기 (ffm
 컷에 소리가 없으면 무음으로 채운다. (Veo처럼 소리가 있는 컷은 원래 소리를 유지)
 
 사용 예:
-    python3 assemble_video.py series/pet_human/ep01_vet_day
+    python3 scripts/assemble_video.py series/pet_human/ep01_vet_day
 """
 
 import json
@@ -36,7 +36,7 @@ def probe(path):
 
 def main():
     if len(sys.argv) != 2:
-        sys.exit("사용법: python3 assemble_video.py <에피소드 폴더>")
+        sys.exit("사용법: python3 scripts/assemble_video.py <에피소드 폴더>")
     if not shutil.which("ffmpeg"):
         sys.exit("❌ ffmpeg가 없습니다. 설치: brew install ffmpeg")
 

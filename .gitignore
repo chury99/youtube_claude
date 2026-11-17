@@ -1,6 +1,8 @@
 config/google_api_keys.json
 config/telegram_keys.json
-results/
+config/youtube_oauth_client.json
+config/youtube_token.json
+1_results/
 __pycache__/
 
 # 영상·음원 파일은 용량이 커서 깃허브에 올리지 않음
@@ -17,3 +19,9 @@ __pycache__/
 
 # 검수용 콘택트 시트 (다시 만들 수 있음)
 review/
+
+# 편집 중간 파일 (자막 이미지, 합성 음원 등, 다시 만들 수 있음)
+5_videos/*/work/
+
+# 업로드 기록 (영상 ID, 개인 채널 정보)
+5_videos/*/upload_result.json

@@ -4,8 +4,8 @@
 API 키는 config/google_api_keys.json에서 읽고 화면에 출력하지 않는다.
 
 사용 예:
-    python3 video_info.py https://www.youtube.com/shorts/a4tHx-tr5_g
-    python3 video_info.py a4tHx-tr5_g --thumbnail results/thumb.jpg
+    python3 scripts/video_info.py https://www.youtube.com/shorts/a4tHx-tr5_g
+    python3 scripts/video_info.py a4tHx-tr5_g --thumbnail 1_results/thumb.jpg
 """
 
 import argparse

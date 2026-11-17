@@ -3,6 +3,22 @@
 AI로 만든 유튜브 영상을 키워드별로 조회수 순으로 모아 CSV로 저장합니다.
 Python 3만 있으면 되고, 따로 설치할 패키지는 없습니다.
 
+## 폴더 구조 (유튜브마스터 진행 순서)
+
+| 폴더 | 단계 | 만드는 사람 |
+|---|---|---|
+| `1_results/` | 인기 영상 조회 결과 CSV, 썸네일 | 기획자 (`scripts/youtube_ai_trends.py`) |
+| `2_plans/` | 기획안 `<기본이름>.txt` | 기획자 |
+| `3_prompts/` | Omni 클립 프롬프트 `<기본이름>/<기본이름>_1.txt` … | 디렉터 |
+| `4_clips/` | Omni에서 생성한 클립 (파일 이름 자유) | 사용자 |
+| `5_videos/` | 완성 영상, 편집 기록, 업로드 기록 | 편집자, 업로더 |
+| `scripts/` | 파이썬 도구 모음 | |
+| `config/` | API 키, 텔레그램, 유튜브 OAuth (깃 제외) | |
+| `docs/` | 설정 안내서 | |
+
+`<기본이름>` = `날짜_한글영상이름` (예: `20261117_우산고양이`). 모든 단계 폴더에서 같은 이름을 씁니다.
+스크립트는 저장소 루트에서 `python3 scripts/<파일>.py` 형식으로 실행합니다.
+
 ## 1. YouTube API 키 발급 (최초 1회, 약 5분)
 
 1. https://console.cloud.google.com 에 Google 계정으로 로그인
@@ -35,22 +51,22 @@ cp config/google_api_keys.json.example config/google_api_keys.json
 기본 실행 (AI 관련 키워드 8개, 최근 90일):
 
 ```bash
-python3 youtube_ai_trends.py
+python3 scripts/youtube_ai_trends.py
 ```
 
 한국 영상만, 최근 30일:
 
 ```bash
-python3 youtube_ai_trends.py --region KR --lang ko --days 30
+python3 scripts/youtube_ai_trends.py --region KR --lang ko --days 30
 ```
 
 원하는 키워드로 Shorts만, 아웃라이어 비율 순 정렬:
 
 ```bash
-python3 youtube_ai_trends.py -k "AI 고양이" "AI ASMR" "Veo 3" --shorts-only --sort outlier_ratio
+python3 scripts/youtube_ai_trends.py -k "AI 고양이" "AI ASMR" "Veo 3" --shorts-only --sort outlier_ratio
 ```
 
-결과는 `results/` 폴더에 CSV로 저장되며 엑셀에서 바로 열 수 있습니다.
+결과는 `1_results/` 폴더에 CSV로 저장되며 엑셀에서 바로 열 수 있습니다.
 
 ## 옵션
 
@@ -63,7 +79,7 @@ python3 youtube_ai_trends.py -k "AI 고양이" "AI ASMR" "Veo 3" --shorts-only -
 | `--lang` | 언어 코드 (ko, en…) | 전체 |
 | `--shorts-only` | 3분 이하 Shorts만 | 끔 |
 | `--sort` | `views` / `outlier_ratio` / `views_per_day` | views |
-| `-o`, `--output` | CSV 저장 경로 | results/ai_videos_날짜.csv |
+| `-o`, `--output` | CSV 저장 경로 | 1_results/ai_videos_날짜.csv |
 
 ## CSV 컬럼 보는 법
 
@@ -81,3 +97,13 @@ python3 youtube_ai_trends.py -k "AI 고양이" "AI ASMR" "Veo 3" --shorts-only -
 
 - 검색 결과에는 AI로 만들지 않은 영상도 섞여 있을 수 있으니 상위 영상은 직접 확인하세요.
 - `config/google_api_keys.json` 파일(API 키)은 다른 사람과 공유하거나 깃허브에 올리지 마세요.
+
+## 유튜브 자동 업로드 (선택)
+
+완성 영상을 유튜브에 **비공개**로 올리는 `scripts/youtube_upload.py`가 있습니다 (표준 라이브러리만 사용).
+OAuth 클라이언트 설정과 최초 로그인이 필요합니다: [docs/youtube_upload_setup.md](docs/youtube_upload_setup.md)
+
+```bash
+python3 scripts/youtube_upload.py --auth     # 최초 1회 로그인
+python3 scripts/youtube_upload.py --check    # 설정 확인
+```
