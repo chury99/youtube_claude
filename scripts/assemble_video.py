@@ -3,7 +3,7 @@
 AI로 생성한 컷들을 하나의 쇼츠 영상으로 합치는 편집기 (ffmpeg 필요)
 
 에피소드 폴더의 edit.json 설정대로
-  1) 각 컷을 세로 1080x1920 / 30fps로 맞추고 (비율이 다르면 위아래·좌우 블러 배경으로 채움)
+  1) 각 컷을 세로 720x1280(720p) / 30fps로 맞추고 (비율이 다르면 위아래·좌우 블러 배경으로 채움)
   2) 앞뒤를 잘라 템포를 조절한 뒤
   3) 순서대로 이어 붙이고
   4) 배경음악을 깔고 끝부분을 페이드아웃 한다.
@@ -45,7 +45,7 @@ def main():
     if not cfg_path.exists():
         sys.exit(f"❌ 설정 파일이 없습니다: {cfg_path}")
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
-    w, h, fps = cfg.get("width", 1080), cfg.get("height", 1920), cfg.get("fps", 30)
+    w, h, fps = cfg.get("width", 720), cfg.get("height", 1280), cfg.get("fps", 30)
 
     missing = [c["file"] for c in cfg["clips"] if not (ep_dir / c["file"]).exists()]
     if missing:

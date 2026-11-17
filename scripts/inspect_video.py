@@ -122,7 +122,7 @@ def main():
 
     warnings = []
     if not info["vertical_9_16"]:
-        warnings.append("세로 9:16이 아닙니다 (쇼츠 권장 1080x1920).")
+        warnings.append("세로 9:16이 아닙니다 (기본 720x1280).")
     if info["duration"] > 180:
         warnings.append("3분을 넘어 쇼츠로 올라가지 않습니다.")
     if not info["has_audio"]:

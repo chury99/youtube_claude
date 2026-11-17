@@ -48,10 +48,10 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   ```json
   {
     "output": "<기본이름>_raw.mp4",
-    "width": 1080, "height": 1920, "fps": 30,
+    "width": 720, "height": 1280, "fps": 30,
     "clips": [
-      {"file": "../../4_clips/<기본이름>/<프롬프트 1에 맞는 파일 이름>", "start": 0.6, "end": 9.2},
-      {"file": "../../4_clips/<기본이름>/<프롬프트 2에 맞는 파일 이름>", "start": 0.4, "end": 8.8}
+      {"file": "../../4_clips/<기본이름>/<프롬프트 1에 맞는 파일 이름>", "start": 0.0, "end": 7.8},
+      {"file": "../../4_clips/<기본이름>/<프롬프트 2에 맞는 파일 이름>", "start": 0.2, "end": 8.0}
     ],
     "bgm": "../../4_clips/<기본이름>/bgm.mp3", "bgm_volume": 0.2,
     "fade_out": 0.5
@@ -66,7 +66,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   - 자막: 이 ffmpeg에는 drawtext가 없다. skia-python(`.venv/bin/python`)으로 투명 PNG 자막을 그려 overlay 필터로 얹는다.
     폰트는 `skia.Typeface('Apple SD Gothic Neo', skia.FontStyle.Bold())`, 위치는 세로 12%~65% 구간의 가로 중앙. 아래쪽 25%와 오른쪽 15%는 쇼츠 UI가 덮는다.
   - 음량: 통합 -14 LUFS 근처, 최대 피크 -1 dBTP 이하 (`loudnorm=I=-14:TP=-1.5:LRA=11`).
-  - 출력: 세로 1080x1920, 30fps, H.264 + AAC, `-movflags +faststart`.
+  - 출력: 기본 세로 720x1280(720p, 9:16), 30fps, H.264 + AAC, `-movflags +faststart`.
 - 최종 파일: `5_videos/<기본이름>/<기본이름>.mp4`
 
 ### 3. 검수 (반드시 직접 다시 본다)
@@ -93,7 +93,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 12. AI 워터마크(SynthID 등)를 지우거나 가리는 편집을 하지 않는다.
 
 **품질 체크리스트**
-13. 9:16, 목표 길이 ±0.5초, 소리 있음, 음량·피크 기준 충족
+13. 9:16 세로 720x1280, 목표 길이 ±0.5초, 소리 있음, 음량·피크 기준 충족
 14. 연결 지점이 튀지 않는다 (인물 위치, 의상, 조명, 색이 갑자기 바뀌지 않음). 소리가 연결 지점에서 끊기거나 튀지 않는다.
 15. AI 생성 오류 프레임이 없다 (손가락 개수, 녹아내리는 얼굴, 깨진 글자, 사라지는 물체).
 16. 자막이 안전 구역 안에 있고, 맞춤법이 맞고, 잘 읽힌다.
