@@ -1,0 +1,12 @@
+{
+  "output": "20261117_동글선생님_raw.mp4",
+  "width": 1080, "height": 1920, "fps": 30,
+  "clips": [
+    {"file": "../../4_clips/20261117_동글선생님/Boy_hiding_under_blanket_63dc9f5b.mp4", "start": 0.0, "end": 8.0},
+    {"file": "../../4_clips/20261117_동글선생님/Boy_hiding_behind_teddy_bear_99646f4f.mp4", "start": 1.0, "end": 9.0},
+    {"file": "../../4_clips/20261117_동글선생님/Boy_visiting_doctor_in_clinic_8111c535.mp4", "start": 1.0, "end": 9.0},
+    {"file": "../../4_clips/20261117_동글선생님/Doctor_examining_boy_in_hospital_2222dff7.mp4", "start": 1.0, "end": 9.0},
+    {"file": "../../4_clips/20261117_동글선생님/디렉터_영상_프롬프트_클립_생성_e716a34f.mp4", "start": 1.95, "end": 9.95}
+  ],
+  "fade_out": 0
+}
