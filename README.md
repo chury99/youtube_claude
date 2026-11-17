@@ -9,8 +9,8 @@ Python 3만 있으면 되고, 따로 설치할 패키지는 없습니다.
 |---|---|---|
 | `1_results/` | 인기 영상 조회 결과 CSV, 썸네일 | 기획자 (`scripts/youtube_ai_trends.py`) |
 | `2_plans/` | 기획안 `<기본이름>.txt` | 기획자 |
-| `3_prompts/` | Omni 클립 프롬프트 `<기본이름>/<기본이름>_1.txt` … | 디렉터 |
-| `4_clips/` | Omni에서 생성한 클립 (파일 이름 자유) | 사용자 |
+| `3_prompts/` | Veo 8초 클립 프롬프트 `<기본이름>/<기본이름>_1.txt` … | 디렉터 |
+| `4_clips/` | Veo에서 생성한 클립 (파일 이름 자유) | 사용자 |
 | `5_videos/` | 완성 영상, 편집 기록, 업로드 기록 | 편집자, 업로더 |
 | `6_reports/` | 채널 분석·운영 전략 리포트 | 분석가 (`scripts/youtube_analytics.py`) |
 | `scripts/` | 파이썬 도구 모음 | |
