@@ -137,7 +137,7 @@
 - 남은 할 일: YouTube Studio에서 "변경되었거나 합성된 콘텐츠" 켜짐을 확인한 뒤 공개로 변경 (썸네일·고정 댓글은 필요하면 직접. 아동용이라 댓글은 꺼짐)
 
 (40초 버전 — 교체됨, 삭제 예정)
-- nhgGM-DSq4Q는 위 36초 버전으로 교체. 삭제는 따로 처리 (아직 삭제하지 않음). 기록: 5_videos/20261118_노란점탐정/upload_result_40s_old.json
+- nhgGM-DSq4Q는 위 36초 버전으로 교체. 2026-11-18 사용자가 YouTube Studio에서 직접 삭제함. 기록: 5_videos/20261118_노란점탐정/upload_result_40s_old.json
 - 일시: 2026-11-18 15:58:37 / 공개 상태: private
 - 영상 링크: https://youtu.be/nhgGM-DSq4Q
 - 스튜디오 링크: https://studio.youtube.com/video/nhgGM-DSq4Q/edit
