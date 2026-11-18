@@ -1,0 +1,14 @@
+{
+  "output": "20261118_노란점탐정_raw.mp4",
+  "width": 720, "height": 1280, "fps": 30,
+  "clips": [
+    {"file": "../../4_clips/20261118_노란점탐정/Detective_molar_tooth_investigat…_52ee0255.mp4", "start": 0.0, "end": 7.93},
+    {"file": "../../4_clips/20261118_노란점탐정/Detective_tooth_questioning_susp…_0c6cf7ab.mp4", "start": 0.0, "end": 6.625},
+    {"file": "../../4_clips/20261118_노란점탐정/Detective_tooth_questioning_susp…_0c6cf7ab.mp4", "start": 6.6667, "end": 7.93},
+    {"file": "../../4_clips/20261118_노란점탐정/Toothbrush_waking_up_in_cup_7c821493.mp4", "start": 0.0, "end": 6.4167},
+    {"file": "../../4_clips/20261118_노란점탐정/Animated_characters_brushing_teeth_b767eefe.mp4", "start": 0.0, "end": 7.93},
+    {"file": "../../4_clips/20261118_노란점탐정/Torongi_and_friends_celebrating_…_f05b46fe.mp4", "start": 0.0, "end": 3.7083},
+    {"file": "../../4_clips/20261118_노란점탐정/Torongi_and_friends_celebrating_…_f05b46fe.mp4", "start": 6.0417, "end": 7.93}
+  ],
+  "fade_out": 0
+}

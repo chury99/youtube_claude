@@ -1,0 +1,60 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 3 / 5
+작성일: 2026-11-18 14:33
+기획안: 2_plans/20261118_노란점탐정.txt
+==================================================
+
+[1] 생성 설정
+- 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
+- 캐릭터 유지: Flow의 Ingredients to Video에 캐릭터 참고 이미지(또롱이, 솔솔이, 알콩이, 노롱이, 꽥꽥이)를 넣는다 (클립 1에서 마음에 드는 프레임을 캡처해 써도 된다).
+- 이어 붙이기: 앞 클립 _2의 마지막 장면(오른쪽 양치컵을 바라보는 또롱이)에서 이어진다. 이음매는 시선을 따라가는 컷 전환이라, 이 클립은 새 샷(손전등 빛이 닿은 양치컵)으로 시작한다. Frames to Video의 시작 프레임은 쓰지 않아도 된다.
+- 저장 위치: 4_clips/20261118_노란점탐정/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 완성본 16~24초. 기획안 비트 16~19초(컵 속 솔솔이가 깨어나 하품, 솔이 바짝 마름), 19~21초(솔솔이가 또롱이를 가리키고 또롱이 "나?!" 깨달음 → 수줍게 머리 긁적), 21~24초(솔솔이 톡 뛰어나옴, 콩알만 한 치약, 친구들 박수).
+- 전달할 것: 반전 "범인은 어젯밤 양치를 깜빡한 나!"를 부끄럽지만 귀엽게. 잔소리 없이 아이 스스로 원인을 깨닫는 순간.
+
+[3] PROMPT (아래를 통째로 Veo에 붙여넣기)
+Vertical 9:16, 720p, 8 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, cheerful toddler-friendly pacing, simple clean cuts, smooth camera moves. Sound effects and soft room ambience only: no singing, no music.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded 3D animation in the style of a high-end family animated feature (Pixar-like quality, not photorealistic), made for toddlers aged 2 to 5. Smooth, squishy, slightly glossy materials, round shapes, big expressive eyes, gentle squash-and-stretch. Cute playful mystery mood: curious, silly, clean, proud. Nothing scary, nothing gross.
+LOCATION (a small morning bathroom, the same in every shot): Walls of square mint-green tiles. A cream-colored sink with a wide, smooth cream countertop; almost all action happens on top of this countertop, used like a little stage, with characters standing on it. On the wall above the sink hangs a round mirror with a light-wood frame. On the countertop to the right of the mirror stands a plain sky-blue plastic cup, and next to the cup lies a plain white toothpaste tube with a mint-green cap (no pattern, no text, no logo). The opposite wall has the same mint tiles and a small square window with a white frame, through which warm morning sunlight streams. The floor is white tile. No other objects, no signs, no writing anywhere.
+TORONGI (main character, a baby molar tooth, palm-sized): A short, chubby baby molar with a rounded-square top and two short, stubby roots at the bottom that work like little legs. Milky-white with a soft glossy sheen, pink blush cheeks, big round black eyes with no eyelashes, a small cute mouth, thin white arms. He wears a short round navy-blue cape tied at the neck and hanging down his back, and a small red bow tie at his neck. He always holds a small yellow flashlight in his right hand. No hat. Whether three small pale-yellow spots are on his forehead is stated in each shot; when present, they are three pea-sized, smooth, cute pale-yellow droplet-shaped dots, clean and soft, never holes and never dark.
+ALKONG (suspect 1, a corn kernel): A single plump corn kernel, slightly smaller than Torongi, deep warm yellow, with a tiny white tip on top. Round eyes, a smiling mouth, short little arms and legs.
+NORONG (suspect 2, an egg yolk): A round orange-yellow egg yolk character with sleepy half-moon eyes, sitting on top of half of a white boiled egg white like a little chair.
+QUACKY (suspect 3, a rubber duck toy): A smooth, shiny rubber duck toy, bright lemon-yellow, orange beak, small blue eyes. Clearly a glossy rubber toy, not a real bird.
+SOLSOL (the toothbrush): A child's toothbrush with a sky-blue handle and soft bristles mixed white and mint-green, with two round cartoon eyes just above the bristles. It moves by itself, hopping and bending gently.
+STAGING (consistent positions): Torongi's home spot is the center of the countertop, directly in front of the mirror. The three suspects stand in a row on the countertop to the left side, from left to right: Alkong, Norong on her egg-white half, Quacky. The sky-blue cup with Solsol and the toothpaste tube are on the right side.
+COLOR PALETTE: Mint green, pale sky blue, cream and milky white, with warm yellow accents from the suspects and the flashlight, navy cape and small red bow tie. Bright pastel colors, medium-high saturation, no dark shadows.
+LIGHTING: Bright, warm morning sunlight from the small window, soft diffused fill light, soft gentle shadows, steady even exposure. The flashlight only makes a soft, steady, round pool of warm yellow light, never flashing or flickering.
+
+[Shots]
+0.0–3.0s: Medium close-up, eye level, 50mm lens, slow dolly in. The soft, steady, round pool of warm yellow flashlight light rests on the plain sky-blue cup on the right side of the countertop. Inside the cup, Solsol the toothbrush stands upright, asleep with eyes closed. Solsol slowly opens its round eyes and gives a big, cute, stretchy yawn. Its white and mint bristles look completely dry and fluffy, clearly unused.
+3.0–5.5s: Medium two-shot, eye level, 35mm lens, static locked-off. Solsol, still in the cup on the right, leans and points its bristles toward Torongi, who stands in the center of the countertop with three small pale-yellow spots on his forehead and the flashlight in his right hand. Torongi points at his own face with his left hand, his eyes pop wide in a cute "it was me?!" realization, then he breaks into a shy, embarrassed smile with pink cheeks and scratches the top of his head.
+5.5–8.0s: Medium wide shot, slightly high angle, 35mm lens, slow crane down. Solsol hops lightly out of the cup and lands upright on the countertop beside the white toothpaste tube. Torongi gently presses the tube with his left hand and one tiny pea-sized dab of white-and-mint toothpaste pops neatly onto Solsol's bristles. In the background on the left, Alkong, Norong, and Quacky clap happily. (ends on: medium wide shot, Solsol standing upright next to Torongi with a pea-sized dab of toothpaste on its bristles, everyone smiling, the three suspects clapping on the left)
+
+[Lighting & color]
+Bright, warm morning sunlight from the small window, soft wraparound fill, low contrast, soft gentle shadows. Mint, sky blue, cream, and milky white with warm yellow accents; the flashlight pool is soft, steady, warm yellow. Clean digital 3D render, no film grain. Constant, steady exposure throughout.
+
+[Audio]
+Ambient: quiet, gently echoing small bathroom, very soft morning birds outside. / SFX: a long, cute, sleepy "haaa-um" yawn from Solsol; a small surprised gasp from Torongi, then a shy little giggle; a light plastic tap as Solsol hops out of the cup; a tiny soft "squish-pop" of toothpaste; soft, light clapping. / No singing, no words, no background music. All sounds soft and at a steady volume.
+
+[Avoid]
+No on-screen text, no subtitles, no captions, no logos, no watermarks, no writing on the tube, cup, toothbrush, or walls. No singing, no lyrics, no narration, no background music. No flashing lights, no strobe, no flicker, no rapid blinking, no fast color changes, no camera shake. Nothing scary or gross: no tooth decay holes, no black or brown stains, no blood, no dentist tools, no pain, no crying, no frightened faces, no dark lighting, no loud or sudden sounds. No one eats or swallows toothpaste. No resemblance to real people, no existing cartoon characters, no brands. No detective hat, no magnifying glass. No deformed faces, no extra or missing fingers, no merged hands. No changes in character design, colors, cape, or bow tie between shots; Quacky stays a rubber toy.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 전체 (완성본 16~24초). 이음매에서 다듬으면 0.2~7.8초 (8초 클립이라 여유가 적다).
+- 앞 클립과의 연결: 컷 전환. 클립 2 끝에서 또롱이가 오른쪽 양치컵을 바라보고 → 이 클립은 양치컵 미디엄 클로즈업으로 시작 (시선 방향 일치).
+- 클립 4와의 연결: 이 클립 끝 구도(솔솔이와 또롱이 나란히, 뒤에 용의자들)를 클립 4 첫 장면이 이어받는다. 어긋나면 0.2~0.3초 크로스페이드.
+- 넣을 자막 (이 클립 기준 초 / 완성본 초)
+  · 0.0~3.0초 (16.0~19.0): 어젯밤 치카치카… 깜빡했네! / Last night's brushing… I forgot!
+  · 3.0~8.0초 (19.0~24.0): 범인은 바로 나~ / The culprit is… me~
+  · 3.0~5.0초 (19.0~21.0): 또롱이 옆에 작게 "범인은 나?!" / "It was me?!"
+- 생성 결과에서 확인할 점
+  · 솔솔이 솔이 바짝 마른 상태로 보이는지 (젖어 있거나 물이 흐르면 재생성)
+  · 치약이 콩알만큼 작게 나오는지 (크게 짜면 재생성), 치약 튜브에 글자·로고가 생기지 않았는지
+  · 또롱이 깨달음 표정이 무섭거나 우는 얼굴이 아니라 수줍은 웃음인지
+  · 아무도 치약을 먹지 않는지
+  · 솔솔이 손잡이 하늘색, 솔 흰색+민트, 눈 두 개가 유지되는지
+  · 화면에 글자·자막이 그려지지 않았는지

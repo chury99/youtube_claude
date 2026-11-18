@@ -1,0 +1,99 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 1 / 5
+작성일: 2026-11-18 14:33
+기획안: 2_plans/20261118_노란점탐정.txt
+==================================================
+
+[0] 개요
+- 한 줄 콘셉트: 아침에 거울을 보던 아기 어금니 또롱이가 이마의 노란 점을 발견하고 탐정이 되어 노란 친구들(옥수수 알콩이·노른자 노롱이·고무오리 꽥꽥이)을 조사하지만, 진짜 범인은 "어젯밤 양치를 깜빡한 나". 칫솔 솔솔이와 치카치카 닦고 반짝반짝해진 뒤 옥수수를 "냠!" 먹으면 다시 처음으로 돌아가는 루프형 3D 양치 동요 쇼츠.
+- 목표 길이 40초 / 클립 수 5개 (8초 x 5, 세로 9:16, 720p)
+- 전체 흐름
+  · 클립 1 (0~8초): 거울 앞에서 노란 점 발견 → 망토 휙, 손전등 딸깍, 탐정 출동
+  · 클립 2 (8~16초): 손전등으로 용의자 조사 — 알콩이, 노롱이, 꽥꽥이 차례로 "나 아니야~" → 또롱이 갸웃
+  · 클립 3 (16~24초): 컵 속 칫솔 솔솔이가 하품하며 깨어남(솔이 바짝 마름) → "범인은 나?!" 반전 → 콩알만 한 치약
+  · 클립 4 (24~32초): 치카치카 위아래·동글동글, 거품 속에서 노란 점이 퐁퐁 사라짐, 친구들 춤
+  · 클립 5 (32~40초): 반짝반짝 하이파이브 → 거울 앞 처음 자리로 돌아가 옥수수 "냠!" → 클립 1 첫 프레임과 같은 구도로 끝 (루프)
+- 루프 장치: 클립 1의 0.0초와 클립 5의 8.0초 프레임은 같은 그림이다. "거울 시점" 정면 구도(카메라가 거울 자리에 있다), 세면대 가운데에 또롱이 혼자, 두 팔을 몸 옆에 내리고 눈을 감은 채 흐뭇한 미소, 이마에 노란 점 3개, 오른손에 꺼진 손전등, 뒤로 맞은편 민트 타일 벽과 햇살 드는 작은 창이 흐리게 보인다.
+- 참고한 Veo 프롬프트 가이드
+  · Google Cloud 블로그 "The ultimate prompting guide for Veo 3.1" (https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-veo-3-1)
+    - 권장 공식: [카메라워크] + [주제] + [동작] + [배경] + [화풍·분위기]
+    - 오디오: 대사는 큰따옴표, 효과음은 "SFX:", 주변음은 "Ambient noise:"로 적는다
+    - 타임스탬프 프롬프트([00:00-00:02] 식)로 한 번의 생성 안에 여러 샷을 지시할 수 있다 → 이 프롬프트의 [Shots] 초 단위 표기가 같은 방식이다
+    - "하지 말 것"은 원하는 상태를 긍정형으로 쓰는 것을 권장 → 본문은 긍정형으로 쓰고 꼭 막을 것만 [Avoid]에 모았다 (Flow·API에 negative prompt 칸이 있으면 [Avoid] 내용을 거기에 넣는다)
+    - Ingredients to Video(참고 이미지로 캐릭터·소품·장소 유지), First and last frame(시작·끝 이미지 사이를 자연스럽게 생성) 지원. 길이 4/6/8초, 720p/1080p, 16:9/9:16
+
+[1] 생성 설정
+- 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
+- 캐릭터 유지: Flow의 Ingredients to Video에 캐릭터 참고 이미지(또롱이, 알콩이, 노롱이, 꽥꽥이, 솔솔이, 욕실 세면대)를 넣는다. 처음엔 참고 이미지 없이 이 클립을 몇 번 생성해 보고, 마음에 드는 결과에서 또롱이 정면 프레임을 캡처해 이후 모든 클립의 참고 이미지로 쓰면 된다.
+- 이어 붙이기: 첫 클립이라 앞 클립 없음. 이 클립의 0.0초 프레임은 클립 5의 끝 프레임과 같아야 하므로, 마음에 드는 결과가 나오면 0.0초 프레임을 이미지로 저장해 둔다 (클립 5를 만들 때 Frames to Video의 끝 프레임으로 넣는다).
+- 저장 위치: 4_clips/20261118_노란점탐정/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 완성본 0~8초. 기획안 비트 0~3초(훅: 거울 앞에서 기지개 → 노란 점 발견, 귀여운 깜짝 표정)와 3~8초(망토 휙, 손전등 딸깍, 한쪽 눈을 가늘게 뜬 탐정 표정, 후렴 A 1회).
+- 전달할 것: "어? 내 이에 노란 점이?!" 하는 궁금증(첫 1초 훅)과, 탐정 놀이가 시작되는 장난스러운 의심.
+
+[3] PROMPT (아래를 통째로 Veo에 붙여넣기)
+Vertical 9:16, 720p, 8 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, cheerful toddler-friendly pacing, simple clean cuts, smooth camera moves. Sound effects and soft room ambience only: no singing, no music.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded 3D animation in the style of a high-end family animated feature (Pixar-like quality, not photorealistic), made for toddlers aged 2 to 5. Smooth, squishy, slightly glossy materials, round shapes, big expressive eyes, gentle squash-and-stretch. Cute playful mystery mood: curious, silly, clean, proud. Nothing scary, nothing gross.
+LOCATION (a small morning bathroom, the same in every shot): Walls of square mint-green tiles. A cream-colored sink with a wide, smooth cream countertop; almost all action happens on top of this countertop, used like a little stage, with characters standing on it. On the wall above the sink hangs a round mirror with a light-wood frame. On the countertop to the right of the mirror stands a plain sky-blue plastic cup, and next to the cup lies a plain white toothpaste tube with a mint-green cap (no pattern, no text, no logo). The opposite wall has the same mint tiles and a small square window with a white frame, through which warm morning sunlight streams. The floor is white tile. No other objects, no signs, no writing anywhere.
+TORONGI (main character, a baby molar tooth, palm-sized): A short, chubby baby molar with a rounded-square top and two short, stubby roots at the bottom that work like little legs. Milky-white with a soft glossy sheen, pink blush cheeks, big round black eyes with no eyelashes, a small cute mouth, thin white arms. He wears a short round navy-blue cape tied at the neck and hanging down his back, and a small red bow tie at his neck. He always holds a small yellow flashlight in his right hand. No hat. Whether three small pale-yellow spots are on his forehead is stated in each shot; when present, they are three pea-sized, smooth, cute pale-yellow droplet-shaped dots, clean and soft, never holes and never dark.
+ALKONG (suspect 1, a corn kernel): A single plump corn kernel, slightly smaller than Torongi, deep warm yellow, with a tiny white tip on top. Round eyes, a smiling mouth, short little arms and legs.
+NORONG (suspect 2, an egg yolk): A round orange-yellow egg yolk character with sleepy half-moon eyes, sitting on top of half of a white boiled egg white like a little chair.
+QUACKY (suspect 3, a rubber duck toy): A smooth, shiny rubber duck toy, bright lemon-yellow, orange beak, small blue eyes. Clearly a glossy rubber toy, not a real bird.
+SOLSOL (the toothbrush): A child's toothbrush with a sky-blue handle and soft bristles mixed white and mint-green, with two round cartoon eyes just above the bristles. It moves by itself, hopping and bending gently.
+STAGING (consistent positions): Torongi's home spot is the center of the countertop, directly in front of the mirror. The three suspects stand in a row on the countertop to the left side, from left to right: Alkong, Norong on her egg-white half, Quacky. The sky-blue cup with Solsol and the toothpaste tube are on the right side.
+COLOR PALETTE: Mint green, pale sky blue, cream and milky white, with warm yellow accents from the suspects and the flashlight, navy cape and small red bow tie. Bright pastel colors, medium-high saturation, no dark shadows.
+LIGHTING: Bright, warm morning sunlight from the small window, soft diffused fill light, soft gentle shadows, steady even exposure. The flashlight only makes a soft, steady, round pool of warm yellow light, never flashing or flickering.
+
+[Shots]
+0.0–3.0s: Medium close-up, eye level, 50mm lens, static locked-off, shot from the mirror's point of view (the camera is where the round mirror is, looking straight at Torongi; the opposite mint-tiled wall and the small sunny window are softly blurred behind him). The opening frame: Torongi stands alone in the center of the cream countertop, facing the camera directly, both arms relaxed at his sides, eyes closed with a content little smile, three small pale-yellow spots on his forehead, the flashlight switched off in his right hand. Then he stretches both arms up in a cozy morning stretch, opens his eyes, looks at himself in the mirror (into the lens), notices the three yellow spots on his forehead, and his eyes go big and round in a cute, surprised (not scared) look as he touches his forehead with his left hand.
+3.0–5.5s: Medium shot, slight low angle, 35mm lens, slow dolly in. Torongi swishes his navy cape with a playful little half-spin back to face the camera and clicks on the yellow flashlight, which makes a soft, steady, round pool of warm yellow light. The three spots stay on his forehead.
+5.5–8.0s: Close-up, eye level, 85mm lens, shallow depth of field with soft bokeh, very slow push-in. Torongi narrows one eye in a playful, suspicious detective squint and holds the glowing flashlight up near his cheek, then turns his head and aims the soft round beam toward the left side of the countertop, where the suspects wait out of frame. (ends on: close-up of squinting Torongi aiming the flashlight beam toward frame left)
+
+[Lighting & color]
+Bright, warm morning sunlight from the small window, soft wraparound fill, low contrast, soft gentle shadows. Mint, sky blue, cream, and milky white with warm yellow accents; navy cape and small red bow tie. Clean digital 3D render, no film grain. Constant, steady exposure throughout; the flashlight glow is soft and steady.
+
+[Audio]
+Ambient: quiet, gently echoing small bathroom, very soft morning birds chirping outside the window. / SFX: a sleepy little stretch sigh; a tiny surprised gasp; Torongi says in a small, bright child voice: "Huh? Huh?!"; a soft whoosh of the cape; a small, soft flashlight click. / No singing, no vocals beyond the short line above, no background music. All sounds soft and at a steady volume.
+
+[Avoid]
+No on-screen text, no subtitles, no captions, no logos, no watermarks, no writing on the tube, cup, toothbrush, or walls. No singing, no lyrics, no narration, no background music. No flashing lights, no strobe, no flicker, no rapid blinking, no fast color changes, no camera shake. Nothing scary or gross: no tooth decay holes, no black or brown stains, no blood, no dentist tools, no pain, no crying, no frightened faces, no dark lighting, no loud or sudden sounds. No one eats or swallows toothpaste. No resemblance to real people, no existing cartoon characters, no brands. No detective hat, no magnifying glass. No deformed faces, no extra or missing fingers, no merged hands. No changes in character design, colors, cape, or bow tie between shots; Quacky stays a rubber toy.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 전체 (완성본 0~8초). 이음매에서 다듬어야 하면 0.0~7.7초 (8초 클립이라 여유가 적다). 0.0초는 루프 이음매이므로 앞을 자르지 않는다. 0.0초 프레임이 클립 5 끝 프레임과 다르면, 0.0~0.3초를 잘라내고 클립 5 끝과 0.2초 크로스페이드한다.
+- 앞 클립과의 연결: 첫 클립. 루프 재생 시 클립 5 끝(눈 감고 흐뭇한 정면 또롱이)에서 같은 그림으로 이어진다. 페이드·암전 없이 바로 붙인다.
+- 넣을 자막 (이 클립 기준 초 = 완성본 초)
+  · 0.0~3.0초: 상단 큰 제목 "누가 내 이에 노란 점?!" / "Who put yellow spots on me?!"
+  · 0.3~3.0초: 하단 가사 "어? 어? 노란 점! 누가 그랬지?" / "Huh? Huh? Yellow spots! Who did this?"
+  · 3.0~5.5초: "누구야 누구야 노란 점 누구야?" / "Who, who, who made the yellow spots?"
+  · 5.5~8.0초: "반짝 손전등, 탐정 또롱이 출동!" / "Flashlight on! Detective Torongi, go!"
+- 전체 가사 자막 표 (완성본 40초 기준, 한국어 위·영어 아래)
+  · 0~3: 어? 어? 노란 점! 누가 그랬지? / Huh? Huh? Yellow spots! Who did this?
+  · 3~5.5: 누구야 누구야 노란 점 누구야? / Who, who, who made the yellow spots?
+  · 5.5~8: 반짝 손전등, 탐정 또롱이 출동! / Flashlight on! Detective Torongi, go!
+  · 8~10.5: 옥수수? "나 아니야~" / Corn? "Not me~"
+  · 10.5~12.5: 노른자? "나 아니야~" / Yolk? "Not me~"
+  · 12.5~14: 오리? "꽥! 나 아니야~" / Duck? "Quack! Not me~"
+  · 14~16: 그럼 누구지? / Then who?
+  · 16~19: 어젯밤 치카치카… 깜빡했네! / Last night's brushing… I forgot!
+  · 19~24: 범인은 바로 나~ / The culprit is… me~
+  · 24~26: 치카치카 위아래, 동글동글 앞뒤로 / Brush brush up and down, round and round, front and back
+  · 26~28: 뽀글뽀글 하나 둘 셋, 노란 점 안녕! / Bubble bubble one two three, bye-bye spots!
+  · 28~30: 치카치카 위아래, 동글동글 앞뒤로 / Brush brush up and down, round and round, front and back
+  · 30~32: 뽀글뽀글 하나 둘 셋, 노란 점 안녕! / Bubble bubble one two three, bye-bye spots!
+  · 32~35: 누구야 누구야? 범인 찾았다! 치카치카 해결! / Who, who? Found it! Brushing solved it!
+  · 35~40: 반짝반짝 내 이, 냠냠 맛있다~ 어? 어? / Sparkly teeth, yum yum~ Huh? Huh?
+  · 특별 자막: 8~16초 용의자 옆 이름표 "알콩이 Corn" / "노롱이 Yolk" / "꽥꽥이 Duck", 19~21초 또롱이 옆 작게 "범인은 나?!" / "It was me?!"
+  · 마지막 프레임까지 자막을 유지하고 페이드아웃하지 않는다. "끝"·구독 요청 문구 없음.
+- 자막 스타일: 둥근 굵은 글씨, 흰 글자 + 민트/하늘색 테두리, 하단 1/3 안전 구역, 한국어 위(크게)·영어 아래(작게). 번쩍이는 자막 애니메이션 금지(부드러운 페이드만).
+- 노래 처리 방식 (지난 작업과 같은 방식): Veo에는 노래를 시키지 않고 효과음·주변음과 아주 짧은 감탄("Huh? Huh?!") 정도만 만들게 했다. 클립마다 멜로디·목소리·박자가 달라지면 이어 붙였을 때 어색하기 때문이다.
+  편집자가 40초 전체에 깔 반주를 직접 만든다 (새 멜로디, 밝은 장조 약 120BPM, 피치카토 현·실로폰·우쿨렐레 느낌, 탐정 구간 8~16초는 살금살금 피치카토 리듬). 원본 영상 멜로디 사용 금지, 외부 음원 내려받기 금지. 사용자가 4_clips/20261118_노란점탐정/bgm.mp3를 넣으면 그것을 우선 쓴다.
+  노래 음성 없이 반주 + 가사 자막으로 가면 업로드 제목·설명에 "따라 불러요" 같은 표현은 쓰지 않는다.
+- 생성 결과에서 확인할 점
+  · 노란 점이 연노랑 물방울 3개로 귀엽게 보이는지 (구멍·검은 점·갈색 얼룩이면 재생성)
+  · 또롱이가 모자를 쓰거나 돋보기를 들지 않았는지, 망토가 남색·나비넥타이가 빨강인지, 손전등이 오른손에 있는지
+  · 손전등 빛이 깜빡이지 않고 부드러운 원형 빛인지
+  · 0.0초 프레임이 "눈 감고 팔 내린 정면 또롱이"로 시작하는지 (루프 이음매)
+  · 화면에 글자·자막이 그려지지 않았는지

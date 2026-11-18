@@ -24,7 +24,7 @@ review/
 5_videos/*/work/
 
 # 업로드 기록 (영상 ID, 개인 채널 정보)
-5_videos/*/upload_result.json
+5_videos/*/upload_result*.json
 
 # 채널 분석 원본 데이터 (개인 채널 통계)
 6_reports/*/*.json

@@ -1,0 +1,61 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 2 / 5
+작성일: 2026-11-18 14:33
+기획안: 2_plans/20261118_노란점탐정.txt
+==================================================
+
+[1] 생성 설정
+- 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
+- 캐릭터 유지: Flow의 Ingredients to Video에 캐릭터 참고 이미지(또롱이, 알콩이, 노롱이, 꽥꽥이)를 넣는다 (클립 1에서 마음에 드는 또롱이 프레임을 캡처해 써도 된다).
+- 이어 붙이기: 앞 클립 _1의 마지막 장면(실눈 뜬 또롱이가 화면 왼쪽으로 손전등을 겨누는 클로즈업)에서 이어진다. 이음매는 시선 방향을 따라가는 컷 전환이라, 이 클립은 새 샷(손전등 빛이 알콩이에게 닿는 장면)으로 시작한다. Frames to Video의 시작 프레임은 쓰지 않아도 된다.
+- 저장 위치: 4_clips/20261118_노란점탐정/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 완성본 8~16초. 기획안 비트 8~10.5초(알콩이 "나 아니야~" 손 마구 흔들기), 10.5~13초(노롱이 졸린 눈 비비며 도리도리), 13~16초(꽥꽥이 "꽥!" 통 튀고 고개 젓기 → 또롱이 머리 긁적 "그럼 누구지?").
+- 전달할 것: 노란 용의자를 한 명씩 비추는 리듬감 있는 반복 개그와 억울한 표정 웃음, 그리고 "그럼 누구지?" 하는 궁금증.
+
+[3] PROMPT (아래를 통째로 Veo에 붙여넣기)
+Vertical 9:16, 720p, 8 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, cheerful toddler-friendly pacing, simple clean cuts, smooth camera moves. Sound effects and soft room ambience only: no singing, no music.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded 3D animation in the style of a high-end family animated feature (Pixar-like quality, not photorealistic), made for toddlers aged 2 to 5. Smooth, squishy, slightly glossy materials, round shapes, big expressive eyes, gentle squash-and-stretch. Cute playful mystery mood: curious, silly, clean, proud. Nothing scary, nothing gross.
+LOCATION (a small morning bathroom, the same in every shot): Walls of square mint-green tiles. A cream-colored sink with a wide, smooth cream countertop; almost all action happens on top of this countertop, used like a little stage, with characters standing on it. On the wall above the sink hangs a round mirror with a light-wood frame. On the countertop to the right of the mirror stands a plain sky-blue plastic cup, and next to the cup lies a plain white toothpaste tube with a mint-green cap (no pattern, no text, no logo). The opposite wall has the same mint tiles and a small square window with a white frame, through which warm morning sunlight streams. The floor is white tile. No other objects, no signs, no writing anywhere.
+TORONGI (main character, a baby molar tooth, palm-sized): A short, chubby baby molar with a rounded-square top and two short, stubby roots at the bottom that work like little legs. Milky-white with a soft glossy sheen, pink blush cheeks, big round black eyes with no eyelashes, a small cute mouth, thin white arms. He wears a short round navy-blue cape tied at the neck and hanging down his back, and a small red bow tie at his neck. He always holds a small yellow flashlight in his right hand. No hat. Whether three small pale-yellow spots are on his forehead is stated in each shot; when present, they are three pea-sized, smooth, cute pale-yellow droplet-shaped dots, clean and soft, never holes and never dark.
+ALKONG (suspect 1, a corn kernel): A single plump corn kernel, slightly smaller than Torongi, deep warm yellow, with a tiny white tip on top. Round eyes, a smiling mouth, short little arms and legs.
+NORONG (suspect 2, an egg yolk): A round orange-yellow egg yolk character with sleepy half-moon eyes, sitting on top of half of a white boiled egg white like a little chair.
+QUACKY (suspect 3, a rubber duck toy): A smooth, shiny rubber duck toy, bright lemon-yellow, orange beak, small blue eyes. Clearly a glossy rubber toy, not a real bird.
+SOLSOL (the toothbrush): A child's toothbrush with a sky-blue handle and soft bristles mixed white and mint-green, with two round cartoon eyes just above the bristles. It moves by itself, hopping and bending gently.
+STAGING (consistent positions): Torongi's home spot is the center of the countertop, directly in front of the mirror. The three suspects stand in a row on the countertop to the left side, from left to right: Alkong, Norong on her egg-white half, Quacky. The sky-blue cup with Solsol and the toothpaste tube are on the right side.
+COLOR PALETTE: Mint green, pale sky blue, cream and milky white, with warm yellow accents from the suspects and the flashlight, navy cape and small red bow tie. Bright pastel colors, medium-high saturation, no dark shadows.
+LIGHTING: Bright, warm morning sunlight from the small window, soft diffused fill light, soft gentle shadows, steady even exposure. The flashlight only makes a soft, steady, round pool of warm yellow light, never flashing or flickering.
+
+[Shots]
+0.0–2.5s: Medium shot, eye level, 50mm lens, static locked-off. A soft, steady, round pool of warm yellow flashlight light slides in from frame right and lands on Alkong the corn kernel, standing on the left side of the countertop. Alkong waves both little hands back and forth very fast and shakes his head with a pouty, wrongly-accused "not me!" face. Torongi's three yellow forehead spots are not in this shot.
+2.5–6.0s: Medium shot, eye level, 50mm lens, one smooth slow truck right following the round pool of light along the row of suspects. First the light lands on Norong the egg yolk sitting on her egg-white half: she rubs her sleepy half-moon eyes and slowly shakes her head no. Then the light moves on to Quacky the rubber duck, who hops straight up in place with a springy bounce and lands, then shakes his head no.
+6.0–8.0s: Medium shot, eye level, 35mm lens, static locked-off. Torongi stands in the center of the countertop in front of the mirror, three small pale-yellow spots still on his forehead, the flashlight glowing softly in his right hand. He scratches the top of his head with his left hand and tilts his head, puzzled, then slowly turns to look toward the sky-blue cup on the right side of the countertop. (ends on: medium shot of puzzled Torongi turning his head and flashlight toward the sky-blue cup at frame right)
+
+[Lighting & color]
+Bright, warm morning sunlight from the small window, soft wraparound fill, low contrast, soft gentle shadows. Mint, sky blue, cream, and milky white with warm yellow accents from the three suspects; the round flashlight pool is a soft warm yellow, steady and gentle. Clean digital 3D render, no film grain. Constant, steady exposure throughout.
+
+[Audio]
+Ambient: quiet, gently echoing small bathroom, very soft morning birds outside. / SFX: tiny squeaky "mm-mm!" head-shake hums from Alkong; a sleepy little "mm-mm" from Norong; a soft rubbery boing as Quacky hops, then a bright toy squeak "Quack!"; a light, curious "hmm?" from Torongi. / No singing, no words, no background music. All sounds soft and at a steady volume.
+
+[Avoid]
+No on-screen text, no subtitles, no captions, no logos, no watermarks, no writing on the tube, cup, toothbrush, or walls. No singing, no lyrics, no narration, no background music. No flashing lights, no strobe, no flicker, no rapid blinking, no fast color changes, no camera shake. Nothing scary or gross: no tooth decay holes, no black or brown stains, no blood, no dentist tools, no pain, no crying, no frightened faces, no dark lighting, no loud or sudden sounds. No one eats or swallows toothpaste. No resemblance to real people, no existing cartoon characters, no brands. No detective hat, no magnifying glass. No deformed faces, no extra or missing fingers, no merged hands. No changes in character design, colors, cape, or bow tie between shots; Quacky stays a rubber toy.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 전체 (완성본 8~16초). 이음매에서 다듬으면 0.2~7.8초 (8초 클립이라 여유가 적다).
+- 앞 클립과의 연결: 컷 전환. 클립 1 끝에서 또롱이가 화면 왼쪽으로 빛을 겨누고 → 이 클립 첫 장면에서 빛이 알콩이에게 닿는다 (시선 방향 일치). 반주의 탐정 피치카토 박자에 맞춰 붙인다.
+- 클립 3과의 연결: 이 클립 끝에서 또롱이가 오른쪽 양치컵을 바라본다 → 클립 3은 양치컵 샷으로 컷.
+- 넣을 자막 (이 클립 기준 초 / 완성본 초)
+  · 0.0~2.5초 (8.0~10.5): 옥수수? "나 아니야~" / Corn? "Not me~" + 알콩이 옆 이름표 "알콩이 Corn"
+  · 2.5~4.5초 (10.5~12.5): 노른자? "나 아니야~" / Yolk? "Not me~" + 노롱이 옆 이름표 "노롱이 Yolk"
+  · 4.5~6.0초 (12.5~14.0): 오리? "꽥! 나 아니야~" / Duck? "Quack! Not me~" + 꽥꽥이 옆 이름표 "꽥꽥이 Duck"
+  · 6.0~8.0초 (14.0~16.0): 그럼 누구지? / Then who?
+  · 이름표 위치는 빛이 비추는 캐릭터를 따라간다 (트럭 이동 중에는 해당 캐릭터 옆에 고정).
+- 생성 결과에서 확인할 점
+  · 용의자 순서가 왼쪽부터 알콩이·노롱이·꽥꽥이인지, 노롱이가 흰자 위에 앉아 있는지, 꽥꽥이가 고무 장난감 질감인지
+  · 손전등 빛이 깜빡이거나 번쩍이지 않는지
+  · 꽥꽥이 점프가 너무 높거나 빠르지 않은지 (제자리 통통 정도)
+  · 마지막 샷에서 또롱이 이마에 노란 점 3개가 있는지, 망토·나비넥타이 색이 클립 1과 같은지
+  · 화면에 글자·자막이 그려지지 않았는지
