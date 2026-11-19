@@ -1,0 +1,102 @@
+==================================================
+고정 캐릭터 설정 — 토리 & 나리
+작성일: 2026-11-19
+용도: Veo(Gemini 앱·Flow)에서 영상마다 같은 캐릭터가 나오도록 참고 이미지를 만들고, 클립 프롬프트에 고정 블록으로 넣는다.
+==================================================
+
+[0] 디자인 원칙 (지난 영상에서 배운 것)
+- 놀이터색깔의 봄이는 작은 디테일(구름 자수, 정수리 똥머리, 방울끈, 양말 색)이 클립마다 바뀌었다.
+  → 디테일을 줄이고, 멀리서도 보이는 큰 특징 3개(머리 모양, 옷 한 벌의 색, 신발 색)로만 캐릭터를 구분한다.
+- 옷은 무늬·글자·자수 없는 단색. 모자·가방·액세서리 없음 (클립마다 생겼다 사라지기 쉬움).
+- 두 아이의 색이 겹치지 않게: 토리는 주황, 나리는 민트. 색 배우기 영상의 빨강·노랑·파랑·초록과도 헷갈리지 않는 색이다.
+- 기존 유명 캐릭터와 닮지 않게: 정수리 한 가닥 곱슬머리, 대머리 아기, 동물 귀 후드, 원색 멜빵 같은 흔한 유아 채널 캐릭터 특징을 쓰지 않는다.
+
+[1] 캐릭터 소개
+이름 | 영어 표기 | 나이 느낌 | 상징 색 | 성격 | 짧은 감탄 (Veo 대사용)
+토리 | Tori | 만 4세 남자아이 | 주황 | 호기심 많고 먼저 뛰어드는 탐험가, 잘 놀라고 잘 웃음 | "Whoa!", "Let's go!"
+나리 | Nari | 만 4세 여자아이 | 민트 | 차분하고 꼼꼼한 정리 대장, 박수 치며 칭찬을 잘함 | "Yay!", "You did it!"
+
+- 둘은 친한 친구(또는 남매)로 설정한다. 한 명만 나와도 되고 둘이 함께 나와도 된다.
+- 이름은 짧고 소리가 비슷해 노래 가사에 넣기 좋다 ("토리 나리 치카치카").
+- 영상 안에서는 이름을 화면 글자로 쓰지 않는다. 이름표가 필요하면 편집자가 자막으로 넣는다.
+
+토리 (Tori)
+- 얼굴: 동글동글한 얼굴, 볼이 통통하고 늘 살짝 분홍빛. 큰 갈색 눈, 짧은 눈썹, 작은 코. 웃을 때 앞니 두 개가 보이는 큰 웃음.
+- 머리: 짙은 갈색 직모의 둥근 바가지 머리. 앞머리는 눈썹 바로 위에서 일자로 끝나고, 옆머리는 귀를 반쯤 덮는다. 위로 솟은 머리카락 없음.
+- 옷: 주황색 반팔 티셔츠(무늬 없음) + 남색 반바지(무릎 위).
+- 신발: 흰색 운동화, 흰 양말.
+
+나리 (Nari)
+- 얼굴: 동글동글한 얼굴, 볼이 통통하고 늘 살짝 분홍빛. 큰 짙은 갈색 눈, 짧은 속눈썹, 작은 코. 입을 크게 벌려 웃는다.
+- 머리: 검은 머리, 일자 앞머리. 귀 아래 양쪽으로 짧게 묶은 양갈래 머리(어깨에 닿지 않는 길이). 머리끈은 진한 산호색 동그란 고무줄 하나씩.
+- 옷: 민트색 반팔 원피스(무릎 위, 무늬·주머니·리본 없음).
+- 신발: 산호색 메리제인 구두(앞 끈 하나), 흰 양말.
+
+[2] 참고 이미지 프롬프트 — 캐릭터 시트 (이미지 생성용)
+Gemini 앱 이미지 생성(또는 Flow의 이미지 생성)에 넣는다. 캐릭터마다 따로 만든다.
+마음에 드는 결과가 나오면 그 이미지를 계속 쓴다 (같은 프롬프트로 다시 만들면 얼굴이 달라진다).
+
+---- 토리 캐릭터 시트 (아래를 통째로 붙여넣기) ----
+Character reference sheet of one original 3D animated character, "Tori", a 4-year-old boy, for a toddler animation series. Stylized 3D feature-animation look (high-end family animated film quality, not photorealistic), soft rounded shapes, smooth matte skin, gentle soft studio lighting, plain pure white background, no shadows on the background.
+Show the same character four times in one horizontal row, full body, standing in a relaxed neutral pose with arms slightly away from the body: front view, three-quarter view, side view, back view. Same size, same scale, evenly spaced.
+Tori: a chubby toddler with a big head about one third of his height and short limbs. Perfectly round face with full rosy-pink cheeks, big round warm-brown eyes with bright highlights, short soft eyebrows, a tiny button nose, and a big happy smile showing two small front teeth. Hair: straight, glossy dark-brown rounded bowl cut; blunt straight bangs end just above his eyebrows; the sides cover half of his ears; smooth on top with no hair sticking up. Outfit: a plain bright-orange short-sleeved crew-neck T-shirt, plain navy-blue shorts ending above the knees, white ankle socks, plain white sneakers. All clothes are solid colors with no patterns, no prints, no logos, no letters.
+No other characters, no props, no text, no labels, no captions, no watermark.
+
+---- 나리 캐릭터 시트 (아래를 통째로 붙여넣기) ----
+Character reference sheet of one original 3D animated character, "Nari", a 4-year-old girl, for a toddler animation series. Stylized 3D feature-animation look (high-end family animated film quality, not photorealistic), soft rounded shapes, smooth matte skin, gentle soft studio lighting, plain pure white background, no shadows on the background.
+Show the same character four times in one horizontal row, full body, standing in a relaxed neutral pose with arms slightly away from the body: front view, three-quarter view, side view, back view. Same size, same scale, evenly spaced.
+Nari: a chubby toddler with a big head about one third of her height and short limbs. Perfectly round face with full rosy-pink cheeks, big round dark-brown eyes with bright highlights and short lashes, a tiny button nose, and a wide open happy smile. Hair: glossy black hair with blunt straight bangs just above her eyebrows, tied into two short low pigtails just below her ears (not reaching her shoulders), each held by one round coral-pink hair tie. Outfit: a plain mint-green short-sleeved dress ending above the knees, with no pockets, no bows, no collar; white ankle socks; coral-pink Mary Jane shoes with one strap. All clothes are solid colors with no patterns, no prints, no logos, no letters.
+No other characters, no props, no text, no labels, no captions, no watermark.
+
+---- 정면 얼굴 한 장 (Ingredients에 넣기 가장 좋은 이미지) ----
+캐릭터 시트가 나온 뒤, 같은 대화에서 이어서 요청한다:
+Now make a single image of the same character from the sheet: front view, waist-up, looking at the camera with a gentle happy smile, same face, same hair, same outfit, plain pure white background, soft even studio light. No text.
+
+[3] Veo 확인용 클립 프롬프트 (8초)
+참고 이미지를 Flow의 Ingredients to Video에 넣고 이 프롬프트로 한 번 만들어, Veo가 캐릭터를 어떻게 그리는지 확인한다.
+마음에 드는 프레임은 캡처해 다음 영상들의 참고 이미지로 쓴다.
+
+---- 토리 확인 클립 ----
+Vertical 9:16, 720p, 8 seconds. Stylized 3D animated children's film look, soft rounded shapes, not photorealistic. A plain soft cream-white studio backdrop with a light floor, gentle even studio light.
+Tori, the boy from the reference image, stays exactly as designed: round chubby face, rosy cheeks, big brown eyes, dark-brown bowl cut with straight bangs, plain orange T-shirt, navy shorts, white sneakers.
+0–3s: medium-wide shot, eye level, static. Tori stands facing the camera, waves with one hand and says: "Hi! I'm Tori!"
+3–6s: slow orbit around Tori to his right side; he turns his head to follow the camera and smiles.
+6–8s: back to the front; he jumps once with both arms up and laughs.
+Audio: soft room tone, his short line, a small giggle. No music.
+He is the only character. No text, no subtitles, no captions, no logos, no watermarks. His face, hair and outfit stay identical for all 8 seconds.
+
+---- 나리 확인 클립 ----
+Vertical 9:16, 720p, 8 seconds. Stylized 3D animated children's film look, soft rounded shapes, not photorealistic. A plain soft cream-white studio backdrop with a light floor, gentle even studio light.
+Nari, the girl from the reference image, stays exactly as designed: round chubby face, rosy cheeks, big dark-brown eyes, black hair with straight bangs and two short low pigtails with coral-pink hair ties, plain mint-green dress, coral-pink Mary Jane shoes.
+0–3s: medium-wide shot, eye level, static. Nari stands facing the camera, claps twice and says: "Hi! I'm Nari!"
+3–6s: slow orbit around Nari to her left side; she turns her head to follow the camera, and her pigtails swing gently.
+6–8s: back to the front; she gives a small happy bounce with both hands on her cheeks.
+Audio: soft room tone, her short line, a small giggle. No music.
+She is the only character. No text, no subtitles, no captions, no logos, no watermarks. Her face, hair and outfit stay identical for all 8 seconds.
+
+---- 둘이 함께 확인 클립 ----
+Vertical 9:16, 720p, 8 seconds. Stylized 3D animated children's film look, soft rounded shapes, not photorealistic. A plain soft cream-white studio backdrop with a light floor, gentle even studio light.
+Tori (boy: dark-brown bowl cut, plain orange T-shirt, navy shorts, white sneakers) stands on the left; Nari (girl: black hair with two short low pigtails and coral-pink hair ties, plain mint-green dress, coral-pink Mary Jane shoes) stands on the right. Both are the same height, with round chubby faces and rosy cheeks, exactly as in the reference images.
+0–4s: medium-wide shot, eye level, static. They look at each other, then at the camera, and wave together. Tori says: "Whoa!" Nari says: "Yay!"
+4–8s: slow dolly in; they give each other a high five and laugh, then both raise their arms.
+Audio: soft room tone, short lines, giggles, a light clap sound on the high five. No music.
+Only these two children. Tori always stays on the left and Nari on the right. No text, no subtitles, no captions, no logos, no watermarks. Faces, hair and outfits stay identical for all 8 seconds.
+
+[4] 클립 프롬프트에 넣을 고정 블록 (디렉터용, 영상마다 글자 하나 바꾸지 않고 사용)
+나오는 캐릭터만 골라 넣는다. 장소·화풍 블록은 영상마다 디렉터가 따로 쓴다.
+
+TORI (always the same design): an original 3D animated 4-year-old boy, a chubby toddler with a big head about one third of his height and short limbs. Perfectly round face with full rosy-pink cheeks, big round warm-brown eyes with bright highlights, short soft eyebrows, a tiny button nose, and a big smile showing two small front teeth. Straight, glossy dark-brown rounded bowl cut with blunt bangs just above his eyebrows, sides covering half of his ears, smooth on top. A plain bright-orange short-sleeved crew-neck T-shirt, plain navy-blue shorts above the knees, white ankle socks, plain white sneakers. No hat, no bag, no accessories, no patterns, no letters on clothes.
+
+NARI (always the same design): an original 3D animated 4-year-old girl, a chubby toddler with a big head about one third of her height and short limbs. Perfectly round face with full rosy-pink cheeks, big round dark-brown eyes with bright highlights and short lashes, a tiny button nose, and a wide open happy smile. Glossy black hair with blunt bangs just above her eyebrows, tied into two short low pigtails just below her ears, each held by one round coral-pink hair tie. A plain mint-green short-sleeved dress above the knees with no pockets, bows or collar, white ankle socks, coral-pink Mary Jane shoes with one strap. No hat, no bag, no accessories, no patterns, no letters on clothes.
+
+[5] 피할 것 (Avoid, 클립마다 함께 넣기)
+Any change to the characters' face shape, hair style, hair color or outfit between shots; extra hair ties, buns, hats, bags or accessories; patterns, prints, embroidery, logos or letters on clothes; any extra children or adults; hands entering from outside the frame; resemblance to existing cartoon characters; on-screen text, subtitles, captions, name tags or watermarks.
+
+[6] Flow에서 쓰는 순서
+1. [2] 프롬프트로 캐릭터 시트와 정면 얼굴 이미지를 만든다 (토리, 나리 각각). 마음에 드는 결과를 저장한다.
+2. Flow에서 Ingredients to Video를 고르고, 나오는 캐릭터의 정면 이미지를 넣는다 (한 번에 참고 이미지 최대 3장: 토리, 나리, 장소 이미지 등).
+3. [3] 확인 클립으로 Veo가 캐릭터를 제대로 그리는지 먼저 본다. 얼굴이나 옷이 많이 다르면 정면 이미지를 바꿔 본다.
+4. 실제 영상은 디렉터가 쓴 클립 프롬프트를 붙여넣고, 같은 참고 이미지를 모든 클립에 똑같이 넣는다.
+5. 참고 이미지는 assets/characters/ 폴더에 tori_front.png, nari_front.png 같은 이름으로 넣어 두면 다음 작업에서도 같은 이미지를 쓸 수 있다.
+
+참고: 아이 캐릭터 이미지는 업로드할 때 막히는 경우가 있다. 실제 사람 아이 사진이 아니라 위처럼 만든 3D 캐릭터 이미지라면 보통 괜찮지만, 막히면 화풍을 조금 더 만화 쪽으로("more cartoonish, simplified features") 바꿔 다시 만든다.

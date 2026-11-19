@@ -1,0 +1,100 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 1 / 5
+작성일: 2026-11-19 16:08
+기획안: 2_plans/20261119_놀이터색깔.txt
+==================================================
+
+[0] 개요
+- 한 줄 콘셉트: 3D 아기 "봄이"가 텅 빈 햇살 놀이터에서 빨간 미끄럼틀 → 노란 병아리 흔들이 → 파란 그네 → 초록 터널을 차례로 타며 색 이름을 하나씩 만나고, 다시 미끄럼틀 꼭대기로 돌아가 두 손을 번쩍 드는 순간 처음으로 이어지는 40초 루프 색깔 놀이 쇼츠.
+- 목표 길이 40초 / 클립 수 5개 (8초 x 5, 세로 9:16, 720p). 편집에서 꼭 필요할 때만 전체 1~2초 이내로 자른다.
+- 전체 흐름
+  · 클립 1 (0~8초, 빨강): 미끄럼틀 꼭대기에서 두 손 번쩍 → "슈웅" 내려옴 → 착지, 미끄럼틀 가리키며 박수
+  · 클립 2 (8~16초, 노랑): 종종걸음으로 병아리 흔들이에 올라타 콩콩 흔들흔들, 깔깔 웃음
+  · 클립 3 (16~24초, 후렴1 + 파랑): 놀이터 한가운데서 두 팔 벌려 빙그르 → 파란 그네에 앉아 살살 흔들
+  · 클립 4 (24~32초, 초록): 초록 터널을 엉금엉금, 반대쪽 입구로 "까꿍" → 나와서 터널 토닥토닥 박수
+  · 클립 5 (32~40초, 후렴2 + 루프): 놀이기구를 가리키며 미끄럼틀로 달려가 계단을 오름 → 꼭대기에 앉아 두 손 번쩍 (클립 1 첫 프레임과 같은 그림)
+- 루프 장치(오프닝 프레임 = 클립 5 마지막 프레임): 미디엄 와이드, 미끄럼틀 정면 약 3m 앞에서 꼭대기 단 높이와 같은 눈높이, 35mm, 고정 카메라. 봄이가 빨간 미끄럼틀 꼭대기 흰 난간 단에 카메라를 보고 앉아 두 팔을 머리 위로 번쩍 들고 입을 활짝 벌려 웃는다. 빨간 활강로는 봄이 앞에서 화면 왼쪽 아래로 휘어 내려가고, 흰 계단은 단 뒤 오른쪽. 배경은 흐린 연두 나무·흰 울타리·하늘색 하늘과 뭉게구름.
+- 지난 작업(노란점탐정)에서 생긴 문제를 막는 장치
+  · 기획에 없는 사람·손 등장 → 고정 블록 CAST에 "봄이가 유일한 사람, 놀이터는 비어 있음, 화면 속 손·팔은 모두 봄이 것"을 긍정형으로 명시 + [Avoid]에 어른·다른 아이·화면 밖에서 들어오는 손을 모두 금지. 기획안의 "멀리 아이들 웃음소리" 주변음은 Veo가 아이들을 그려 넣을 빌미가 되므로 뺐다(편집자가 필요하면 반주 단계에서 아주 작게 깐다).
+  · 물건이 다른 물건으로 변함 → 놀이기구를 정확히 4개로 못 박고 모양·재질·크기를 고정, OBJECT RULE 문단으로 "단단한 물체, 8초 내내 모양·색·크기·위치 그대로" 명시 + [Avoid]에 변형·복제·새 소품 금지. 병아리 흔들이는 "플라스틱 탈것, 살아 있는 새 아님"을 반복.
+  · 캐릭터 얼굴형이 달라짐 → 봄이 얼굴을 비율(머리 = 키의 1/3, 가로가 약간 더 넓은 완전한 동그라미 얼굴, 눈 크기·간격)까지 구체적으로 고정, 각 클립에서 정면 또는 3/4 측면 위주로 촬영. Ingredients to Video 참고 이미지 사용을 강하게 권장([1] 참고).
+  · 화면에 이름 글자 → 대사를 웃음·"Whee!"·"Wow!"만으로 줄이고 이름("Bomi")을 대사에 넣지 않음, CLEAN SURFACES 문단 + [Avoid]에 이름표·캐릭터 이름 글자·자막·가사 글자 금지.
+- 참고한 Veo 프롬프트 가이드
+  · Google Cloud 블로그 "The ultimate prompting guide for Veo 3.1" (https://cloud.google.com/blog/products/ai-machine-learning/ultimate-prompting-guide-for-veo-3-1)
+    - 권장 공식: [Cinematography] + [Subject] + [Action] + [Context] + [Style & Ambiance] → 각 샷 줄을 "샷 크기·앵글·렌즈·움직임 → 봄이 → 동작 → 장소" 순으로 썼다
+    - 오디오: 대사는 큰따옴표, 효과음은 "SFX:", 주변음은 "Ambient:"로 표기
+    - 타임스탬프 프롬프트로 한 번의 생성 안에 여러 샷 지시 가능 → [Shots]의 초 단위 표기
+    - 제외할 것은 원하는 장면을 긍정형으로 묘사하는 것을 권장 → 고정 블록에 긍정형(CAST, OBJECT RULE, CLEAN SURFACES)으로 먼저 쓰고, 꼭 막을 것만 [Avoid]에 모았다. Flow·API에 negative prompt 칸이 있으면 [Avoid] 내용을 거기에 넣는다
+    - Ingredients to Video(참고 이미지로 캐릭터·장소 유지, 참고 이미지는 Gemini 이미지 생성(Nano Banana)으로 먼저 만들기 권장), First and last frame(시작·끝 이미지 사이를 자연스럽게 생성)
+
+[1] 생성 설정
+- 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
+- 캐릭터 유지 (중요): Flow의 Ingredients to Video에 봄이 참고 이미지를 꼭 넣는다. 얼굴형이 클립마다 달라지는 문제를 막는 가장 확실한 방법이다.
+  · 추천: Gemini 이미지 생성(Nano Banana)으로 고정 블록의 BOMI 문단을 넣어 "흰 배경, 정면 전신" 이미지 1장을 먼저 만들고, 같은 이미지에 놀이터 전경(4개 놀이기구 배치) 1장을 더해 두 장을 매 클립 참고 이미지로 쓴다.
+  · 또는 클립 1에서 마음에 드는 결과의 봄이 정면 프레임을 캡처해 이후 모든 클립에 같은 이미지를 넣는다.
+  · 참고 이미지 안에 다른 사람·글자가 없어야 한다 (그대로 따라 그린다).
+- 이어 붙이기: 첫 클립이라 앞 클립 없음. 이 클립의 0.0초 프레임은 루프 이음매(클립 5의 끝 프레임)이므로, 마음에 드는 결과가 나오면 0.0초 프레임을 이미지로 저장해 둔다 (클립 5를 만들 때 Frames to Video의 끝 프레임으로 넣는다). Frames to Video로 만들 경우 그 이미지를 이 클립의 시작 프레임으로 넣어도 된다.
+- negative prompt 칸이 있으면 [3]의 [Avoid] 문단을 거기에도 그대로 넣는다.
+- 저장 위치: 4_clips/20261119_놀이터색깔/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 완성본 0~8초. 기획안 비트 0~2초(훅: 미끄럼틀 꼭대기에서 두 손 번쩍, 설렘), 2~5초(휘어진 빨간 미끄럼틀 슈웅, 똥머리 살랑), 5~8초(폭 착지, 뒤돌아 미끄럼틀 가리키며 박수, "빨강!").
+- 전달할 것: 첫 1초 안에 원색 미끄럼틀 + 활짝 웃는 아기 얼굴로 시선 잡기, 첫 색 "빨강"을 미끄럼틀이 화면을 크게 채우며 각인.
+
+[3] PROMPT (아래를 통째로 Veo에 붙여넣기)
+Vertical 9:16, 720p, 8 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, bright and cheerful toddler-friendly pacing, smooth camera moves. Sound effects and soft outdoor ambience only: no singing, no music.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded 3D animation in the style of a high-end family animated feature (Pixar-like quality, not photorealistic), made for toddlers aged 2 to 5. Squishy, rounded shapes, smooth soft skin shading, big expressive eyes, gentle squash-and-stretch. Mood: joyful, sunny, bouncy, proud. Everything is clean, safe and gentle.
+CAST: Bomi is the one and only person in this entire video. The playground is completely empty except for Bomi: she plays alone and happily, and the frame contains only Bomi, the four play items, the ground, the trees, the fence and the sky. Every hand, arm and leg seen on screen is Bomi's own small toddler limb.
+BOMI (the only character, a 3-to-4-year-old girl, the same design in every shot): A chubby toddler with a big head (about one third of her height) and short limbs. Her face is perfectly round, slightly wider than tall, with full, soft, chubby cheeks that are always rosy pink, a small rounded chin, a tiny button nose, big round warm-brown eyes with bright highlights and short lashes, small soft eyebrows, and a small mouth that opens into a wide happy smile. This exact round face shape, eye size and spacing stay identical from every angle and in every shot. Hair: a short, glossy chestnut-brown bob cut level with her jawline, straight blunt bangs just above her eyebrows, and one small round bun on the very top of her head tied with a pink pom-pom hair tie. Outfit: a plain white short-sleeved round-neck T-shirt, light-lavender overall shorts with two shoulder straps, one small white embroidered cloud on the bib pocket, white ankle socks, and light-lavender sneakers with white soles and a velcro strap. The outfit never changes: no hat, no jacket, no backpack, no accessories.
+PLAYGROUND (one single location, the same in every shot): A small, sunny, empty playground on smooth beige rubber-chip ground. Behind it: a few round, soft light-green trees and a low white picket fence, under a clear sky-blue sky with a few puffy white clouds. Exactly four play items stand in a gentle semicircle, always in this order from left to right: (1) the red slide, (2) the yellow chick rider, (3) the blue swing, (4) the green tunnel. There are no other play items, benches, toys, balls, signs, buildings, animals or people.
+(1) RED SLIDE: A glossy bright-red plastic slide whose chute curves once in a gentle bend, starting at a small square top platform enclosed by a white railing; a short set of white steps with white handrails leads up to the platform at the back right. The platform is low, about the height of an adult's shoulder.
+(2) YELLOW CHICK RIDER: A rigid, rounded, glossy yellow plastic spring rider shaped like a plump baby chick, with a small orange beak, two round black dot eyes, a seat on its back and two white handles at the sides of its head, mounted on one thick silver coil spring fixed to the ground. It is always a plastic ride, never a living bird.
+(3) BLUE SWING: One flat, smooth, sky-to-royal-blue plastic board seat hanging low (about knee height above the ground) on two white ropes from a white A-frame swing set with one single seat.
+(4) GREEN TUNNEL: A short, straight, bright-green plastic crawl tube lying on the ground, just big enough for a toddler to crawl through, with a thicker round rim at each open end.
+OBJECT RULE: All four play items are solid, rigid objects. Each keeps exactly the same shape, color, size and position for the entire clip; nothing transforms, morphs, melts, merges, duplicates or turns into another object.
+CLEAN SURFACES: The play items, fence, ground, sky and Bomi's clothes are completely plain, with no letters, numbers, names, labels, signs, stickers or patterns other than the small embroidered cloud.
+COLOR PALETTE: Pure, vivid primary colors on the four play items (red, yellow, blue, green); softly desaturated light-green trees and soft sky blue in the background; Bomi in white and light lavender so she never blends with the four learning colors. Bright, clean, medium-high saturation.
+LIGHTING: Clear late-morning sunshine from the upper left and slightly behind, soft short shadows, a warm golden rim light on Bomi's hair and shoulders, soft bounce fill from the beige ground, steady even exposure.
+
+[Shots]
+0.0–2.0s: Medium-wide shot, eye level with the slide's top platform, 35mm lens, static locked-off, the camera about 3 meters in front of the red slide, facing it straight on. The opening frame: Bomi sits alone on the small top platform of the red slide behind the white railing, facing the camera, both arms raised high above her head, mouth open in a wide, delighted smile; the curved red chute runs down from in front of her toward the lower left of the frame; the white steps are behind the platform at the back right; soft-blurred round light-green trees, the low white fence and blue sky with puffy clouds behind her. She holds this pose for about one second, then lowers her hands to the sides of the chute and pushes off, sitting upright, facing forward, feet first.
+2.0–5.0s: Medium shot, slightly low angle, 35mm lens, smooth tracking shot that follows her down and swings gently around the curve of the slide. Bomi slides down the glossy red chute sitting upright, feet first, both hands lightly on the sides, giggling, the small top bun with the pink pom-pom bouncing. The red chute keeps its exact shape.
+5.0–8.0s: Medium shot, eye level, 50mm lens, slow dolly out to a wider frame so the whole red slide fills most of the background. Bomi lands softly at the bottom on her feet with a little bounce, turns around, points at the red slide with one small finger, then claps her hands happily and proudly. (ends on: medium shot of Bomi standing at the foot of the red slide, clapping, turning her head and body toward frame right, where the yellow chick rider stands just out of frame)
+
+[Lighting & color]
+Clear late-morning sunlight from the upper left and slightly behind, warm golden rim light on Bomi's hair, soft bounce fill from the beige ground, low contrast, soft short shadows. Vivid red, yellow, blue and green play items; light-green trees and sky blue softly blurred behind; Bomi in white and light lavender. Clean digital 3D render, no film grain. Constant, steady exposure for all 8 seconds.
+
+[Audio]
+Ambient: a quiet, sunny playground, small birds chirping, a soft breeze rustling the leaves. / SFX: Bomi says with a bright toddler voice: "Whee!" as she pushes off; a long smooth plastic "whoosh" sliding sound; a soft, puffy landing thump; Bomi giggles; small, light hand claps. / No singing, no other words, no background music. All sounds soft and at a steady volume.
+
+[Avoid]
+No on-screen text, no subtitles, no captions, no lyrics on screen, no title, no name tags, no character names written anywhere, no letters or numbers on objects, no signs, no logos, no watermarks. No other people: no adults, no parents, no teachers, no other children, no babies, no crowds, no human hands or arms reaching into the frame, no helping hands, no faces in the background, no shadows of other people. No animals and no living birds. No object morphing: no play item changing shape, color or size, no objects turning into other objects, no extra or duplicated play items, no new props appearing. No changes to Bomi between shots: no change in face shape, eye size, hair color, hair length, bangs, bun or pink hair tie, no outfit or color changes. No deformed faces, no extra or missing fingers, no merged hands, no extra limbs. No singing, no narration, no spoken words beyond short giggles and the short exclamations listed, no background music. No flashing lights, no strobe, no flicker, no camera shake, no fast color changes. Nothing dangerous: no standing on the slide, no climbing up the chute, no jumping from high places, no high swinging, no falling, no crying, no injury. No resemblance to real people, no existing cartoon characters, no brands.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 전체 (완성본 0~8초). 0.0초는 루프 이음매이므로 앞을 자르지 않는다. 꼭 다듬어야 하면 끝을 7.6~8.0초 사이에서 자른다.
+  0.0초 프레임이 클립 5 끝 프레임과 어긋나면 클립 5 끝과 0.2초 크로스페이드로 붙인다.
+- 앞 클립과의 연결: 첫 클립. 루프 재생 시 클립 5 끝(꼭대기에서 두 손 번쩍)과 같은 그림으로 이어진다. 페이드·암전 없이 바로 붙인다.
+- 넣을 자막 (이 클립 기준 초 = 완성본 초, 한국어 위 / 영어 아래, 하단 중앙, 색 이름 단어는 해당 색 글자로 강조)
+  · 0.0~3.0초: "슈웅~ 무슨 색?" / "Whee~ What color?"
+  · 5.0~8.0초: "빨강! 빨간 미끄럼틀" / "RED! The red slide" ("빨강", "RED"는 빨간 글자)
+- 전체 가사 자막 표 (완성본 40초 기준)
+  · 0~3: 슈웅~ 무슨 색? / Whee~ What color?
+  · 5~8: 빨강! 빨간 미끄럼틀 / RED! The red slide
+  · 8~11: 콩콩~ 무슨 색? / Boing~ What color?
+  · 12~16: 노랑! 노란 병아리 / YELLOW! The yellow chick
+  · 16~20: 빨강 노랑 파랑 초록 / 알록달록 우리 놀이터 / Red, yellow, blue and green / Our colorful playground!
+  · 20~24: 흔들~ 파랑! 파란 그네 / Swing~ BLUE! The blue swing
+  · 24~28: 까꿍~ 무슨 색? / Peekaboo~ What color?
+  · 28~32: 초록! 초록 터널 / GREEN! The green tunnel
+  · 32~37: 빨강 노랑 파랑 초록 / 알록달록 우리 놀이터 / Red, yellow, blue and green / Our colorful playground!
+  · 37~40: 한 번 더 타 볼까? / One more time?
+  · 마지막 프레임까지 자막 유지, 페이드아웃·"끝"·구독 요청 없음.
+- 음악 처리: Veo에는 노래·음악을 시키지 않았다(효과음·주변음과 "Whee!" 같은 짧은 감탄만). 편집자가 40초 전체에 밝은 4/4박자 약 120BPM 동요풍 반주(실로폰·우쿨렐레·손뼉·작은 탬버린, 새 멜로디)를 한 번에 깐다. 끝을 닫는 엔딩 화음 없이 첫 소절로 이어지게. 사용자가 bgm.mp3를 넣으면 그것을 우선. 원본 영상 멜로디 사용 금지.
+- 생성 결과에서 확인할 점
+  · 0.0초가 "꼭대기에 앉아 두 손 번쩍, 정면" 그림으로 시작하는지 (루프 이음매)
+  · 화면에 봄이 말고 다른 사람·손이 없는지, 미끄럼틀이 내려오는 동안 모양이 변하지 않는지
+  · 봄이 얼굴이 동그랗고 볼이 통통한지, 앞머리·똥머리·분홍 방울끈·연보라 멜빵·구름 자수가 있는지 (이 결과를 이후 클립의 기준으로 삼는다)
+  · 앉아서 발부터 내려오는 바른 자세인지 (서서·엎드려 타면 재생성)
+  · 화면에 글자·이름·자막이 그려지지 않았는지

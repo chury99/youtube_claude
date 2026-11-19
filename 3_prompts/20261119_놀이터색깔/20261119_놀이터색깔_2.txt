@@ -1,0 +1,62 @@
+==================================================
+디렉터 영상 프롬프트 — 클립 2 / 5
+작성일: 2026-11-19 16:08
+기획안: 2_plans/20261119_놀이터색깔.txt
+==================================================
+
+[1] 생성 설정
+- 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
+- 캐릭터 유지 (중요): Flow의 Ingredients to Video에 봄이 참고 이미지를 꼭 넣는다. 얼굴형이 클립마다 달라지는 문제를 막는 가장 확실한 방법이다.
+  · 추천: Gemini 이미지 생성(Nano Banana)으로 고정 블록의 BOMI 문단을 넣어 "흰 배경, 정면 전신" 이미지 1장을 먼저 만들고, 같은 이미지에 놀이터 전경(4개 놀이기구 배치) 1장을 더해 두 장을 매 클립 참고 이미지로 쓴다.
+  · 또는 클립 1에서 마음에 드는 결과의 봄이 정면 프레임을 캡처해 이후 모든 클립에 같은 이미지를 넣는다.
+  · 참고 이미지 안에 다른 사람·글자가 없어야 한다 (그대로 따라 그린다).
+- 이어 붙이기: 앞 클립 _1의 마지막 장면(미끄럼틀 아래에서 박수 치며 화면 오른쪽을 보는 봄이)에서 이어짐. Flow의 Frames to Video를 쓰면 시작 프레임에 클립 1의 마지막 프레임을 넣는다.
+- negative prompt 칸이 있으면 [3]의 [Avoid] 문단을 거기에도 그대로 넣는다.
+- 저장 위치: 4_clips/20261119_놀이터색깔/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
+
+[2] 이 클립의 역할 (한국어)
+- 완성본 8~16초. 기획안 비트 8~11초(종종걸음으로 노란 병아리 흔들이에 다가가 올라탐), 11~16초(손잡이 잡고 콩콩 흔들흔들, 깔깔, 병아리 노란 몸통 크게, "노랑!").
+- 전달할 것: 두 번째 색 "노랑". 스프링 흔들이의 통통 튀는 리듬과 깔깔 웃음으로 신나는 기분.
+
+[3] PROMPT (아래를 통째로 Veo에 붙여넣기)
+Vertical 9:16, 720p, 8 seconds, cinematic 24fps, high-quality stylized 3D animated children's film look (Pixar-like feature animation quality, not photorealistic), clean digital render, bright and cheerful toddler-friendly pacing, smooth camera moves. Sound effects and soft outdoor ambience only: no singing, no music.
+
+[Fixed look — identical in every clip]
+STYLE: Soft, rounded 3D animation in the style of a high-end family animated feature (Pixar-like quality, not photorealistic), made for toddlers aged 2 to 5. Squishy, rounded shapes, smooth soft skin shading, big expressive eyes, gentle squash-and-stretch. Mood: joyful, sunny, bouncy, proud. Everything is clean, safe and gentle.
+CAST: Bomi is the one and only person in this entire video. The playground is completely empty except for Bomi: she plays alone and happily, and the frame contains only Bomi, the four play items, the ground, the trees, the fence and the sky. Every hand, arm and leg seen on screen is Bomi's own small toddler limb.
+BOMI (the only character, a 3-to-4-year-old girl, the same design in every shot): A chubby toddler with a big head (about one third of her height) and short limbs. Her face is perfectly round, slightly wider than tall, with full, soft, chubby cheeks that are always rosy pink, a small rounded chin, a tiny button nose, big round warm-brown eyes with bright highlights and short lashes, small soft eyebrows, and a small mouth that opens into a wide happy smile. This exact round face shape, eye size and spacing stay identical from every angle and in every shot. Hair: a short, glossy chestnut-brown bob cut level with her jawline, straight blunt bangs just above her eyebrows, and one small round bun on the very top of her head tied with a pink pom-pom hair tie. Outfit: a plain white short-sleeved round-neck T-shirt, light-lavender overall shorts with two shoulder straps, one small white embroidered cloud on the bib pocket, white ankle socks, and light-lavender sneakers with white soles and a velcro strap. The outfit never changes: no hat, no jacket, no backpack, no accessories.
+PLAYGROUND (one single location, the same in every shot): A small, sunny, empty playground on smooth beige rubber-chip ground. Behind it: a few round, soft light-green trees and a low white picket fence, under a clear sky-blue sky with a few puffy white clouds. Exactly four play items stand in a gentle semicircle, always in this order from left to right: (1) the red slide, (2) the yellow chick rider, (3) the blue swing, (4) the green tunnel. There are no other play items, benches, toys, balls, signs, buildings, animals or people.
+(1) RED SLIDE: A glossy bright-red plastic slide whose chute curves once in a gentle bend, starting at a small square top platform enclosed by a white railing; a short set of white steps with white handrails leads up to the platform at the back right. The platform is low, about the height of an adult's shoulder.
+(2) YELLOW CHICK RIDER: A rigid, rounded, glossy yellow plastic spring rider shaped like a plump baby chick, with a small orange beak, two round black dot eyes, a seat on its back and two white handles at the sides of its head, mounted on one thick silver coil spring fixed to the ground. It is always a plastic ride, never a living bird.
+(3) BLUE SWING: One flat, smooth, sky-to-royal-blue plastic board seat hanging low (about knee height above the ground) on two white ropes from a white A-frame swing set with one single seat.
+(4) GREEN TUNNEL: A short, straight, bright-green plastic crawl tube lying on the ground, just big enough for a toddler to crawl through, with a thicker round rim at each open end.
+OBJECT RULE: All four play items are solid, rigid objects. Each keeps exactly the same shape, color, size and position for the entire clip; nothing transforms, morphs, melts, merges, duplicates or turns into another object.
+CLEAN SURFACES: The play items, fence, ground, sky and Bomi's clothes are completely plain, with no letters, numbers, names, labels, signs, stickers or patterns other than the small embroidered cloud.
+COLOR PALETTE: Pure, vivid primary colors on the four play items (red, yellow, blue, green); softly desaturated light-green trees and soft sky blue in the background; Bomi in white and light lavender so she never blends with the four learning colors. Bright, clean, medium-high saturation.
+LIGHTING: Clear late-morning sunshine from the upper left and slightly behind, soft short shadows, a warm golden rim light on Bomi's hair and shoulders, soft bounce fill from the beige ground, steady even exposure.
+
+[Shots]
+0.0–3.0s: Medium shot, eye level, 35mm lens, slow truck right following Bomi. It starts where the previous moment ended: Bomi stands at the foot of the red slide, finishes a happy clap, then toddles with quick, short, bouncy steps to the right toward the yellow chick rider. She reaches it, holds the two white handles and climbs onto the seat on the chick's back by herself, carefully and easily (the rider is low).
+3.0–8.0s: Medium close-up, slightly low angle, 50mm lens, gentle slow push-in, shallow depth of field so the glossy yellow chick body fills the lower half of the frame. Bomi sits on the chick rider holding both white handles and rocks gently back and forth on the silver spring, boing, boing, laughing out loud with her eyes squeezed in joy; her pink pom-pom bun bobs with each rock. The chick rider stays the same rigid yellow plastic ride, same orange beak and black dot eyes. (ends on: medium close-up of Bomi on the yellow chick rider slowing to a stop, still holding the handles, beaming at the camera)
+
+[Lighting & color]
+Clear late-morning sunlight from the upper left and slightly behind, warm golden rim light on Bomi's hair, soft bounce fill from the beige ground, low contrast, soft short shadows. Vivid red, yellow, blue and green play items; light-green trees and sky blue softly blurred behind; Bomi in white and light lavender. Clean digital 3D render, no film grain. Constant, steady exposure for all 8 seconds.
+
+[Audio]
+Ambient: a quiet, sunny playground, small birds chirping, a soft breeze rustling the leaves. / SFX: light, quick little footsteps on rubber ground; a springy "boing, boing" metal coil sound in rhythm with each rock; Bomi giggles and laughs out loud; Bomi says with a bright toddler voice: "Wow!" / No singing, no other words, no background music. All sounds soft and at a steady volume.
+
+[Avoid]
+No on-screen text, no subtitles, no captions, no lyrics on screen, no title, no name tags, no character names written anywhere, no letters or numbers on objects, no signs, no logos, no watermarks. No other people: no adults, no parents, no teachers, no other children, no babies, no crowds, no human hands or arms reaching into the frame, no helping hands, no faces in the background, no shadows of other people. No animals and no living birds. No object morphing: no play item changing shape, color or size, no objects turning into other objects, no extra or duplicated play items, no new props appearing. No changes to Bomi between shots: no change in face shape, eye size, hair color, hair length, bangs, bun or pink hair tie, no outfit or color changes. No deformed faces, no extra or missing fingers, no merged hands, no extra limbs. No singing, no narration, no spoken words beyond short giggles and the short exclamations listed, no background music. No flashing lights, no strobe, no flicker, no camera shake, no fast color changes. Nothing dangerous: no standing on the slide, no climbing up the chute, no jumping from high places, no high swinging, no falling, no crying, no injury. No resemblance to real people, no existing cartoon characters, no brands.
+
+[4] 편집자 메모 (한국어)
+- 쓸 구간: 0.0~8.0초 전체 (완성본 8~16초). 꼭 다듬어야 하면 앞 0.0~0.3초(박수 끝부분 중복)를 잘라낸다.
+- 앞 클립과의 연결: 이어지는 동작. 클립 1 끝 "박수 치며 오른쪽으로 몸을 돌림" → 이 클립 첫 "박수 마치고 오른쪽으로 걸어감". 위치가 어긋나면 0.15초 크로스페이드.
+- 넣을 자막 (이 클립 기준 초 → 완성본 초)
+  · 0.0~3.0초 (8~11초): "콩콩~ 무슨 색?" / "Boing~ What color?"
+  · 4.0~8.0초 (12~16초): "노랑! 노란 병아리" / "YELLOW! The yellow chick" ("노랑", "YELLOW"는 노란 글자, 흰 테두리로 가독성 확보)
+- 생성 결과에서 확인할 점
+  · 병아리 흔들이가 살아 있는 새나 다른 물건으로 변하지 않는지, 스프링 1개·손잡이 2개 그대로인지
+  · 봄이가 올라탈 때 어른 손이 들어와 도와주지 않는지 (가장 자주 생기는 문제, 보이면 재생성)
+  · 봄이 얼굴형·머리 모양·옷이 클립 1과 같은지
+  · 흔들림이 부드럽고 낮은지 (과격하면 재생성)
+  · 화면에 글자·이름이 없는지
