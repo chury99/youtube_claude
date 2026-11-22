@@ -44,7 +44,7 @@ tools: Bash, Read, Write, Glob, Grep, mcp__Claude_Browser__browser_batch, mcp__C
   ```bash
   awk '/^\[3\] PROMPT/{f=1;next} /^\[4\] /{f=0} f' 3_prompts/<기본이름>/<기본이름>_1.txt
   ```
-- 참고 이미지가 필요하면 `assets/characters/tori_front.png`, `nari_front.png`가 있는지 확인한다. 없으면 Text to Video로 진행하고 기록한다.
+- 프롬프트 [1]이 참고 이미지를 쓰라고 하면 그 파일이 있는지 확인한다 (예: 클립 1에서 캡처한 캐릭터 프레임). 없으면 Text to Video로 진행하고 기록한다.
 - 끝 프레임을 클립 1의 첫 프레임으로 쓰라는 지시(Frames to Video)가 있으면, 클립 1을 먼저 만든 뒤 `ffmpeg -y -i 4_clips/<기본이름>/<기본이름>_1.mp4 -frames:v 1 4_clips/<기본이름>/frame_1_first.png`로 뽑아 쓴다.
 
 ### 2. Flow 열기와 설정

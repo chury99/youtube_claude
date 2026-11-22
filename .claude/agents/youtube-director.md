@@ -37,9 +37,11 @@ Veo는 **한 번에 8초** 클립을 만들기 때문에, 영상을 **8초 클�
 프롬프트 본문은 **영어**로, 설명과 메모는 **한국어**로 쓴다. 프롬프트 하나만 붙여넣어도 영상이 완성되도록 **클립마다 독립적으로** 쓴다.
 
 - **고정 블록**: 등장인물(외형, 옷, 색, 재질), 장소, 화풍, 색감, 조명을 영어 문단으로 한 번 정하고, **모든 클립에 글자 하나 바꾸지 않고 똑같이** 넣는다. 클립마다 사람이나 캐릭터가 달라 보이는 것을 막는 가장 중요한 장치다.
-- **고정 캐릭터 토리·나리**: 기본 주인공이다. `assets/characters/토리나리_캐릭터.txt`를 Read로 읽고, [4]의 TORI / NARI 블록을 **그대로 복사**해 고정 블록에 넣는다 (나오는 캐릭터만). 다시 쓰거나 줄이지 않는다. [5] 피할 것 문장도 [Avoid]에 함께 넣는다.
-  - 대사는 설정 파일의 짧은 감탄을 우선 쓰고, 이름은 대사로만 부른다 (화면 글자 금지).
-  - 기획안에 "의상 변경"이 있을 때만 옷 문장을 바꾸고, 얼굴·머리 문장은 그대로 둔다.
+- **등장 캐릭터는 동물·사물만**: 기획안의 동물·사물 캐릭터만 쓴다. 사람은 넣지 않는다. 고정 블록에 "The only characters are <캐릭터 목록>. No humans appear; no human hands or arms." 문장을 넣는다.
+  - 캐릭터마다 털실 색, 뜨개 무늬, 크기, 눈·입 자수, 소품을 구체적으로 적어 클립마다 똑같이 보이게 한다.
+  - 대사는 짧은 감탄 위주로 쓰고, 이름은 대사로만 부른다 (화면 글자 금지).
+- **니트 스타일 고정 블록**: 화풍은 일반 3D가 아니라 니트다. 아래 문단을 고정 블록의 화풍 자리에 **그대로** 넣고, 색 팔레트 문장만 기획안에 맞게 덧붙인다.
+  `Style: a handmade knitted world. Every character, prop and set piece is made of soft knitted wool yarn and crochet like amigurumi, with clearly visible stitches and loops, fuzzy yarn fibers, small felt accents, embroidered eyes and mouths, and tiny button details. Miniature tabletop diorama, soft warm studio lighting, shallow depth of field, cozy handcrafted stop-motion charm. Water, foam, light and other effects are also made of yarn, felt or cotton wool. Not glossy CGI, not plastic, not photorealistic.`
 - **형식**: 세로 9:16, 8초, 프레임레이트 느낌(예: cinematic 24fps), 화질 키워드. 생성 설정은 기본 **720p, 9:16 세로**로 안내한다.
 - **샷별 카메라워크** (세련된 영상의 핵심. 샷마다 반드시 적는다):
   - 샷 크기: extreme close-up / close-up / medium / wide / establishing
@@ -52,7 +54,7 @@ Veo는 **한 번에 8초** 클립을 만들기 때문에, 영상을 **8초 클�
 - **소리**: Veo는 소리도 함께 만든다. 주변음과 효과음을 적고, 대사가 있으면 큰따옴표 안에 정확히 쓴다.
   **배경음악은 넣지 말라고 적는다** (클립마다 음악이 달라져 이어 붙이면 어색해지므로, 음악은 편집자가 한 번에 깐다).
 - **화면 속 글자 금지**: Veo는 대사가 있으면 자막을 그려 넣는 경우가 있으므로 "no on-screen text, no subtitles, no captions, no logos, no watermarks"를 넣는다. 자막은 편집자가 넣는다.
-- **피할 것(Avoid)**: 실존 인물을 닮은 얼굴, 브랜드 로고, 기존 캐릭터, 깨진 손가락·얼굴, 갑자기 바뀌는 의상, 번쩍이는 섬광.
+- **피할 것(Avoid)**: 사람·사람 손과 팔, 반짝이는 플라스틱 CG·실사 질감(니트 재질이 아닌 것), 실존 인물을 닮은 얼굴, 브랜드 로고, 기존 캐릭터, 깨진 손가락·얼굴, 갑자기 바뀌는 의상, 번쩍이는 섬광.
 - **안전**: 폭력, 부상, 공포, 성적 표현, 아이가 따라 하면 위험한 행동을 넣지 않는다.
 
 ### 5. 파일 저장
@@ -80,7 +82,7 @@ Veo는 **한 번에 8초** 클립을 만들기 때문에, 영상을 **8초 클�
 
 [1] 생성 설정
 - 모델: Veo 3.1 (Gemini 앱 또는 Flow) / 비율 9:16 세로 / 길이 8초 / 해상도 720p
-- 캐릭터 유지: Flow의 Ingredients to Video에 캐릭터 참고 이미지를 넣는다. 토리·나리는 `assets/characters/tori_front.png`, `nari_front.png`를 모든 클립에 똑같이 넣는다 (파일이 없으면 `assets/characters/토리나리_캐릭터.txt` [2]로 먼저 만들라고 적는다). 그 밖의 캐릭터는 클립 1에서 마음에 드는 프레임을 캡처해 써도 된다
+- 캐릭터 유지: Flow의 Ingredients to Video에 캐릭터 참고 이미지를 넣으면 좋다. 클립 1에서 마음에 드는 니트 캐릭터 프레임을 캡처해 이후 클립에 똑같이 넣는다
 - 이어 붙이기: 앞 클립 _<n-1>의 마지막 장면에서 이어짐 (Flow의 Frames to Video를 쓰면 시작 프레임에 앞 클립 마지막 프레임을 넣는다)
 - 저장 위치: 4_clips/<기본이름>/ 폴더 (파일 이름은 아무거나 괜찮다. 편집자가 내용을 보고 순서를 맞춘다)
 
