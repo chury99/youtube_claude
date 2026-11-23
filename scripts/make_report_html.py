@@ -23,10 +23,9 @@ OPEN_SECTIONS = {"1", "7"}          # 처음부터 펼칠 섹션
 HIGHLIGHT_SECTIONS = {"1": "hl-summary", "7": "hl-strategy"}
 
 CSS = """
-:root{--bg:#f4f6fa;--card:#fff;--text:#1d2330;--muted:#6b7385;--line:#e3e7ef;--accent:#3b6cf6;
---accent-soft:#eaf0ff;--good:#10a37f;--good-soft:#e6f7f1;--warn:#d97706;--warn-soft:#fff4e0;--chip:#f0f2f7}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#181c24;--text:#e8ebf2;--muted:#9aa3b5;--line:#2a303c;
---accent:#7c9cff;--accent-soft:#1d2741;--good:#3ccf9e;--good-soft:#14302a;--warn:#f0a43a;--warn-soft:#33270f;--chip:#222836}}
+:root{--bg:#0f1218;--card:#181c24;--text:#e8ebf2;--muted:#9aa3b5;--line:#2a303c;
+--accent:#7c9cff;--accent-soft:#1d2741;--good:#3ccf9e;--good-soft:#14302a;--warn:#f0a43a;--warn-soft:#33270f;--chip:#222836}
+/* 다크 테마 고정 (사용자 기준, 2026-11-23: 밝은 화면은 눈이 아픔) */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);
@@ -59,7 +58,7 @@ details.sec[open]>summary .chev{transform:rotate(90deg)}
 .hl-summary>summary{background:var(--accent-soft)}
 .hl-strategy{border-color:var(--good)}
 .hl-strategy>summary{background:var(--good-soft)}
-.hl-strategy>summary .n{background:var(--good);color:#fff}
+.hl-strategy>summary .n{background:var(--good);color:#0f1218}
 h3{font-size:15px;margin:16px 0 6px;color:var(--accent)}
 p{margin:6px 0}
 ul,ol{margin:6px 0;padding-left:20px}
@@ -223,7 +222,7 @@ def build(txt_path, data_path=None):
     name = title.split("—")[-1].strip() if "—" in title else title
     doc = ["<!doctype html><html lang='ko'><head><meta charset='utf-8'>",
            "<meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>",
-           "<meta name='color-scheme' content='light dark'>",
+           "<meta name='color-scheme' content='dark'>",
            f"<title>{esc(name)} 채널 리포트</title><style>{CSS}</style></head><body><div class='wrap'>",
            f"<header><div class='kicker'>📊 채널 분석 리포트</div><h1>{esc(name)}</h1>"
            f"<div class='meta'>{esc(meta)}</div></header>"]
