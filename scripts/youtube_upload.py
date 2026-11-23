@@ -21,7 +21,11 @@ upload.json 형식:
   "description": "설명 (5000자 이하, 해시태그 포함 가능)",
   "tags": ["태그1", "태그2"],
   "categoryId": "24",
-  "defaultLanguage": "ko",
+  "defaultLanguage": "en",
+  "defaultAudioLanguage": "zxx",        # 선택: 오디오 언어 (zxx = 말소리 없음, 거부되면 자동으로 en)
+  "localizations": {                    # 선택: 언어별 제목·설명 번역
+    "es": {"title": "…", "description": "…"}
+  },
   "madeForKids": false,
   "containsSyntheticMedia": true,
   "privacyStatus": "private"
@@ -56,6 +60,7 @@ AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = ("https://www.googleapis.com/upload/youtube/v3/videos"
               "?uploadType=resumable&part=snippet,status")
+UPLOAD_URL_LOC = UPLOAD_URL + ",localizations"
 CHUNK = 8 * 1024 * 1024
 ALLOWED_PRIVACY = ("private", "unlisted")
 
@@ -212,6 +217,31 @@ def build_body(meta):
         problems.append(f"tags 전체 길이가 {tag_len}자입니다 (500자 이하).")
     if privacy not in ALLOWED_PRIVACY:
         problems.append(f"privacyStatus는 {ALLOWED_PRIVACY} 중 하나여야 합니다. 전체 공개는 YouTube Studio에서 직접 바꿔 주세요.")
+    default_lang = meta.get("defaultLanguage")
+    locs = meta.get("localizations") or {}
+    if not isinstance(locs, dict):
+        problems.append("localizations는 {\"언어코드\": {\"title\": ..., \"description\": ...}} 형식이어야 합니다.")
+        locs = {}
+    if locs and not default_lang:
+        problems.append("localizations를 쓰려면 defaultLanguage가 있어야 합니다.")
+    clean_locs = {}
+    for lang, loc in locs.items():
+        if lang == default_lang:
+            problems.append(f"localizations에 기본 언어({lang})는 넣지 않습니다.")
+            continue
+        if not isinstance(loc, dict):
+            problems.append(f"localizations.{lang} 형식이 잘못됐습니다.")
+            continue
+        lt, ld = str(loc.get("title", "")).strip(), str(loc.get("description", ""))
+        if not lt:
+            problems.append(f"localizations.{lang}.title이 비어 있습니다.")
+        if len(lt) > 100:
+            problems.append(f"localizations.{lang}.title이 {len(lt)}자입니다 (100자 이하).")
+        if any(c in lt + ld for c in "<>"):
+            problems.append(f"localizations.{lang}에 < > 문자는 쓸 수 없습니다.")
+        if len(ld.encode("utf-8")) > 5000:
+            problems.append(f"localizations.{lang}.description이 5000바이트를 넘습니다.")
+        clean_locs[lang] = {"title": lt, "description": ld}
     for key in ("madeForKids", "containsSyntheticMedia"):
         if not isinstance(meta.get(key), bool):
             problems.append(f"{key}를 true/false로 꼭 정해 주세요.")
@@ -220,14 +250,17 @@ def build_body(meta):
 
     snippet = {"title": title, "description": desc, "tags": tags,
                "categoryId": str(meta.get("categoryId", "24"))}
-    if meta.get("defaultLanguage"):
-        snippet["defaultLanguage"] = meta["defaultLanguage"]
-        snippet["defaultAudioLanguage"] = meta["defaultLanguage"]
+    if default_lang:
+        snippet["defaultLanguage"] = default_lang
+        snippet["defaultAudioLanguage"] = meta.get("defaultAudioLanguage") or default_lang
     status = {"privacyStatus": privacy,
               "selfDeclaredMadeForKids": meta["madeForKids"],
               "containsSyntheticMedia": meta["containsSyntheticMedia"],
               "embeddable": True}
-    return {"snippet": snippet, "status": status}
+    body = {"snippet": snippet, "status": status}
+    if clean_locs:
+        body["localizations"] = clean_locs
+    return body
 
 
 # ---------- 업로드 ----------
@@ -250,22 +283,44 @@ def api_error(e):
         return f"HTTP {e.code}"
 
 
-def upload(video, body, token):
-    size = video.stat().st_size
-    req = urllib.request.Request(UPLOAD_URL, data=json.dumps(body).encode(), method="POST", headers={
+def start_session(body, token, size):
+    url = UPLOAD_URL_LOC if body.get("localizations") else UPLOAD_URL
+    req = urllib.request.Request(url, data=json.dumps(body).encode(), method="POST", headers={
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json; charset=UTF-8",
         "X-Upload-Content-Length": str(size),
         "X-Upload-Content-Type": "video/*",
     })
-    try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            session = r.headers["Location"]
-    except urllib.error.HTTPError as e:
-        msg = api_error(e)
-        if "quotaExceeded" in msg or "uploadLimitExceeded" in msg:
-            fail(f"오늘 업로드 한도를 넘었습니다. 내일 다시 시도해 주세요. ({msg})")
-        fail(f"업로드 시작 실패: {msg}")
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return r.headers["Location"]
+
+
+def upload(video, body, token, notes):
+    """notes: 대체 처리(오디오 언어 변경, 번역 제외)를 기록할 리스트. body는 실제 보낸 값으로 바뀐다."""
+    size = video.stat().st_size
+    session = None
+    for _ in range(3):
+        try:
+            session = start_session(body, token, size)
+            break
+        except urllib.error.HTTPError as e:
+            msg = api_error(e)
+            if "quotaExceeded" in msg or "uploadLimitExceeded" in msg:
+                fail(f"오늘 업로드 한도를 넘었습니다. 내일 다시 시도해 주세요. ({msg})")
+            low = msg.lower()
+            sn = body["snippet"]
+            if (e.code == 400 and "language" in low and sn.get("defaultAudioLanguage")
+                    and sn["defaultAudioLanguage"] != sn.get("defaultLanguage")):
+                notes.append(f"오디오 언어 {sn['defaultAudioLanguage']}가 거부되어 {sn.get('defaultLanguage')}로 바꿔 올림 ({msg})")
+                sn["defaultAudioLanguage"] = sn.get("defaultLanguage")
+                continue
+            if e.code in (400, 403) and body.get("localizations"):
+                notes.append(f"번역(localizations)이 거부되어 빼고 올림: {', '.join(body['localizations'])} ({msg}). Studio > 언어에서 직접 추가 가능")
+                body.pop("localizations")
+                continue
+            fail(f"업로드 시작 실패: {msg}")
+    if not session:
+        fail("업로드를 시작하지 못했습니다.")
 
     sent, retries = 0, 0
     with video.open("rb") as f:
@@ -318,7 +373,7 @@ def verify_settings(vid, body, token):
     """업로드 후 영상 설정을 다시 읽어 보낸 값과 비교한다 (youtube.readonly 권한 필요)."""
     if SCOPE_READ not in granted_scopes():
         return {"checked": False, "reason": "읽기 권한 없음 (--auth 다시 실행하면 확인 가능)"}
-    url = ("https://www.googleapis.com/youtube/v3/videos?part=status,snippet&id="
+    url = ("https://www.googleapis.com/youtube/v3/videos?part=status,snippet,localizations&id="
            + urllib.parse.quote(vid))
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
     try:
@@ -332,7 +387,10 @@ def verify_settings(vid, body, token):
     got = {"madeForKids": st.get("madeForKids"),
            "containsSyntheticMedia": st.get("containsSyntheticMedia"),
            "categoryId": sn.get("categoryId"),
-           "privacyStatus": st.get("privacyStatus")}
+           "privacyStatus": st.get("privacyStatus"),
+           "defaultLanguage": sn.get("defaultLanguage"),
+           "defaultAudioLanguage": sn.get("defaultAudioLanguage"),
+           "localizations": sorted((items[0].get("localizations") or {}).keys())}
     warnings = []
     if got["madeForKids"] != body["status"]["selfDeclaredMadeForKids"]:
         warnings.append(f"아동용 값이 다릅니다 (보냄 {body['status']['selfDeclaredMadeForKids']}, 읽음 {got['madeForKids']}). Studio에서 확인하세요.")
@@ -341,6 +399,12 @@ def verify_settings(vid, body, token):
                         "Studio > 세부정보 > '변경되었거나 합성된 콘텐츠'를 직접 확인하세요.")
     if got["categoryId"] != body["snippet"]["categoryId"]:
         warnings.append(f"카테고리가 다릅니다 (보냄 {body['snippet']['categoryId']}, 읽음 {got['categoryId']}).")
+    want_aud = body["snippet"].get("defaultAudioLanguage")
+    if want_aud and got["defaultAudioLanguage"] != want_aud:
+        warnings.append(f"오디오 언어가 다릅니다 (보냄 {want_aud}, 읽음 {got['defaultAudioLanguage']}).")
+    missing = sorted(set(body.get("localizations", {})) - set(got["localizations"]))
+    if missing:
+        warnings.append(f"번역이 확인되지 않습니다: {', '.join(missing)}. Studio > 언어에서 확인하세요.")
     return {"checked": True, "read_back": got, "warnings": warnings}
 
 
@@ -385,11 +449,14 @@ def main():
     print(f"제목: {body['snippet']['title']}")
     print(f"공개 상태: {body['status']['privacyStatus']} · 아동용: {body['status']['selfDeclaredMadeForKids']}"
           f" · AI 합성 공개: {body['status']['containsSyntheticMedia']} · 태그 {len(body['snippet']['tags'])}개")
+    print(f"언어: 기본 {body['snippet'].get('defaultLanguage')} · 오디오 {body['snippet'].get('defaultAudioLanguage')}"
+          f" · 번역 {', '.join(body.get('localizations', {})) or '없음'}")
     if a.dry_run:
         return print("✅ dry-run: 형식 검사 통과 (업로드하지 않음)")
 
     token = access_token()
-    res = upload(video, body, token)
+    notes = []
+    res = upload(video, body, token, notes)
     vid = res.get("id")
     status = res.get("status", {})
     out = {
@@ -403,11 +470,17 @@ def main():
         "file": str(video),
         "sent": {"madeForKids": body["status"]["selfDeclaredMadeForKids"],
                  "containsSyntheticMedia": body["status"]["containsSyntheticMedia"],
-                 "categoryId": body["snippet"]["categoryId"]},
+                 "categoryId": body["snippet"]["categoryId"],
+                 "defaultLanguage": body["snippet"].get("defaultLanguage"),
+                 "defaultAudioLanguage": body["snippet"].get("defaultAudioLanguage"),
+                 "localizations": sorted(body.get("localizations", {}))},
+        "fallbacks": notes,
     }
     out["verified"] = verify_settings(vid, body, token)
     result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 업로드 완료 ({out['privacy_at_upload']})")
+    for n in notes:
+        print(f"   ⚠️ {n}")
     print(f"   영상: {out['url']}")
     print(f"   스튜디오: {out['studio_url']}")
     v = out["verified"]
@@ -415,7 +488,7 @@ def main():
         for w in v["warnings"]:
             print(f"   ⚠️ {w}")
         if not v["warnings"]:
-            print("   설정 확인: 아동용·AI 합성 공개·카테고리가 보낸 값과 같습니다.")
+            print("   설정 확인: 아동용·AI 합성 공개·카테고리·언어·번역이 보낸 값과 같습니다.")
     else:
         print(f"   ℹ️ 설정 다시 읽기를 건너뜀: {v.get('reason')}")
     print(f"   기록: {result_path}")
