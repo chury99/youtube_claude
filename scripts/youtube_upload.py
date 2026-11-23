@@ -28,7 +28,8 @@ upload.json 형식:
   },
   "madeForKids": false,
   "containsSyntheticMedia": true,
-  "privacyStatus": "private"
+  "privacyStatus": "private",
+  "thumbnail": "thumbnail.jpg"          # 선택: upload.json 기준 경로, JPG/PNG 2MB 이하 (실패해도 업로드는 유지)
 }
 결과는 upload.json 옆에 upload_result.json으로 저장한다. 이미 있으면 중복 업로드를 막는다 (--force로 무시).
 """
@@ -61,6 +62,7 @@ TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = ("https://www.googleapis.com/upload/youtube/v3/videos"
               "?uploadType=resumable&part=snippet,status")
 UPLOAD_URL_LOC = UPLOAD_URL + ",localizations"
+THUMB_URL = "https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId="
 CHUNK = 8 * 1024 * 1024
 ALLOWED_PRIVACY = ("private", "unlisted")
 
@@ -369,6 +371,21 @@ def upload(video, body, token, notes):
     fail("업로드가 완료 응답 없이 끝났습니다.")
 
 
+def set_thumbnail(vid, path, token):
+    """썸네일을 올린다. 실패해도 업로드는 그대로 두고 이유만 돌려준다."""
+    ctype = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
+    req = urllib.request.Request(THUMB_URL + urllib.parse.quote(vid), data=path.read_bytes(), method="POST",
+                                 headers={"Authorization": f"Bearer {token}", "Content-Type": ctype})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            json.load(r)
+        return {"set": True, "file": str(path)}
+    except urllib.error.HTTPError as e:
+        return {"set": False, "file": str(path), "reason": api_error(e)}
+    except (urllib.error.URLError, TimeoutError) as e:
+        return {"set": False, "file": str(path), "reason": str(e)}
+
+
 def verify_settings(vid, body, token):
     """업로드 후 영상 설정을 다시 읽어 보낸 값과 비교한다 (youtube.readonly 권한 필요)."""
     if SCOPE_READ not in granted_scopes():
@@ -443,14 +460,23 @@ def main():
         prev = json.loads(result_path.read_text(encoding="utf-8"))
         fail(f"이미 업로드한 기록이 있습니다: {prev.get('url')}\n   다시 올리려면 --force를 붙이세요 (중복 영상이 생깁니다).")
 
-    body = build_body(json.loads(meta_path.read_text(encoding="utf-8")))
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    body = build_body(meta)
+    thumb = None
+    if meta.get("thumbnail"):
+        thumb = (meta_path.parent / meta["thumbnail"]).resolve()
+        if not thumb.is_file():
+            fail(f"썸네일 파일이 없습니다: {thumb}")
+        if thumb.suffix.lower() not in (".jpg", ".jpeg", ".png") or thumb.stat().st_size > 2 * 1024**2:
+            fail("썸네일은 JPG/PNG, 2MB 이하여야 합니다.")
     size_mb = video.stat().st_size / 1024**2
     print(f"영상: {video} ({size_mb:.1f}MB)")
     print(f"제목: {body['snippet']['title']}")
     print(f"공개 상태: {body['status']['privacyStatus']} · 아동용: {body['status']['selfDeclaredMadeForKids']}"
           f" · AI 합성 공개: {body['status']['containsSyntheticMedia']} · 태그 {len(body['snippet']['tags'])}개")
     print(f"언어: 기본 {body['snippet'].get('defaultLanguage')} · 오디오 {body['snippet'].get('defaultAudioLanguage')}"
-          f" · 번역 {', '.join(body.get('localizations', {})) or '없음'}")
+          f" · 번역 {', '.join(body.get('localizations', {})) or '없음'}"
+          f" · 썸네일 {thumb.name if thumb else '없음(자동)'}")
     if a.dry_run:
         return print("✅ dry-run: 형식 검사 통과 (업로드하지 않음)")
 
@@ -476,11 +502,16 @@ def main():
                  "localizations": sorted(body.get("localizations", {}))},
         "fallbacks": notes,
     }
+    if thumb:
+        out["thumbnail"] = set_thumbnail(vid, thumb, token)
     out["verified"] = verify_settings(vid, body, token)
     result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 업로드 완료 ({out['privacy_at_upload']})")
     for n in notes:
         print(f"   ⚠️ {n}")
+    if thumb:
+        t = out["thumbnail"]
+        print("   썸네일 적용됨" if t["set"] else f"   ⚠️ 썸네일 실패: {t['reason']} (Studio에서 직접 올릴 수 있음)")
     print(f"   영상: {out['url']}")
     print(f"   스튜디오: {out['studio_url']}")
     v = out["verified"]
