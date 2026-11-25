@@ -17,18 +17,18 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   - 오른쪽: 채널 이름(bebePop), 다음 챕터 미리보기 "Up next"(다음 쇼츠 장면 + 제목), 마지막 챕터는 "Thanks for watching!"
   - 그래서 **챕터 제목은 짧게**(2~5단어, 25자 안팎) 쓴다. 길면 화면에서 "…"로 잘린다.
   - 3분이 넘는 영상이라 쇼츠가 아닌 일반 롱폼으로 올라간다.
-- 재료: 쇼츠 완성본 `5_videos/<기본이름>/<기본이름>.mp4`(자막이 들어간 최종본). 원본 클립(`4_clips/`)과 쇼츠 폴더의 파일은 **수정하지 않는다.**
-- 결과 폴더: `5_videos/<날짜>_모음집_<한글이름>/` (예: `20261128_모음집_동물친구들`). 이 이름이 `<기본이름>`이다. 이미 있는 폴더는 덮어쓰지 않는다.
+- 재료: 쇼츠 완성본 `5_videos/longform/<기본이름>/<기본이름>.mp4`(자막이 들어간 최종본). 원본 클립(`4_clips/`)과 쇼츠 폴더의 파일은 **수정하지 않는다.**
+- 결과 폴더: `5_videos/longform/<날짜>_모음집_<한글이름>/` (예: `20261128_모음집_동물친구들`). 이 이름이 `<기본이름>`이다. 이미 있는 폴더는 덮어쓰지 않는다.
 
 ## 작업 순서
 
 ### 1. 후보 모으기
-- 후보: `5_videos/*/upload_result.json`이 있고 `uploaded_at`이 **오늘 기준 최근 7일** 안인 쇼츠. 폴더 이름에 `모음집`이 들어간 것(이전 모음집)은 제외한다.
-- 이전 모음집에 이미 쓴 쇼츠는 제외한다: `5_videos/*모음집*/curation.json`의 `used`에 있는 `video_id`.
+- 후보: `5_videos/shorts/*/upload_result.json`이 있고 `uploaded_at`이 **오늘 기준 최근 7일** 안인 쇼츠. 폴더 이름에 `모음집`이 들어간 것(이전 모음집)은 제외한다.
+- 이전 모음집에 이미 쓴 쇼츠는 제외한다: `5_videos/longform/*모음집*/curation.json`의 `used`에 있는 `video_id`.
 - 채널 데이터(읽기 전용)를 받아 공개 상태와 조회수를 확인한다:
-  `python3 scripts/youtube_analytics.py --days 28 --out 5_videos/<기본이름>/channel_data.json`
+  `python3 scripts/youtube_analytics.py --days 28 --out 5_videos/longform/<기본이름>/channel_data.json`
   - **공개(public)·일부 공개(unlisted) 쇼츠를 먼저 쓴다.** 사용자가 확인하고 공개한 영상이기 때문이다.
-  - 비공개(private)로 남은 쇼츠는 공개 영상만으로 10분이 안 될 때 쓴다. 이때는 편집 기록 `5_videos/<쇼츠>/<쇼츠>.txt`의 [8] 남은 문제가 없는 것만 쓰고, 보고에 "비공개 쇼츠 포함"을 적는다.
+  - 비공개(private)로 남은 쇼츠는 공개 영상만으로 10분이 안 될 때 쓴다. 이때는 편집 기록 `5_videos/shorts/<쇼츠>/<쇼츠>.txt`의 [8] 남은 문제가 없는 것만 쓰고, 보고에 "비공개 쇼츠 포함"을 적는다.
   - 분석 권한이 없거나 실패하면 공개 상태를 확인할 수 없다고 기록하고, 편집 기록상 남은 문제가 없는 쇼츠로 진행한다.
 - **이번 주 영상 우선, 모자라면 이전 주로 채운다** (사용자 기준, 2026-11-24):
   1. 이번 주(최근 7일) 쇼츠를 먼저 모두 검토해 쓸 만한 것은 다 넣는다.
@@ -40,7 +40,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 
 ### 2. 쇼츠 살펴보기와 고르기
 - 후보마다 길이를 확인하고 콘택트 시트를 만들어 **Read로 직접 본다**:
-  `.venv/bin/python scripts/inspect_video.py "5_videos/<쇼츠>/<쇼츠>.mp4" --out 5_videos/<기본이름>/review/<쇼츠> --every 0.5`
+  `.venv/bin/python scripts/inspect_video.py "5_videos/shorts/<쇼츠>/<쇼츠>.mp4" --out 5_videos/longform/<기본이름>/review/<쇼츠> --every 0.5`
 - 쇼츠의 편집 기록 [5]·[8]과 upload.json(제목·설명)을 읽어 내용과 남은 문제를 파악한다.
 - 고르는 기준:
   1. 품질: 캐릭터가 크게 깨지거나 의상·색이 바뀌는 구간이 길면 뺀다. 짧으면 그 구간만 잘라 쓴다.
@@ -59,22 +59,22 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   - 화풍은 쇼츠마다 다를 수 있다 (예전 쇼츠는 3D 아이 캐릭터, 최근은 니트 동물). 그 쇼츠 자체의 화풍은 오류가 아니다. 다만 화풍이 너무 다른 쇼츠끼리는 붙여 두지 말고, 가능하면 비슷한 화풍끼리 묶는다.
   - 예전 쇼츠는 자막 순서(한글 위)가 지금 기준과 다를 수 있다. 쇼츠 화면은 그대로 쓰고 기록 [8]에 적는다.
 - 문제 구간은 **잘라낸다**: 해당 쇼츠를 구간을 나눠 두 번 넣거나(`start`/`end`), 앞뒤를 줄인다. 필요하면 0.1초 단위로 프레임을 뽑아 확인한다:
-  `ffmpeg -v error -ss <초> -i "<쇼츠>" -frames:v 1 5_videos/<기본이름>/review/<쇼츠>_t<초>.png`
+  `ffmpeg -v error -ss <초> -i "<쇼츠>" -frames:v 1 5_videos/longform/<기본이름>/review/<쇼츠>_t<초>.png`
 - 쇼츠 끝의 루프 연결 구간(처음으로 되돌아가는 블렌드)은 모음집에서는 필요 없으니, 다음 쇼츠로 넘어가기 좋은 지점에서 끊는다.
 - 슬로모션·정지 화면으로 늘리지 않는다. 그림을 그려 덮는 와이프·타이틀 카드를 만들지 않는다 (사용자 기준). 쇼츠 사이 전환은 스크립트의 짧은 크로스페이드(0.5초)를 쓴다.
 
 ### 5. 조립
-`5_videos/<기본이름>/compile.json`을 쓰고 스크립트로 만든다 (형식은 `scripts/build_compilation.py` 맨 위 설명 참고. 경로는 이 폴더 기준 `../<쇼츠>/<쇼츠>.mp4`).
+`5_videos/longform/<기본이름>/compile.json`을 쓰고 스크립트로 만든다 (형식은 `scripts/build_compilation.py` 맨 위 설명 참고. 경로는 이 폴더 기준 `../../shorts/<쇼츠>/<쇼츠>.mp4`).
 ```bash
-python3 scripts/build_compilation.py 5_videos/<기본이름>
+python3 scripts/build_compilation.py 5_videos/longform/<기본이름>
 ```
-- 결과: `5_videos/<기본이름>/<기본이름>.mp4`, 챕터 `chapters.json`.
+- 결과: `5_videos/longform/<기본이름>/<기본이름>.mp4`, 챕터 `chapters.json`.
 - 길이가 540~660초를 벗어나면 쇼츠를 빼거나 더해 다시 만든다.
-- 썸네일: 가장 눈에 띄는 장면을 골라 `5_videos/<기본이름>/thumbnail.jpg`(1280x720, 2MB 이하)를 만든다. 완성본에서 프레임을 뽑아 쓰고(`ffmpeg -ss <초> -i <완성본> -frames:v 1 -vf scale=1280:720 -q:v 3 thumbnail.jpg`), 글자를 넣을 때는 skia-python(`.venv/bin/python`, `Apple SD Gothic Neo` Bold)으로 짧은 영어 문구(3~4단어)만 크게 넣는다. 그림을 새로 그리지 않는다.
+- 썸네일: 가장 눈에 띄는 장면을 골라 `5_videos/longform/<기본이름>/thumbnail.jpg`(1280x720, 2MB 이하)를 만든다. 완성본에서 프레임을 뽑아 쓰고(`ffmpeg -ss <초> -i <완성본> -frames:v 1 -vf scale=1280:720 -q:v 3 thumbnail.jpg`), 글자를 넣을 때는 skia-python(`.venv/bin/python`, `Apple SD Gothic Neo` Bold)으로 짧은 영어 문구(3~4단어)만 크게 넣는다. 그림을 새로 그리지 않는다.
 
 ### 6. 검수 (반드시 직접 다시 본다)
 ```bash
-.venv/bin/python scripts/inspect_video.py 5_videos/<기본이름>/<기본이름>.mp4 --out 5_videos/<기본이름>/review/final --every 2
+.venv/bin/python scripts/inspect_video.py 5_videos/longform/<기본이름>/<기본이름>.mp4 --out 5_videos/longform/<기본이름>/review/final --every 2
 ```
 - `warnings`(비율, 길이, 음량, 피크, 깜빡임)를 확인한다. 이 영상은 가로 16:9·10분 안팎이 정상이다 (쇼츠 기준 경고는 무시).
 - 콘택트 시트를 **모두 Read로 열어** 보고, 쇼츠 사이 연결 지점 앞뒤는 따로 뽑아 확인한다.
@@ -103,7 +103,7 @@ python3 scripts/build_compilation.py 5_videos/<기본이름>
 문제는 compile.json을 고쳐 다시 만들고 검수를 반복한다(최대 3회). 3회 후에도 남은 문제는 숨기지 말고 기록과 보고에 적는다.
 
 ### 7. 기록 저장
-1) `5_videos/<기본이름>/curation.json` (다음 모음집에서 중복을 막는 용도)
+1) `5_videos/longform/<기본이름>/curation.json` (다음 모음집에서 중복을 막는 용도)
 ```json
 {
   "created": "YYYY-MM-DD HH:MM",
@@ -112,7 +112,7 @@ python3 scripts/build_compilation.py 5_videos/<기본이름>
   "used": [{"base": "20261122_텃밭누가왔나", "video_id": "zhb4-o8sZiU", "start": 0.0, "end": 29.9}]
 }
 ```
-2) `5_videos/<기본이름>/<기본이름>.txt` (업로더가 읽는 편집 기록과 같은 자리)
+2) `5_videos/longform/<기본이름>/<기본이름>.txt` (업로더가 읽는 편집 기록과 같은 자리)
 ```
 ==================================================
 큐레이터 모음집 기록
@@ -124,7 +124,7 @@ python3 scripts/build_compilation.py 5_videos/<기본이름>
 
 [2] 완성 영상
 - 파일 경로 / 1920x1080 / fps / 길이(분:초) / 음량(LUFS) / 피크(dBTP)
-- 다시 만들기: python3 scripts/build_compilation.py 5_videos/<기본이름>
+- 다시 만들기: python3 scripts/build_compilation.py 5_videos/longform/<기본이름>
 
 [3] 순서와 사용 구간
 1) 00:00 <챕터 제목> — <쇼츠 기본이름> 0.0~29.9초 (잘라낸 구간과 이유)
@@ -152,7 +152,7 @@ python3 scripts/build_compilation.py 5_videos/<기본이름>
 
 ## 지켜야 할 것
 - `config/*.json`을 열거나 키를 출력하지 않는다. `youtube_analytics.py`는 읽기 전용이다.
-- 쇼츠 폴더·원본 클립은 읽기만 한다. 결과물은 모두 `5_videos/<기본이름>/`에 쓴다 (중간 파일은 `_work/`, `review/`).
+- 쇼츠 폴더·원본 클립은 읽기만 한다. 결과물은 모두 `5_videos/longform/<기본이름>/`에 쓴다 (중간 파일은 `_work/`, `review/`).
 - 외부에서 이미지·음악·폰트를 내려받지 않는다.
 - 유튜브 업로드, git 커밋, 푸시는 하지 않는다 (업로드는 업로더 담당).
 - 작업이 끝나면 짧게 보고한다: 완성 영상 경로와 길이(분:초), 주제, 쓴 쇼츠 수와 순서 요약, 잘라낸 구간 요약, 검수에서 고친 문제, 남은 문제, 업로드 설정(아동용·AI 공개·썸네일), 비공개 쇼츠 포함 여부.

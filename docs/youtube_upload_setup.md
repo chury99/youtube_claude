@@ -42,7 +42,7 @@ python3 scripts/youtube_upload.py --check
   - 용도: 본인 채널에 직접 만든 영상을 올리는 개인용 업로드 도구라고 적습니다.
   - 심사에 며칠~몇 주가 걸릴 수 있습니다.
 - 감사 전에도 업로드 자체는 되므로, 설정이 잘 됐는지 시험해 볼 수는 있습니다.
-- 감사 전에 공개해야 하는 영상은 YouTube Studio에서 직접 업로드하세요. 업로드 정보는 `5_videos/<기본이름>/upload.json`과 기획안 [9]에 정리돼 있습니다.
+- 감사 전에 공개해야 하는 영상은 YouTube Studio에서 직접 업로드하세요. 업로드 정보는 `5_videos/shorts/<기본이름>/upload.json`과 기획안 [9]에 정리돼 있습니다.
 
 ## 업로드 한도
 - 업로드는 하루 할당량 안에서 횟수 제한이 있습니다. 하루 쇼츠 몇 개 수준이면 충분합니다.
@@ -50,8 +50,8 @@ python3 scripts/youtube_upload.py --check
 
 ## 직접 업로드할 때
 ```bash
-python3 scripts/youtube_upload.py 5_videos/<기본이름>/<기본이름>.mp4 --meta 5_videos/<기본이름>/upload.json --dry-run
-python3 scripts/youtube_upload.py 5_videos/<기본이름>/<기본이름>.mp4 --meta 5_videos/<기본이름>/upload.json
+python3 scripts/youtube_upload.py 5_videos/shorts/<기본이름>/<기본이름>.mp4 --meta 5_videos/shorts/<기본이름>/upload.json --dry-run
+python3 scripts/youtube_upload.py 5_videos/shorts/<기본이름>/<기본이름>.mp4 --meta 5_videos/shorts/<기본이름>/upload.json
 ```
 - 공개 상태는 `private`(기본), `unlisted`만 됩니다. 전체 공개는 Studio에서 직접 바꿉니다.
 - 같은 영상을 두 번 올리지 않도록 `upload_result.json`이 있으면 멈춥니다. 다시 올리려면 `--force`.

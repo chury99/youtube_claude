@@ -12,8 +12,8 @@
 사용 예:
     python3 scripts/youtube_upload.py --auth                         # 처음 한 번: 브라우저 로그인 후 토큰 저장
     python3 scripts/youtube_upload.py --check                        # 설정·토큰 상태만 확인 (업로드 안 함)
-    python3 scripts/youtube_upload.py 5_videos/X/X.mp4 --meta 5_videos/X/upload.json
-    python3 scripts/youtube_upload.py 5_videos/X/X.mp4 --meta 5_videos/X/upload.json --dry-run
+    python3 scripts/youtube_upload.py 5_videos/shorts/X/X.mp4 --meta 5_videos/shorts/X/upload.json
+    python3 scripts/youtube_upload.py 5_videos/shorts/X/X.mp4 --meta 5_videos/shorts/X/upload.json --dry-run
 
 upload.json 형식:
 {

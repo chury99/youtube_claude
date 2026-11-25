@@ -6,7 +6,7 @@
 
 사용 예:
     python3 scripts/notify_telegram.py "🎬 영상 제작 완료"
-    python3 scripts/notify_telegram.py "완성 영상입니다" --file 5_videos/xxx/xxx.mp4
+    python3 scripts/notify_telegram.py "완성 영상입니다" --file 5_videos/shorts/xxx/xxx.mp4
     python3 scripts/notify_telegram.py --get-chat-id      # 봇에게 메시지를 보낸 뒤 채팅 ID 확인
 """
 

@@ -8,7 +8,7 @@
   4) 깜빡임: 밝기가 급격히 바뀌는 횟수가 1초에 3번을 넘는 구간 (광과민성 발작 위험)
 
 사용 예:
-    .venv/bin/python scripts/inspect_video.py 5_videos/xxx.mp4 --out 5_videos/xxx_review --every 0.5
+    .venv/bin/python scripts/inspect_video.py 5_videos/shorts/xxx.mp4 --out 5_videos/shorts/xxx_review --every 0.5
 """
 
 import argparse

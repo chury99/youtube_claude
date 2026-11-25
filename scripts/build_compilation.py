@@ -9,7 +9,7 @@
 - 챕터 시작 시각을 chapters.json으로 저장한다 (설명란 타임스탬프용).
 
 사용:
-    python3 scripts/build_compilation.py 5_videos/<기본이름>          # 폴더 안의 compile.json을 읽음
+    python3 scripts/build_compilation.py 5_videos/longform/<기본이름>          # 폴더 안의 compile.json을 읽음
 
 compile.json (경로는 compile.json이 있는 폴더 기준):
 {
@@ -19,11 +19,11 @@ compile.json (경로는 compile.json이 있는 폴더 기준):
   "fade_in": 0.3, "fade_out": 1.5,
   "style": "frame", "channel": "bebePop",
   "segments": [
-    {"file": "../20261122_텃밭누가왔나/20261122_텃밭누가왔나.mp4", "start": 0.0, "end": 29.9,
+    {"file": "../../shorts/20261122_텃밭누가왔나/20261122_텃밭누가왔나.mp4", "start": 0.0, "end": 29.9,
      "chapter": "Who's Here in the Garden?"},
-    {"file": "../20261120_딸기씻어냠냠/20261120_딸기씻어냠냠.mp4", "start": 0.0, "end": 12.0,
+    {"file": "../../shorts/20261120_딸기씻어냠냠/20261120_딸기씻어냠냠.mp4", "start": 0.0, "end": 12.0,
      "chapter": "Wash the Strawberries"},
-    {"file": "../20261120_딸기씻어냠냠/20261120_딸기씻어냠냠.mp4", "start": 14.5, "end": 39.3}
+    {"file": "../../shorts/20261120_딸기씻어냠냠/20261120_딸기씻어냠냠.mp4", "start": 14.5, "end": 39.3}
   ]
 }
 - 한 쇼츠에서 이상한 구간을 빼려면 같은 파일을 구간을 나눠 두 번 넣는다. chapter가 없는 구간은 앞 챕터에 이어진다.
@@ -106,7 +106,7 @@ def render_segment(src, start, end, out, W, H, fps, bg=None, fg=None):
 
 def main():
     if len(sys.argv) != 2:
-        fail("사용: python3 scripts/build_compilation.py 5_videos/<기본이름>")
+        fail("사용: python3 scripts/build_compilation.py 5_videos/longform/<기본이름>")
     folder = Path(sys.argv[1]).resolve()
     cfg_path = folder / "compile.json"
     if not cfg_path.is_file():

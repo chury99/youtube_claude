@@ -31,7 +31,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 - 클립마다 길이, 해상도, 소리 유무를 확인한다:
   `ffprobe -v error -show_entries format=duration:stream=codec_type,width,height -of json <클립>`
 - 클립마다 콘택트 시트를 만들어 **Read 도구로 직접 본다**:
-  `.venv/bin/python scripts/inspect_video.py "<클립 경로>" --out 5_videos/<기본이름>/review/clip_<k> --every 0.5` (k는 찾은 순서대로 붙이는 임시 번호)
+  `.venv/bin/python scripts/inspect_video.py "<클립 경로>" --out 5_videos/shorts/<기본이름>/review/clip_<k> --every 0.5` (k는 찾은 순서대로 붙이는 임시 번호)
 - **순서 맞추기**: 각 클립의 화면을 프롬프트 `_1.txt`, `_2.txt` …의 [3] PROMPT 샷 설명, 특히 첫 샷과 마지막 샷(ends on)과 비교해서 어느 프롬프트로 만든 영상인지 찾는다.
   - 앞 클립의 마지막 장면과 다음 클립의 첫 장면이 이어지는지로 순서를 다시 확인한다.
   - 같은 프롬프트로 만든 클립이 여러 개면 더 잘 나온 것을 고르고, 나머지는 예비로 기록한다.
@@ -41,12 +41,12 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 - 클립마다 쓸 구간을 정한다. 편집자 메모를 출발점으로 하되 실제 화면을 보고 판단한다.
   - 시작할 때 멈춰 있는 프레임, 끝에서 동작이 흐트러지는 구간, 얼굴·손이 깨진 순간, 의상·색이 앞 클립과 달라지는 순간은 잘라낸다.
   - 연결 지점은 동작이 이어지는 프레임끼리 맞춘다. 필요하면 해당 구간을 0.1초 단위로 뽑아 비교한다:
-    `ffmpeg -v error -ss <초> -i "<클립>" -frames:v 1 5_videos/<기본이름>/review/c<k>_t<초>.png`
+    `ffmpeg -v error -ss <초> -i "<클립>" -frames:v 1 5_videos/shorts/<기본이름>/review/c<k>_t<초>.png`
 - 쓸 구간 길이의 합이 **목표 길이**(기본 40초)에 가깝게, **최소 30초 이상**이 되게 조정한다. 이상한 구간을 자르는 것이 우선이지만 30초 아래로는 내려가지 않는다.
 
 ### 2. 편집
-출력 폴더는 `5_videos/<기본이름>/`이다.
-- `edit.json`을 만들고 `scripts/assemble_video.py`로 이어 붙인다. 클립 경로는 `5_videos/<기본이름>/` 기준 상대 경로로 쓴다.
+출력 폴더는 `5_videos/shorts/<기본이름>/`이다. 16:9 원본으로 롱폼도 함께 만들 때는 롱폼을 `5_videos/longform/<기본이름>롱폼/<기본이름>롱폼.mp4`에 둔다(편집 스크립트·기록은 쇼츠 폴더에, 롱폼 폴더에는 완성본·upload.json·편집 기록 사본).
+- `edit.json`을 만들고 `scripts/assemble_video.py`로 이어 붙인다. 클립 경로는 `5_videos/shorts/<기본이름>/` 기준 상대 경로로 쓴다.
   ```json
   {
     "output": "<기본이름>_raw.mp4",
@@ -60,11 +60,11 @@ tools: Bash, Read, Write, Edit, Glob, Grep
   }
   ```
   ```bash
-  python3 scripts/assemble_video.py 5_videos/<기본이름>
+  python3 scripts/assemble_video.py 5_videos/shorts/<기본이름>
   ```
   (9:16이 아닌 클립은 자동으로 블러 배경을 채워 세로로 맞춘다.)
 - **루프 마감**: 기획안이 루프 구조(반복 시청)면 `fade_out`을 0으로 두고 끝을 암전·페이드아웃하지 않는다. 마지막 프레임이 첫 프레임과 이어지도록 끝 지점을 고르고, 음악도 끝 소절이 첫 소절로 자연스럽게 이어지게(같은 박자에서 끊기게) 맞춘다. 검수 때 끝 2초 + 처음 2초를 이어 붙인 확인용 영상을 만들어 이음매를 직접 본다.
-- 자막, 크로스페이드, 음량 맞춤처럼 scripts/assemble_video.py에 없는 작업은 `5_videos/<기본이름>/edit_video.py`에 코드로 작성해 `<기본이름>_raw.mp4`를 후처리한다. 다시 실행하면 같은 결과가 나와야 한다.
+- 자막, 크로스페이드, 음량 맞춤처럼 scripts/assemble_video.py에 없는 작업은 `5_videos/shorts/<기본이름>/edit_video.py`에 코드로 작성해 `<기본이름>_raw.mp4`를 후처리한다. 다시 실행하면 같은 결과가 나와야 한다.
   - 자막: 이 ffmpeg에는 drawtext가 없다. skia-python(`.venv/bin/python`)으로 투명 PNG 자막을 그려 overlay 필터로 얹는다.
     폰트는 `skia.Typeface('Apple SD Gothic Neo', skia.FontStyle.Bold())`, 위치는 세로 12%~65% 구간. 아래쪽 25%는 쇼츠 UI가 덮는다.
   - **자막 가로 위치 (사용자 기준, 2026-11-22)**: 특별한 이유가 없으면 화면 **정가운데(x = 360, 720 너비 기준)**에 맞춘다. 오른쪽 쇼츠 버튼을 피하려고 중심을 왼쪽으로 옮기지 않는다. 대신 한 줄 최대 너비를 약 600px(좌우 여백 60px)로 두고, 넘으면 줄을 나누거나 글자를 줄인다. 캐릭터 얼굴을 가리는 등 특별한 이유로 옮길 때는 편집 기록에 이유를 적는다.
@@ -76,12 +76,12 @@ tools: Bash, Read, Write, Edit, Glob, Grep
     루프 이음매도 같은 기준이며, 영상 첫 프레임이 전환 효과로 가려지지 않게 한다(썸네일·첫인상).
   - 음량: 통합 -14 LUFS 근처, 최대 피크 -1 dBTP 이하 (`loudnorm=I=-14:TP=-1.5:LRA=11`).
   - 출력: 기본 세로 720x1280(720p, 9:16), 30fps, H.264 + AAC, `-movflags +faststart`.
-- 최종 파일: `5_videos/<기본이름>/<기본이름>.mp4`
+- 최종 파일: `5_videos/shorts/<기본이름>/<기본이름>.mp4`
 
 ### 3. 검수 (반드시 직접 다시 본다)
 
 ```bash
-.venv/bin/python scripts/inspect_video.py 5_videos/<기본이름>/<기본이름>.mp4 --out 5_videos/<기본이름>/review/final --every 0.5
+.venv/bin/python scripts/inspect_video.py 5_videos/shorts/<기본이름>/<기본이름>.mp4 --out 5_videos/shorts/<기본이름>/review/final --every 0.5
 ```
 
 - 결과 JSON의 `warnings`(비율, 길이, 음량, 피크, 깜빡임)를 확인한다.
@@ -114,7 +114,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 - 편집으로 고칠 수 있는 문제(잘라내기, 구간 교체, 블러로 로고 가리기, 크롭, 자막 수정, 음량)는 직접 고치고 3단계를 반복한다. 최대 3회.
 - **AI가 보드·카드·종이·간판에 잘못 그려 넣은 글자는 블러로 가리지 말고 지운다** (2026-11-25 사용자 결정. 블러는 뿌연 상자 자국이 남고 지나가는 캐릭터까지 흐려짐):
   1. 글자가 보이는 구간과 상자를 `[[시작초, 끝초, x0, y0, x1, y1], ...]` JSON으로 적는다. 좌표는 720x1280 기준이고, 상자는 글자 줄보다 위아래·좌우로 10px쯤 넉넉하게 잡는다.
-  2. `.venv/bin/python -I scripts/erase_text.py <입력.mp4> <상자.json> <출력.mp4> --preview 5_videos/<기본이름>/review/erase`를 실행한다.
+  2. `.venv/bin/python -I scripts/erase_text.py <입력.mp4> <상자.json> <출력.mp4> --preview 5_videos/shorts/<기본이름>/review/erase`를 실행한다.
      - 상자 안에서 밝은 무채색 바탕 위의 가늘고 검거나 회색인 획만 골라, 바로 옆 종이 색으로 메운다.
      - 털·옷·나무 막대처럼 색이 있는 것은 남는다.
      - 출력에는 소리가 없으니 소리는 원래 파일에서 가져온다.
@@ -129,7 +129,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 - 3회 후에도 남은 문제는 숨기지 말고 편집 기록과 보고에 그대로 적는다.
 
 ### 5. 편집 기록 txt 저장
-`5_videos/<기본이름>/<기본이름>.txt`에 UTF-8로 저장한다.
+`5_videos/shorts/<기본이름>/<기본이름>.txt`에 UTF-8로 저장한다.
 
 ```
 ==================================================
@@ -144,7 +144,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 
 [2] 완성 영상
 - 파일 경로 / 해상도 / fps / 길이 / 음량(LUFS) / 피크(dBTP)
-- 다시 만들기: python3 scripts/assemble_video.py 5_videos/<기본이름> && .venv/bin/python 5_videos/<기본이름>/edit_video.py
+- 다시 만들기: python3 scripts/assemble_video.py 5_videos/shorts/<기본이름> && .venv/bin/python 5_videos/shorts/<기본이름>/edit_video.py
 
 [3] 클립별 사용 구간
 클립 _1 (<파일 이름>): 0.6~9.2초 사용 (잘라낸 이유)
@@ -170,7 +170,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 
 ## 지켜야 할 것
 - `config/*.json`을 열거나 키를 출력하지 않는다.
-- 원본 클립(`4_clips/`)은 수정하거나 지우지 않는다. 결과물은 모두 `5_videos/<기본이름>/`에 쓴다.
+- 원본 클립(`4_clips/`)은 수정하거나 지우지 않는다. 결과물은 모두 `5_videos/shorts/<기본이름>/`에 쓴다.
 - 외부에서 이미지, 음악, 폰트를 내려받지 않는다. 폰트는 macOS 시스템 폰트만 쓴다.
 - 유튜브 업로드, git 커밋, 푸시는 하지 않는다.
 - 작업이 끝나면 사용자에게 짧게 보고한다: 완성 영상 경로와 길이, 클립별 사용 구간 요약, 검수에서 고친 문제, 남은 문제와 다시 생성할 클립, 업로드할 때 설정할 것(아동용, AI 공개).
