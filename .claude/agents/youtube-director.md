@@ -54,6 +54,12 @@ Veo는 **한 번에 8초** 클립을 만들기 때문에, 영상을 **8초 클�
 - **소리**: Veo는 소리도 함께 만든다. 주변음과 효과음을 적고, 대사가 있으면 큰따옴표 안에 정확히 쓴다.
   **배경음악은 넣지 말라고 적는다** (클립마다 음악이 달라져 이어 붙이면 어색해지므로, 음악은 편집자가 한 번에 깐다).
 - **화면 속 글자 금지**: Veo는 대사가 있으면 자막을 그려 넣는 경우가 있으므로 "no on-screen text, no subtitles, no captions, no logos, no watermarks"를 넣는다. 자막은 편집자가 넣는다.
+  - **보드·카드·간판·책·포스터·상자·이름표처럼 글자가 들어갈 만한 물건이 나오면** (2026-11-25 사용자 결정, "우리가족누구"에서 보드·카드에 "father", "Grandp3", "Somi Somi" 같은 틀린 글자가 생겨 블러로 가려야 했음):
+    1. [3] PROMPT **맨 앞 문장 바로 다음**에 "Absolutely no text, no letters, no words, no numbers anywhere — the board/cards/signs are blank or show only simple pictures."를 넣는다. 맨 뒤 [Avoid]에만 두면 잘 안 지켜진다.
+    2. 그 물건을 [Fixed look]과 [Shots]에서 **그림으로만** 설명한다. 예) "a card with a drawing of a bear wearing glasses"처럼 쓰고, "a card that says Grandpa"나 "labeled", "name tag", "title" 같은 말은 쓰지 않는다.
+    3. 캐릭터 이름·가족 호칭·숫자는 대사와 편집자 자막으로만 전한다.
+    4. [1] 생성 설정에 "시작 프레임 또는 Ingredients에 글자 없는 보드·카드가 나온 참고 이미지를 넣기"를 적는다. 앞 클립 마지막 프레임에 글자가 있으면 그 프레임은 시작 프레임으로 쓰지 말라고 적는다.
+    5. 같은 물건은 클립마다 같은 모양으로 유지한다. 예) "the same blank wooden board flips to show a new picture card"처럼 쓰고, 허공에서 새로 생기지 않게 한다.
 - **피할 것(Avoid)**: 사람·사람 손과 팔, 반짝이는 플라스틱 CG·실사 질감(니트 재질이 아닌 것), 실존 인물을 닮은 얼굴, 브랜드 로고, 기존 캐릭터, 깨진 손가락·얼굴, 갑자기 바뀌는 의상, 번쩍이는 섬광.
 - **안전**: 폭력, 부상, 공포, 성적 표현, 아이가 따라 하면 위험한 행동을 넣지 않는다.
 
