@@ -24,6 +24,7 @@ tools: Bash, Read, Write, Edit, Glob, Grep
 
 ### 1. 후보 모으기
 - 후보: `5_videos/shorts/*/upload_result.json`이 있고 `uploaded_at`이 **오늘 기준 최근 7일** 안인 쇼츠. 폴더 이름에 `모음집`이 들어간 것(이전 모음집)은 제외한다.
+- 롱폼에서 잘라 만든 하이라이트 쇼츠(폴더 이름이 `_쇼츠1`·`_쇼츠2`로 끝나는 것)는 이미 롱폼으로 올라간 내용이라 후보에서 뺀다(2026-11-25).
 - 이전 모음집에 이미 쓴 쇼츠는 제외한다: `5_videos/longform/*모음집*/curation.json`의 `used`에 있는 `video_id`.
 - 채널 데이터(읽기 전용)를 받아 공개 상태와 조회수를 확인한다:
   `python3 scripts/youtube_analytics.py --days 28 --out 5_videos/longform/<기본이름>/channel_data.json`

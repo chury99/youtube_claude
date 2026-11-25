@@ -27,9 +27,11 @@ review/
 4_clips/*
 5_videos/*
 6_reports/*
+7_characters/*
 !1_results/.gitkeep
 !2_plans/.gitkeep
 !3_prompts/.gitkeep
 !4_clips/.gitkeep
 !5_videos/.gitkeep
 !6_reports/.gitkeep
+!7_characters/.gitkeep
