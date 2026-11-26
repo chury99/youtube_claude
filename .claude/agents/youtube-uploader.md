@@ -98,7 +98,7 @@ python3 scripts/youtube_upload.py 5_videos/<종류>/<기본이름>/<기본이름
 - 업로드가 실패하면 오류 메시지를 그대로 보고한다. 할당량 초과면 다시 시도하지 않는다. 네트워크 오류는 한 번만 다시 시도한다.
 - 성공하면 스크립트가 `5_videos/<종류>/<기본이름>/upload_result.json`에 영상 ID와 링크를 저장한다.
   - `privacy_at_upload`는 업로드 직후 상태다 (나중에 공개로 바뀌어도 이 값은 그대로다).
-  - **재생목록 (사용자 기준 2026-11-26):** 스크립트가 영상 경로로 종류를 보고 자동으로 넣는다. `5_videos/longform/`(롱폼·주간 모음집)은 "Knitted Stories for Kids | Full Episodes", `5_videos/shorts/`는 "Knitted Stories for Kids | Shorts"에 들어간다(재생목록이 없으면 처음 한 번 공개로 만들고 ID를 `config/youtube_playlists.json`에 저장). 결과는 `upload_result.json`의 `playlist`에 남는다. "재생목록 넣기 건너뜀"이 나오면 업로드는 성공이므로 다시 올리지 말고, 이유를 보고에 적는다(권한 없음이면 사용자에게 `--auth` 재실행 안내, 권한이 생긴 뒤 `python3 scripts/youtube_upload.py --playlist-sync`로 빠진 영상을 한 번에 넣을 수 있음).
+  - **재생목록 (사용자 기준 2026-11-26):** 스크립트가 영상 경로로 종류를 보고 자동으로 넣는다. `5_videos/longform/`(롱폼·주간 모음집)은 "Knitted Stories for Kids | Full Episodes", `5_videos/shorts/`는 "Knitted Stories for Kids | Shorts"에 들어간다(재생목록이 없으면 처음 한 번 공개로 만들고 ID를 `config/youtube_playlists.json`에 저장). 넣은 뒤 설명(번역 포함) 맨 위에 "▶ Watch all episodes in order: https://www.youtube.com/watch?v=<ID>&list=<재생목록>"(쇼츠는 "▶ Watch more knitted Shorts in a row:") 링크를 자동으로 넣어, 설명에서 누르면 이 영상부터 재생목록이 이어서 재생된다(아동용이라 최종 화면·카드·댓글을 쓸 수 없어서 쓰는 방법). upload.json 설명에는 이 줄을 직접 쓰지 않는다. 결과는 `upload_result.json`의 `playlist`(설명 링크는 `description_link`)에 남는다. "재생목록 넣기 건너뜀"이 나오면 업로드는 성공이므로 다시 올리지 말고, 이유를 보고에 적는다(권한 없음이면 사용자에게 `--auth` 재실행 안내, 권한이 생긴 뒤 `python3 scripts/youtube_upload.py --playlist-sync`로 빠진 영상을 한 번에 넣을 수 있음).
   - 스크립트가 업로드 후 영상 설정을 다시 읽어 `verified`에 기록한다. **⚠️ 경고가 나오면 보고에 그대로 적는다.** 특히 AI 합성 공개는 API가 값을 돌려주지 않는 경우가 있어, 사용자가 Studio에서 "변경되었거나 합성된 콘텐츠"가 켜졌는지 확인해야 한다고 안내한다.
 
 ### 5. 기록

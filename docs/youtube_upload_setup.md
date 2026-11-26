@@ -72,12 +72,13 @@ Google Cloud에서 **YouTube Analytics API**도 "사용"으로 켜 두어야 합
 업로드가 끝나면 영상을 종류별 **공개 재생목록**에 자동으로 넣습니다(안의 비공개 영상은 공개로 바꾸기 전까지 남에게 보이지 않음).
 - `5_videos/longform/…` → `Knitted Stories for Kids | Full Episodes` (롱폼·주간 모음집)
 - `5_videos/shorts/…` → `Knitted Stories for Kids | Shorts`
+- 넣은 뒤 설명(번역 포함) 맨 위에 "이 영상부터 재생목록으로 이어 보기" 링크(`watch?v=<ID>&list=<재생목록>`)를 자동으로 넣습니다. 아동용 영상은 최종 화면·카드·댓글을 쓸 수 없어서, 다 보고 다음 영상으로 이어지게 하는 방법으로 씁니다.
 - 재생목록이 없으면 처음 한 번 만들고 ID를 `config/youtube_playlists.json`에 저장합니다(깃에 올리지 않음). Studio에서 이름을 바꿔도 계속 같은 재생목록에 넣습니다.
 
 필요한 권한은 `youtube.force-ssl`(재생목록 만들기·영상 넣기)입니다. 한 번만 설정하면 됩니다.
 1. Google Cloud Console → **API 및 서비스 → OAuth 동의 화면 → 데이터 액세스(범위)** → 범위 추가에서 `https://www.googleapis.com/auth/youtube.force-ssl`을 추가하고 저장합니다.
 2. 터미널에서 `python3 scripts/youtube_upload.py --auth`를 다시 실행하고, 채널 계정으로 로그인해 새 권한을 허용합니다.
 3. `python3 scripts/youtube_upload.py --check`에 "재생목록 권한 있음"이 나오면 됩니다.
-4. 이미 올린 영상을 한 번에 넣으려면: `python3 scripts/youtube_upload.py --playlist-sync` (빠진 영상만, 올린 순서대로)
+4. 이미 올린 영상을 한 번에 넣으려면: `python3 scripts/youtube_upload.py --playlist-sync` (빠진 영상만, 올린 순서대로. 설명 링크가 없는 영상에는 링크도 넣음)
 
 권한이 없을 때는 업로드만 하고 재생목록은 건너뜁니다. 특정 영상만 빼려면 `--playlist none`, 다른 목록에 넣으려면 `--playlist longform|shorts`.

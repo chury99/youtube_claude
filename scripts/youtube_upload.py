@@ -20,6 +20,7 @@
     업로드가 끝나면 영상 경로로 종류를 정해 재생목록에 자동으로 넣는다.
     5_videos/longform/... → 롱폼 재생목록, 5_videos/shorts/... → 쇼츠 재생목록 (--playlist로 바꾸거나 none으로 끔)
     재생목록이 없으면 처음 한 번 공개 재생목록으로 만들고 ID를 config/youtube_playlists.json에 저장해 다시 쓴다.
+    넣은 뒤 설명(번역 포함) 맨 위에 "이 영상부터 재생목록으로 이어 보기" 링크(watch?v=<ID>&list=<재생목록>)를 넣는다.
 
 upload.json 형식:
 {
@@ -522,6 +523,38 @@ def add_to_playlist(vid, kind, token):
     return {"added": False, "kind": kind, "reason": "재생목록을 찾을 수 없음"}
 
 
+# 설명란 맨 위에 넣는 재생목록 링크 문구 (사용자 기준 2026-11-26: 다 보면 다음 영상이 이어지게)
+LINK_TEXT = {"longform": "▶ Watch all episodes in order:", "shorts": "▶ Watch more knitted Shorts in a row:"}
+
+
+def add_playlist_link(vid, pid, kind, token):
+    """영상 설명(번역 포함) 맨 위에 '이 영상부터 재생목록으로 이어 보기' 링크를 넣는다. 이미 있으면 건너뛴다."""
+    url = f"https://www.youtube.com/watch?v={vid}&list={pid}"
+    line = f"{LINK_TEXT[kind]} {url}\n\n"
+    try:
+        items = api_json("GET", f"videos?part=snippet,localizations&id={vid}", token).get("items", [])
+        if not items:
+            return {"linked": False, "reason": "영상 정보를 읽을 수 없음 (처리 중일 수 있음)"}
+        sn, locs = items[0]["snippet"], items[0].get("localizations") or {}
+        if f"list={pid}" in sn.get("description", ""):
+            return {"linked": True, "url": url, "note": "이미 있음"}
+        keep = ("title", "description", "tags", "categoryId", "defaultLanguage", "defaultAudioLanguage")
+        body = {"id": vid, "snippet": {k: sn[k] for k in keep if k in sn}}
+        body["snippet"]["description"] = (line + sn.get("description", ""))[:5000]
+        parts = "snippet"
+        if locs:
+            body["localizations"] = {lang: {"title": v.get("title", ""),
+                                            "description": (line + v.get("description", ""))[:5000]}
+                                     for lang, v in locs.items()}
+            parts += ",localizations"
+        api_json("PUT", f"videos?part={parts}", token, body)
+        return {"linked": True, "url": url}
+    except urllib.error.HTTPError as e:
+        return {"linked": False, "reason": api_error(e)}
+    except (urllib.error.URLError, TimeoutError) as e:
+        return {"linked": False, "reason": str(e)}
+
+
 def playlist_sync():
     """5_videos/longform·shorts의 upload_result.json을 읽어 재생목록에 빠진 영상만 올린 순서대로 넣는다."""
     if SCOPE_MANAGE not in granted_scopes():
@@ -542,22 +575,30 @@ def playlist_sync():
                 have = playlist_video_ids(pid, token)
             except urllib.error.HTTPError as e:
                 fail(f"재생목록 읽기 실패: {api_error(e)} (config/youtube_playlists.json의 ID 확인)")
-        added = skipped = failed = 0
+        added = skipped = failed = linked = 0
         for _, rp, r in results:
             vid = r["video_id"]
             if vid in have:
                 skipped += 1
-                continue
-            res = add_to_playlist(vid, kind, token)
-            if res["added"]:
+            else:
+                res = add_to_playlist(vid, kind, token)
+                if not res["added"]:
+                    failed += 1
+                    print(f"   ⚠️ {rp.parent.name}: {res['reason']}")
+                    continue
                 added += 1
                 r["playlist"] = res
-                rp.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
-            else:
-                failed += 1
-                print(f"   ⚠️ {rp.parent.name}: {res['reason']}")
+            pl = r.setdefault("playlist", {"added": True, "kind": kind, "playlist_id": pid,
+                                           "playlist_url": f"https://www.youtube.com/playlist?list={pid}"})
+            if not (pl.get("description_link") or {}).get("linked"):
+                pl["description_link"] = add_playlist_link(vid, pid, kind, token)
+                if pl["description_link"]["linked"]:
+                    linked += 1
+                else:
+                    print(f"   ⚠️ {rp.parent.name} 설명 링크 실패: {pl['description_link']['reason']}")
+            rp.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"✅ {PLAYLISTS[kind]['title']}: 새로 넣음 {added} · 이미 있음 {skipped} · 실패 {failed}"
-              f"  https://www.youtube.com/playlist?list={pid}")
+              f" · 설명 링크 추가 {linked}  https://www.youtube.com/playlist?list={pid}")
 
 
 def main():
@@ -655,6 +696,8 @@ def main():
     out["verified"] = verify_settings(vid, body, token)
     if kind:
         out["playlist"] = add_to_playlist(vid, kind, token)
+        if out["playlist"]["added"]:
+            out["playlist"]["description_link"] = add_playlist_link(vid, out["playlist"]["playlist_id"], kind, token)
     result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 업로드 완료 ({out['privacy_at_upload']})")
     for n in notes:
@@ -675,6 +718,9 @@ def main():
     if kind:
         pl = out["playlist"]
         print(f"   재생목록에 넣음: {pl['playlist_url']}" if pl["added"] else f"   ⚠️ 재생목록 넣기 건너뜀: {pl['reason']}")
+        dl = pl.get("description_link")
+        if dl:
+            print(f"   설명란 이어 보기 링크: {dl['url']}" if dl["linked"] else f"   ⚠️ 설명 링크 실패: {dl['reason']}")
     print(f"   기록: {result_path}")
 
 
