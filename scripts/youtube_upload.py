@@ -14,6 +14,12 @@
     python3 scripts/youtube_upload.py --check                        # 설정·토큰 상태만 확인 (업로드 안 함)
     python3 scripts/youtube_upload.py 5_videos/shorts/X/X.mp4 --meta 5_videos/shorts/X/upload.json
     python3 scripts/youtube_upload.py 5_videos/shorts/X/X.mp4 --meta 5_videos/shorts/X/upload.json --dry-run
+    python3 scripts/youtube_upload.py --playlist-sync                # 이미 올린 영상을 재생목록에 한 번에 넣기 (빠진 것만)
+
+재생목록 (youtube.force-ssl 권한 필요, 없으면 건너뛰고 업로드는 그대로 성공):
+    업로드가 끝나면 영상 경로로 종류를 정해 재생목록에 자동으로 넣는다.
+    5_videos/longform/... → 롱폼 재생목록, 5_videos/shorts/... → 쇼츠 재생목록 (--playlist로 바꾸거나 none으로 끔)
+    재생목록이 없으면 처음 한 번 공개 재생목록으로 만들고 ID를 config/youtube_playlists.json에 저장해 다시 쓴다.
 
 upload.json 형식:
 {
@@ -55,8 +61,20 @@ TOKEN_FILE = ROOT / "config" / "youtube_token.json"
 SCOPE_UPLOAD = "https://www.googleapis.com/auth/youtube.upload"
 SCOPE_READ = "https://www.googleapis.com/auth/youtube.readonly"
 SCOPE_ANALYTICS = "https://www.googleapis.com/auth/yt-analytics.readonly"
-# 업로드 + 채널 읽기 + 분석 읽기 (읽기 권한으로는 채널·영상을 바꿀 수 없다)
-SCOPE = " ".join([SCOPE_UPLOAD, SCOPE_READ, SCOPE_ANALYTICS])
+SCOPE_MANAGE = "https://www.googleapis.com/auth/youtube.force-ssl"
+# 업로드 + 채널 읽기 + 분석 읽기 + 관리(재생목록 만들기·영상 넣기에 사용)
+SCOPE = " ".join([SCOPE_UPLOAD, SCOPE_READ, SCOPE_ANALYTICS, SCOPE_MANAGE])
+PLAYLIST_FILE = ROOT / "config" / "youtube_playlists.json"
+API = "https://www.googleapis.com/youtube/v3/"
+# 재생목록 이름·설명 (사용자 기준 2026-11-26: 롱폼·쇼츠 분리, 공개 재생목록)
+PLAYLISTS = {
+    "longform": {"title": "Knitted Stories for Kids | Full Episodes",
+                 "description": "Full knitted animal stories for toddlers and preschoolers — longer episodes "
+                                "and weekly compilations. Gentle, cozy, made with AI (Google Veo)."},
+    "shorts": {"title": "Knitted Stories for Kids | Shorts",
+               "description": "Short knitted animal moments for toddlers and preschoolers. "
+                              "Gentle, cozy, made with AI (Google Veo)."},
+}
 AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = ("https://www.googleapis.com/upload/youtube/v3/videos"
@@ -425,6 +443,123 @@ def verify_settings(vid, body, token):
     return {"checked": True, "read_back": got, "warnings": warnings}
 
 
+# ---------- 재생목록 ----------
+
+def api_json(method, path, token, body=None):
+    req = urllib.request.Request(API + path, method=method,
+                                 data=json.dumps(body).encode() if body is not None else None,
+                                 headers={"Authorization": f"Bearer {token}",
+                                          "Content-Type": "application/json; charset=UTF-8"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.load(r)
+
+
+def video_kind(video):
+    """영상 경로로 재생목록 종류를 정한다: 5_videos/longform → longform, 5_videos/shorts → shorts."""
+    parts = Path(video).resolve().parts
+    for k in PLAYLISTS:
+        if "5_videos" in parts and k in parts:
+            return k
+    return None
+
+
+def load_playlists():
+    return json.loads(PLAYLIST_FILE.read_text(encoding="utf-8")) if PLAYLIST_FILE.exists() else {}
+
+
+def ensure_playlist(kind, token, recreate=False):
+    """재생목록 ID를 돌려준다. 없으면 공개 재생목록을 만들고 ID를 저장한다."""
+    saved = load_playlists()
+    if saved.get(kind, {}).get("id") and not recreate:
+        return saved[kind]["id"]
+    info = PLAYLISTS[kind]
+    res = api_json("POST", "playlists?part=snippet,status", token, {
+        "snippet": {"title": info["title"], "description": info["description"], "defaultLanguage": "en"},
+        "status": {"privacyStatus": "public"}})
+    saved[kind] = {"id": res["id"], "title": info["title"], "created_at": time.strftime("%Y-%m-%d %H:%M:%S")}
+    PLAYLIST_FILE.write_text(json.dumps(saved, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"   재생목록을 새로 만들었습니다: {info['title']} (https://www.youtube.com/playlist?list={res['id']})")
+    return res["id"]
+
+
+def playlist_video_ids(pid, token):
+    ids, page = set(), ""
+    while True:
+        res = api_json("GET", f"playlistItems?part=contentDetails&maxResults=50&playlistId={pid}"
+                              + (f"&pageToken={page}" if page else ""), token)
+        ids |= {i["contentDetails"]["videoId"] for i in res.get("items", [])}
+        page = res.get("nextPageToken")
+        if not page:
+            return ids
+
+
+def add_to_playlist(vid, kind, token):
+    """영상을 종류에 맞는 재생목록에 넣는다. 실패해도 업로드는 그대로 두고 이유만 돌려준다."""
+    if SCOPE_MANAGE not in granted_scopes():
+        return {"added": False, "kind": kind,
+                "reason": "재생목록 권한 없음 (`python3 scripts/youtube_upload.py --auth`를 다시 실행하면 자동으로 넣음)"}
+    for attempt in range(2):
+        try:
+            pid = ensure_playlist(kind, token, recreate=attempt > 0)
+            api_json("POST", "playlistItems?part=snippet", token, {"snippet": {
+                "playlistId": pid, "resourceId": {"kind": "youtube#video", "videoId": vid}}})
+            return {"added": True, "kind": kind, "playlist_id": pid,
+                    "playlist_url": f"https://www.youtube.com/playlist?list={pid}"}
+        except urllib.error.HTTPError as e:
+            msg = api_error(e)
+            if e.code == 404 and "playlistNotFound" in msg and attempt == 0:
+                time.sleep(5)  # 방금 만든 재생목록이 아직 안 보일 수 있어 잠시 기다렸다가
+                try:           # 같은 재생목록으로 한 번 더 넣어 보고, 그래도 없으면 새로 만든다
+                    api_json("POST", "playlistItems?part=snippet", token, {"snippet": {
+                        "playlistId": pid, "resourceId": {"kind": "youtube#video", "videoId": vid}}})
+                    return {"added": True, "kind": kind, "playlist_id": pid,
+                            "playlist_url": f"https://www.youtube.com/playlist?list={pid}"}
+                except urllib.error.HTTPError:
+                    continue
+            return {"added": False, "kind": kind, "reason": msg}
+        except (urllib.error.URLError, TimeoutError) as e:
+            return {"added": False, "kind": kind, "reason": str(e)}
+    return {"added": False, "kind": kind, "reason": "재생목록을 찾을 수 없음"}
+
+
+def playlist_sync():
+    """5_videos/longform·shorts의 upload_result.json을 읽어 재생목록에 빠진 영상만 올린 순서대로 넣는다."""
+    if SCOPE_MANAGE not in granted_scopes():
+        fail("재생목록 권한이 없습니다. `python3 scripts/youtube_upload.py --auth`를 다시 실행해 주세요.")
+    token = access_token()
+    for kind in PLAYLISTS:
+        results = []
+        for rp in (ROOT / "5_videos" / kind).glob("*/upload_result.json"):
+            r = json.loads(rp.read_text(encoding="utf-8"))
+            if r.get("video_id"):
+                results.append((r.get("uploaded_at", ""), rp, r))
+        results.sort(key=lambda x: x[0])
+        existed = bool(load_playlists().get(kind, {}).get("id"))
+        pid = ensure_playlist(kind, token)
+        have = set()
+        if existed:  # 방금 만든 재생목록은 잠시 읽히지 않으므로(404) 비어 있는 것으로 본다
+            try:
+                have = playlist_video_ids(pid, token)
+            except urllib.error.HTTPError as e:
+                fail(f"재생목록 읽기 실패: {api_error(e)} (config/youtube_playlists.json의 ID 확인)")
+        added = skipped = failed = 0
+        for _, rp, r in results:
+            vid = r["video_id"]
+            if vid in have:
+                skipped += 1
+                continue
+            res = add_to_playlist(vid, kind, token)
+            if res["added"]:
+                added += 1
+                r["playlist"] = res
+                rp.write_text(json.dumps(r, ensure_ascii=False, indent=2), encoding="utf-8")
+            else:
+                failed += 1
+                print(f"   ⚠️ {rp.parent.name}: {res['reason']}")
+        print(f"✅ {PLAYLISTS[kind]['title']}: 새로 넣음 {added} · 이미 있음 {skipped} · 실패 {failed}"
+              f"  https://www.youtube.com/playlist?list={pid}")
+
+
 def main():
     ap = argparse.ArgumentParser(description="완성 영상을 유튜브에 비공개(또는 일부 공개)로 업로드")
     ap.add_argument("video", nargs="?", help="업로드할 영상 파일")
@@ -433,10 +568,16 @@ def main():
     ap.add_argument("--check", action="store_true", help="설정과 토큰만 확인")
     ap.add_argument("--dry-run", action="store_true", help="업로드하지 않고 보낼 내용만 검사")
     ap.add_argument("--force", action="store_true", help="이미 올린 기록이 있어도 다시 업로드")
+    ap.add_argument("--playlist", choices=list(PLAYLISTS) + ["none"],
+                    help="넣을 재생목록 (기본: 영상 경로로 자동, none이면 넣지 않음)")
+    ap.add_argument("--playlist-sync", action="store_true",
+                    help="이미 올린 영상(5_videos/longform·shorts)을 재생목록에 한 번에 넣기")
     a = ap.parse_args()
 
     if a.auth:
         return run_auth()
+    if a.playlist_sync:
+        return playlist_sync()
     if a.check:
         load_client()
         access_token()
@@ -446,6 +587,11 @@ def main():
             print("✅ 채널 분석 권한 있음 (youtube.readonly, yt-analytics.readonly)")
         else:
             print("ℹ️ 채널 분석 권한 없음: 분석을 쓰려면 `python3 scripts/youtube_upload.py --auth`를 다시 실행해 주세요.")
+        if SCOPE_MANAGE in g:
+            print("✅ 재생목록 권한 있음 (youtube.force-ssl)")
+        else:
+            print("ℹ️ 재생목록 권한 없음: 업로드는 되지만 재생목록에 넣지 않습니다. "
+                  "`python3 scripts/youtube_upload.py --auth`를 다시 실행해 주세요.")
         return
 
     if not a.video or not a.meta:
@@ -474,6 +620,8 @@ def main():
     print(f"제목: {body['snippet']['title']}")
     print(f"공개 상태: {body['status']['privacyStatus']} · 아동용: {body['status']['selfDeclaredMadeForKids']}"
           f" · AI 합성 공개: {body['status']['containsSyntheticMedia']} · 태그 {len(body['snippet']['tags'])}개")
+    kind = None if a.playlist == "none" else (a.playlist or video_kind(video))
+    print(f"재생목록: {PLAYLISTS[kind]['title'] if kind else '넣지 않음'}")
     print(f"언어: 기본 {body['snippet'].get('defaultLanguage')} · 오디오 {body['snippet'].get('defaultAudioLanguage')}"
           f" · 번역 {', '.join(body.get('localizations', {})) or '없음'}"
           f" · 썸네일 {thumb.name if thumb else '없음(자동)'}")
@@ -505,6 +653,8 @@ def main():
     if thumb:
         out["thumbnail"] = set_thumbnail(vid, thumb, token)
     out["verified"] = verify_settings(vid, body, token)
+    if kind:
+        out["playlist"] = add_to_playlist(vid, kind, token)
     result_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 업로드 완료 ({out['privacy_at_upload']})")
     for n in notes:
@@ -522,6 +672,9 @@ def main():
             print("   설정 확인: 아동용·AI 합성 공개·카테고리·언어·번역이 보낸 값과 같습니다.")
     else:
         print(f"   ℹ️ 설정 다시 읽기를 건너뜀: {v.get('reason')}")
+    if kind:
+        pl = out["playlist"]
+        print(f"   재생목록에 넣음: {pl['playlist_url']}" if pl["added"] else f"   ⚠️ 재생목록 넣기 건너뜀: {pl['reason']}")
     print(f"   기록: {result_path}")
 
 

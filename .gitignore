@@ -2,6 +2,7 @@ config/google_api_keys.json
 config/telegram_keys.json
 config/youtube_oauth_client.json
 config/youtube_token.json
+config/youtube_playlists.json
 __pycache__/
 
 # 영상·음원 파일은 용량이 커서 깃허브에 올리지 않음
