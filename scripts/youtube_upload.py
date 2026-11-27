@@ -20,7 +20,7 @@
     업로드가 끝나면 영상 경로로 종류를 정해 재생목록에 자동으로 넣는다.
     5_videos/longform/... → 롱폼 재생목록, 5_videos/shorts/... → 쇼츠 재생목록 (--playlist로 바꾸거나 none으로 끔)
     재생목록이 없으면 처음 한 번 공개 재생목록으로 만들고 ID를 config/youtube_playlists.json에 저장해 다시 쓴다.
-    넣은 뒤 설명(번역 포함) 맨 위에 "이 영상부터 재생목록으로 이어 보기" 링크(watch?v=<ID>&list=<재생목록>)를 넣는다.
+    넣은 뒤 설명(번역 포함) 맨 위에 재생목록 페이지 링크(playlist?list=<재생목록>)를 넣는다.
 
 upload.json 형식:
 {
@@ -524,27 +524,36 @@ def add_to_playlist(vid, kind, token):
 
 
 # 설명란 맨 위에 넣는 재생목록 링크 문구 (사용자 기준 2026-11-26: 다 보면 다음 영상이 이어지게)
+# 영상 주소(watch?v=…&list=…)는 누르면 같은 영상만 다시 나와서, 재생목록 페이지 주소를 쓴다 (2026-11-26 사용자 확인)
 LINK_TEXT = {"longform": "▶ Watch all episodes in order:", "shorts": "▶ Watch more knitted Shorts in a row:"}
 
 
+def replace_link_line(desc, line):
+    """설명 맨 위의 기존 재생목록 링크 줄(LINK_TEXT로 시작)을 새 줄로 바꾸거나, 없으면 맨 위에 넣는다."""
+    first, sep, rest = desc.partition("\n")
+    if any(first.startswith(x) for x in LINK_TEXT.values()):
+        return line + sep + rest
+    return line + "\n\n" + desc
+
+
 def add_playlist_link(vid, pid, kind, token):
-    """영상 설명(번역 포함) 맨 위에 '이 영상부터 재생목록으로 이어 보기' 링크를 넣는다. 이미 있으면 건너뛴다."""
-    url = f"https://www.youtube.com/watch?v={vid}&list={pid}"
-    line = f"{LINK_TEXT[kind]} {url}\n\n"
+    """영상 설명(번역 포함) 맨 위에 재생목록 페이지 링크를 넣는다. 옛 링크 줄은 바꾸고, 이미 같으면 건너뛴다."""
+    url = f"https://www.youtube.com/playlist?list={pid}"
+    line = f"{LINK_TEXT[kind]} {url}"
     try:
         items = api_json("GET", f"videos?part=snippet,localizations&id={vid}", token).get("items", [])
         if not items:
             return {"linked": False, "reason": "영상 정보를 읽을 수 없음 (처리 중일 수 있음)"}
         sn, locs = items[0]["snippet"], items[0].get("localizations") or {}
-        if f"list={pid}" in sn.get("description", ""):
+        if sn.get("description", "").startswith(line):
             return {"linked": True, "url": url, "note": "이미 있음"}
         keep = ("title", "description", "tags", "categoryId", "defaultLanguage", "defaultAudioLanguage")
         body = {"id": vid, "snippet": {k: sn[k] for k in keep if k in sn}}
-        body["snippet"]["description"] = (line + sn.get("description", ""))[:5000]
+        body["snippet"]["description"] = replace_link_line(sn.get("description", ""), line)[:5000]
         parts = "snippet"
         if locs:
             body["localizations"] = {lang: {"title": v.get("title", ""),
-                                            "description": (line + v.get("description", ""))[:5000]}
+                                            "description": replace_link_line(v.get("description", ""), line)[:5000]}
                                      for lang, v in locs.items()}
             parts += ",localizations"
         api_json("PUT", f"videos?part={parts}", token, body)
@@ -590,7 +599,8 @@ def playlist_sync():
                 r["playlist"] = res
             pl = r.setdefault("playlist", {"added": True, "kind": kind, "playlist_id": pid,
                                            "playlist_url": f"https://www.youtube.com/playlist?list={pid}"})
-            if not (pl.get("description_link") or {}).get("linked"):
+            prev = pl.get("description_link") or {}
+            if not prev.get("linked") or "playlist?list=" not in prev.get("url", ""):
                 pl["description_link"] = add_playlist_link(vid, pid, kind, token)
                 if pl["description_link"]["linked"]:
                     linked += 1
